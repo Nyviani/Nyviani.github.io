@@ -1,7 +1,7 @@
-# Gretel-Hinnov.github.io
+# Päevik
 
 📱 Kuidas kasutada
-	1.	Ava link, mille sulle keegi andis (see näeb umbes välja nii: https://someone.github.io/planner).
+	1.	Ava link, mille sulle keegi andis (see näeb umbes välja nii: https://Gretel-Hinnov.github.io).
 	2.	Kõik — sa juba kasutad seda! Täida oma info, tunniplaan, märkmed, mida iganes soovid.
 	3.	Et saada äpi ikoon oma telefoni ekraanile (et sa ei peaks iga kord brauserit avama):
 	•	iPhone/iPad: ava link Safaris → vajuta Jaga nuppu (ruut noolega) → Lisa avakuvale.

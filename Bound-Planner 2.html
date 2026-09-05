@@ -1,0 +1,2138 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="paper">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Student Planner</title>
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="Student Planner" />
+<meta name="theme-color" content="#EFE8DC" />
+<meta name="description" content="A university planner for the school year. Saves on this device." />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23B08968'/%3E%3Cpath d='M0 7a7 7 0 0114 0v25H7a7 7 0 01-7-7z' fill='%23B85A5A'/%3E%3Crect x='16' y='9' width='11' height='2.4' rx='1.2' fill='%23F4EEE6'/%3E%3Crect x='16' y='15' width='11' height='2.4' rx='1.2' fill='%23F4EEE6'/%3E%3Crect x='16' y='21' width='8' height='2.4' rx='1.2' fill='%235B7A6A'/%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Fredoka:wght@500;600;700&family=Nunito:ital,wght@0,500;0,600;0,700;1,500&display=swap" rel="stylesheet" />
+<style>
+:root, html[data-theme="paper"]{
+  --ink:#2A2420; --soft:#7A7168; --page:#EFE8DC; --card:#FBF7F0;
+  --pink:#E8C9B8; --blue:#C5D0D8; --peach:#E6D0B0; --lav:#D5C8C0; --mint:#C5D4C8;
+  --line:#E2D4C4; --accent:#9E4D4A; --warn:#A33B32; --ok:#3F6B52;
+  --shadow:0 12px 28px -18px rgba(42,36,32,.32);
+}
+html[data-theme="pastel"]{
+  --ink:#2A2430; --soft:#8A8094; --page:#EDE6DC; --card:#FFFEFB;
+  --pink:#F6C9D3; --blue:#C7DEF2; --peach:#FBDDB6; --lav:#E0D2F2; --mint:#CBE9D9;
+  --line:#E8D5C6; --accent:#C45C74; --warn:#B94A58; --ok:#3F6B52;
+  --shadow:0 12px 28px -18px rgba(42,36,48,.35);
+}
+html[data-theme="sage"]{
+  --ink:#24352C; --soft:#6A7B70; --page:#E4EDE6; --card:#F6FBF7;
+  --pink:#E4D4C8; --blue:#C9D9D4; --peach:#E7D9B8; --lav:#D5D8C8; --mint:#C5E0D0;
+  --line:#D2E0D6; --accent:#3F6B52; --warn:#A33B32; --ok:#2F5A44;
+  --shadow:0 12px 28px -18px rgba(36,53,44,.28);
+}
+html[data-theme="rose"]{
+  --ink:#4A2C32; --soft:#8A6A70; --page:#F3E2E4; --card:#FFF7F8;
+  --pink:#F3C4CC; --blue:#E4D0D8; --peach:#F3D3C0; --lav:#E6C8D4; --mint:#E4D8D0;
+  --line:#EBD0D4; --accent:#A85A68; --warn:#A33B32; --ok:#3F6B52;
+  --shadow:0 12px 28px -18px rgba(74,44,50,.28);
+}
+html[data-theme="sky"]{
+  --ink:#243044; --soft:#6A7A90; --page:#DCE8F2; --card:#F7FBFE;
+  --pink:#E4D4DC; --blue:#B7D4EC; --peach:#E8D8C4; --lav:#D0D4E8; --mint:#C8E0DC;
+  --line:#C8D8E8; --accent:#3A6A9A; --warn:#A33B32; --ok:#3F6B52;
+  --shadow:0 12px 28px -18px rgba(36,48,68,.3);
+}
+html[data-theme="cocoa"]{
+  --ink:#4A3626; --soft:#8C7561; --page:#E7D8C4; --card:#FFFDF8;
+  --pink:#E3C6AE; --blue:#D8C6A8; --peach:#EAD0AC; --lav:#D9C2A6; --mint:#CBBFA0;
+  --line:#D8C3A4; --accent:#8A5A32; --warn:#A33B32; --ok:#3F6B52;
+  --shadow:0 12px 28px -18px rgba(53,38,24,.35);
+}
+html[data-theme="night"]{
+  --ink:#E7E4EB; --soft:#98939F; --page:#141312; --card:#201F26;
+  --pink:#3A2E38; --blue:#2A2C33; --peach:#332C29; --lav:#2C2833; --mint:#25302C;
+  --line:#2C2A32; --accent:#C9A4B0; --warn:#E08A84; --ok:#8FBF9A;
+  --shadow:0 12px 28px -18px rgba(0,0,0,.55);
+}
+.c-rust{--cc:#C45C74}.c-sage{--cc:#5A8A6A}.c-slate{--cc:#6B7C8F}.c-clay{--cc:#C4785B}
+.c-moss{--cc:#4A6B52}.c-wine{--cc:#8E5A62}.c-sand{--cc:#B08968}.c-navy{--cc:#3A5470}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:var(--page);color:var(--ink);
+  font-family:Nunito,"Avenir Next",ui-rounded,system-ui,sans-serif;
+  -webkit-font-smoothing:antialiased;font-weight:600}
+body{overflow:hidden}
+h1,h2,h3,.display{font-family:Fredoka,ui-rounded,sans-serif;font-weight:600}
+button,input,textarea,select{font:inherit;color:inherit;-webkit-tap-highlight-color:rgba(158,77,74,.2)}
+button{cursor:pointer}
+textarea,input,select{
+  width:100%;border:0;outline:none;resize:none;caret-color:var(--accent);
+  background:var(--page);color:var(--ink);
+  font-size:16px;line-height:1.35;
+  pointer-events:auto!important;
+  -webkit-user-select:text!important;user-select:text!important;
+  -webkit-touch-callout:default;touch-action:manipulation;
+}
+.field input,.field textarea,.field select{
+  background:var(--page);border-radius:12px;padding:12px 12px;
+  min-height:44px;color:var(--ink);
+}
+.field textarea{min-height:88px;padding-top:12px}
+.pages,.page-sheet,.page,.nb-page,.note-pad{-webkit-tap-highlight-color:transparent}
+select{background:var(--page);border-radius:10px;padding:8px}
+input::placeholder,textarea::placeholder{color:var(--soft);opacity:.75}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.app{height:100dvh;display:flex;flex-direction:column;background:var(--page);position:relative}
+.top{padding:calc(10px + env(safe-area-inset-top)) 18px 8px;display:flex;align-items:flex-end;justify-content:space-between;gap:10px;flex-shrink:0}
+.top h1{font-size:28px;line-height:1.1}
+.top .sub{font-size:13px;color:var(--soft);font-weight:700;margin-top:2px}
+.icon-btn{border:0;background:var(--lav);border-radius:14px;width:40px;height:40px;display:grid;place-items:center;flex-shrink:0;font-size:22px;font-weight:700}
+
+.pages{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;position:relative}
+.page-sheet{position:relative;min-height:100%;padding:6px 16px 110px}
+.page{display:none}.page.on{display:block}
+#page-notes.on{display:block}
+.page-sheet.writing .layer{display:none!important;visibility:hidden!important;pointer-events:none!important}
+.pages.writing{display:none}
+.note-pad{
+  display:none;
+  flex:1;
+  min-height:0;
+  flex-direction:column;
+  padding:6px 16px calc(72px + env(safe-area-inset-bottom));
+  background:var(--page);
+}
+.note-pad.on{display:flex}
+.note-pad .seg{flex-shrink:0}
+
+.card{background:var(--card);border-radius:20px;padding:14px 14px 16px;margin-bottom:12px;box-shadow:var(--shadow)}
+.card h2{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--soft);margin-bottom:10px}
+.sec{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--soft);margin:18px 4px 8px;font-weight:800}
+.sec.quiet{font-size:11px;margin-top:12px;letter-spacing:.12em;opacity:.78}
+.bar{height:6px;background:color-mix(in oklab,var(--ink) 10%,transparent);border-radius:99px;overflow:hidden;margin:10px 0}
+.bar>i{display:block;height:100%;background:var(--accent);border-radius:99px;width:0}
+.meta{display:flex;justify-content:space-between;font-size:13px;color:var(--soft);gap:10px}
+
+.klass{
+  display:flex;gap:12px;align-items:flex-start;
+  width:100%;text-align:left;
+  background:transparent;border:0;border-radius:0;
+  padding:12px 2px;border-bottom:1px solid var(--line);
+  -webkit-appearance:none;appearance:none;
+}
+.klass:last-child{border-bottom:0;padding-bottom:2px}
+.klass .when{
+  width:48px;flex-shrink:0;padding-top:1px;
+  font-variant-numeric:tabular-nums;font-feature-settings:"tnum";
+  color:var(--soft);line-height:1.2;
+}
+.klass .when b{display:block;font-size:13px;font-weight:800;color:var(--ink);letter-spacing:-.01em}
+.klass .when i{display:block;font-style:normal;font-size:11px;font-weight:700;margin-top:3px;opacity:.8}
+.klass-body{flex:1;min-width:0}
+.klass .name{
+  font-family:Fredoka,ui-rounded,sans-serif;font-size:17px;font-weight:600;
+  line-height:1.22;text-wrap:pretty;overflow-wrap:break-word;hyphens:auto;
+}
+.klass .code-tag{
+  font-size:11px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;
+  color:var(--soft);margin-top:3px;
+}
+.klass .room{font-size:12px;color:var(--soft);margin-top:3px;line-height:1.35}
+.klass.mini{padding:8px 2px;gap:10px}
+.klass.mini .name{font-family:Nunito,ui-rounded,sans-serif;font-size:14px;font-weight:700;line-height:1.25}
+.klass.mini .when{width:42px}
+.klass.mini .when b{font-size:12px}
+.klass.mini .code-tag{font-size:10px;margin-top:2px}
+.klass.mini .room{font-size:11px;margin-top:2px}
+.card.quiet{padding:8px 12px 10px;box-shadow:none;background:color-mix(in oklab,var(--card) 70%,var(--page))}
+.card.quiet .empty{padding:6px 0;font-size:13px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--cc,#9E4D4A);flex-shrink:0;margin-top:7px}
+.klass.mini .dot{width:6px;height:6px;margin-top:6px}
+.blk .blk-name{
+  display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;
+  font-size:10px;font-weight:800;line-height:1.2;letter-spacing:-.015em;text-wrap:pretty;
+}
+
+.item{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--line);width:100%;text-align:left;background:transparent;border-left:0;border-right:0;border-top:0}
+.item:last-child{border-bottom:0}
+.check{appearance:none;-webkit-appearance:none;width:22px;height:22px;border:2px solid var(--ink);border-radius:7px;flex-shrink:0;margin-top:2px;background:transparent}
+.check:checked{background:var(--accent);border-color:var(--accent)}
+.check:checked::after{content:"";display:block;width:5px;height:10px;border:solid var(--card);border-width:0 2px 2px 0;transform:rotate(45deg);margin:2px 0 0 6px}
+.item.done .ttl{text-decoration:line-through;opacity:.5}
+.ttl{font-size:15px;line-height:1.25}
+.subl{font-size:12px;color:var(--soft);margin-top:3px}
+.due{font-size:11px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;flex-shrink:0;margin-left:auto;padding-top:3px}
+.due.over{color:var(--warn)}
+.due.soon{color:var(--accent)}
+.pill{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;background:var(--peach);border-radius:99px;padding:2px 7px;margin-right:6px}
+
+.course{display:flex;gap:12px;align-items:center;width:100%;text-align:left;background:var(--card);border:0;border-radius:18px;padding:12px;margin-bottom:8px;box-shadow:var(--shadow);-webkit-appearance:none;appearance:none}
+.stripe{width:6px;align-self:stretch;border-radius:6px;background:var(--cc);flex-shrink:0}
+.course .code{font-size:11px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--soft);margin-top:3px}
+.course .cname{font-family:Fredoka,ui-rounded,sans-serif;font-size:17px;margin-top:0;line-height:1.22;text-wrap:pretty;overflow-wrap:break-word;hyphens:auto}
+.course .prof{font-size:12px;color:var(--soft);margin-top:3px;line-height:1.35}
+.chev{color:var(--soft);margin-left:auto;font-size:18px}
+
+.cal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.cal-head button{border:0;background:var(--blue);border-radius:99px;padding:8px 14px;font-weight:700}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+.cal .dow{text-align:center;font-size:10px;font-weight:800;opacity:.5;padding:6px 0}
+.cal .d{aspect-ratio:1;border-radius:10px;border:1px solid var(--line);background:var(--card);font-size:12px;font-weight:700;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+.cal .d.out{opacity:.3;border:0;background:transparent}
+.cal .d.today{background:var(--lav);border-color:transparent}
+.cal .d.sel{background:var(--accent);color:var(--card);border-color:transparent}
+.marks{display:flex;gap:2px;height:4px}
+.marks i{width:4px;height:4px;border-radius:50%;background:var(--cc,#9E4D4A)}
+.cal .d.sel .marks i{background:var(--card)}
+
+.grid-week{display:grid;grid-template-columns:46px repeat(5,1fr);gap:4px;font-size:10px}
+.grid-week .hd{text-align:center;font-weight:800;letter-spacing:.04em;padding:6px 0}
+.slot{background:color-mix(in oklab,var(--cc,#C5D0D8) 55%,var(--card));border-radius:8px;padding:6px 4px;min-height:44px;font-weight:700;line-height:1.2}
+
+.field{margin-bottom:10px}
+.field label{display:block;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--soft);margin-bottom:4px}
+
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.days{display:flex;gap:4px;flex-wrap:wrap}
+.days button{border:0;background:var(--page);border-radius:10px;padding:8px 10px;font-size:12px;font-weight:800}
+.days button.on{background:var(--accent);color:var(--card)}
+
+.stack{position:absolute;inset:0;background:var(--page);z-index:20;display:none;flex-direction:column}
+.stack.on{display:flex}
+.stack .body{flex:1;overflow:auto;padding:8px 16px 40px;-webkit-overflow-scrolling:touch}
+.sheet{position:absolute;left:0;right:0;bottom:0;background:var(--card);border-radius:22px 22px 0 0;padding:16px 16px calc(18px + env(safe-area-inset-bottom));
+  box-shadow:0 -16px 40px -18px rgba(0,0,0,.35);z-index:24;display:none;max-height:88dvh;overflow:auto}
+.sheet.on{display:block}
+.scrim{position:absolute;inset:0;background:rgba(20,16,14,.4);z-index:23;display:none}
+.scrim.on{display:block}
+.sheet-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.sheet-h h3{font-size:20px}
+.sheet-h button{border:0;background:var(--page);border-radius:99px;padding:6px 12px;font-weight:700}
+
+.add{width:100%;border:0;background:var(--mint);border-radius:14px;padding:12px;font-weight:700;margin-top:8px}
+.danger{background:var(--pink);color:var(--ink)}
+.seg{display:flex;gap:6px;margin-bottom:12px;overflow:auto}
+.seg button{border:0;background:var(--page);border-radius:99px;padding:7px 12px;font-size:12px;font-weight:800;white-space:nowrap}
+.seg button.on{background:var(--accent);color:var(--card)}
+
+.tabs{position:absolute;left:0;right:0;bottom:0;display:grid;grid-template-columns:repeat(6,1fr);
+  padding:4px 2px calc(8px + env(safe-area-inset-bottom));
+  background:color-mix(in oklab,var(--card) 92%,transparent);backdrop-filter:blur(16px);
+  border-top:1px solid var(--line);z-index:8}
+.tabs button{border:0;background:transparent;font-size:9px;font-weight:700;color:var(--soft);
+  padding:5px 1px 3px;border-radius:12px;display:flex;flex-direction:column;align-items:center;gap:1px}
+.tabs button.on{color:var(--ink);background:color-mix(in oklab,var(--card) 70%,var(--page))}
+.tabs svg{width:20px;height:20px}
+
+.fab{position:absolute;right:16px;bottom:calc(72px + env(safe-area-inset-bottom));width:52px;height:52px;
+  border-radius:18px;border:0;background:var(--lav);font-size:22px;box-shadow:var(--shadow);z-index:9}
+.tray{position:absolute;left:12px;right:12px;bottom:calc(132px + env(safe-area-inset-bottom));
+  background:var(--card);border-radius:22px;padding:14px;box-shadow:var(--shadow);display:none;z-index:10}
+.tray.open{display:block}
+.stickers{display:flex;flex-wrap:wrap;gap:6px}
+.stickers button{width:40px;height:40px;border:0;border-radius:12px;background:var(--page);font-size:22px}
+.layer{position:absolute;left:0;right:0;top:0;bottom:0;pointer-events:none;z-index:6}
+.sticker{position:absolute;pointer-events:auto;font-size:32px;line-height:1;transform:translate(-50%,-50%);touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+.sticker.armed{z-index:7;transform:translate(-50%,-50%) scale(1.08)}
+.sticker .x{position:absolute;top:-10px;right:-14px;width:22px;height:22px;border-radius:50%;background:var(--ink);color:var(--card);font-size:14px;border:0;font-weight:700;display:grid;place-items:center;opacity:0;pointer-events:none;transform:scale(.7)}
+.sticker.armed .x{opacity:1;pointer-events:auto;transform:scale(1)}
+.themes{display:flex;gap:10px;flex-wrap:wrap}
+.swatch{width:42px;height:42px;border-radius:50%;border:3px solid transparent}
+.swatch.on{border-color:var(--ink)}
+.hint{font-size:13px;color:var(--soft);line-height:1.5}
+.keep button{width:100%;border:0;border-radius:14px;padding:12px;font-weight:700;background:var(--blue);margin-bottom:8px}
+.keep button.alt{background:var(--peach)}
+.toast{position:absolute;left:50%;top:calc(12px + env(safe-area-inset-top));transform:translateX(-50%);background:var(--ink);color:var(--card);
+  border-radius:99px;padding:8px 14px;font-size:12px;font-weight:700;z-index:20;display:none;white-space:nowrap}
+.next{background:var(--lav);border-radius:18px;padding:14px 16px;margin-bottom:12px;border:0;-webkit-appearance:none;appearance:none}
+.next .k{font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;opacity:.7}
+.next .t{font-size:22px;margin-top:5px;line-height:1.15;text-wrap:pretty;hyphens:auto}
+.next .subl{line-height:1.4}
+.gpa{font-variant-numeric:tabular-nums}
+.empty{color:var(--soft);font-size:14px;padding:8px 0}
+
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.stat{background:var(--page);border-radius:14px;padding:10px 6px;text-align:center}
+.stat b{display:block;font-family:Fredoka,ui-rounded,sans-serif;font-size:18px;line-height:1.1}
+.stat span{display:block;margin-top:4px;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--soft);font-weight:800}
+.week-head{display:grid;grid-template-columns:28px repeat(5,1fr);text-align:center;margin-bottom:6px}
+.week-head .l{font-size:10px;font-weight:800;letter-spacing:.06em;color:var(--soft)}
+.week-head .n{font-size:15px;font-weight:800;margin-top:2px}
+.week-head .on .n{width:28px;height:28px;border-radius:99px;background:var(--ink);color:var(--card);display:inline-flex;align-items:center;justify-content:center}
+.week{display:grid;grid-template-columns:28px repeat(5,1fr);position:relative;height:420px}
+.week-gutter,.week-col{position:relative;min-height:420px}
+.week-col{border-left:1px solid var(--line)}
+.week-col.today{background:color-mix(in oklab,var(--lav) 40%,transparent)}
+.hour-line{position:absolute;left:0;right:0;border-top:1px dashed color-mix(in oklab,var(--line) 80%,transparent)}
+.hour-lab{position:absolute;right:3px;font-size:9px;font-weight:800;color:var(--soft);transform:translateY(-6px)}
+.blk{position:absolute;left:2px;right:2px;border:0;border-radius:8px;padding:5px 6px;text-align:left;overflow:hidden;color:#fff;background:var(--cc);font-size:10px;line-height:1.15;font-weight:700;box-shadow:0 4px 10px -6px rgba(0,0,0,.35);-webkit-appearance:none;appearance:none}
+.blk small{display:block;opacity:.88;font-weight:700;font-size:8px;margin-top:3px;letter-spacing:.04em}
+.banner{border-radius:16px;padding:12px 14px;margin-bottom:10px;background:var(--peach)}
+.banner.over{background:color-mix(in oklab,var(--warn) 16%,var(--card))}
+.banner.soon{background:color-mix(in oklab,var(--accent) 14%,var(--card))}
+.banner .k{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;opacity:.7}
+.banner .t{font-size:18px;margin-top:2px}
+.chip{display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 12px;border-radius:99px;border:0;background:var(--page);font-size:12px;font-weight:800;white-space:nowrap}
+.chip.on{background:var(--ink);color:var(--card)}
+.day-pills{display:flex;gap:6px;overflow:auto;padding-bottom:4px}
+.day-pills button{flex:1;min-width:46px;border:0;background:var(--page);border-radius:14px;padding:8px 4px}
+.day-pills button.on{background:var(--ink);color:var(--card)}
+.day-pills .n{font-size:16px;font-weight:800}
+.day-pills .l{font-size:10px;font-weight:800;opacity:.7}
+.pts-bar{height:8px;background:var(--page);border-radius:99px;overflow:hidden;display:flex;margin:8px 0}
+.pts-bar i{display:block;height:100%;background:var(--ok)}
+.pts-bar em{display:block;height:100%;background:color-mix(in oklab,var(--accent) 45%,var(--page))}
+.meet-row{background:var(--page);border-radius:12px;padding:10px;margin-bottom:8px}
+.info{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);font-size:14px}
+.info:last-child{border-bottom:0}
+.info span{color:var(--soft);font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;flex-shrink:0;padding-top:2px}
+.info a{color:var(--accent);text-decoration:none}
+.hub{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:var(--card);border:0;border-radius:18px;padding:12px;margin-bottom:8px;box-shadow:var(--shadow)}
+.avatar{width:44px;height:44px;border-radius:50%;background:var(--lav);display:grid;place-items:center;font-family:Fredoka,sans-serif;font-size:20px;flex-shrink:0}
+.weight{font-variant-numeric:tabular-nums;font-size:11px;font-weight:800;color:var(--soft);margin-left:6px}
+.lesson{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
+.lesson:last-child{border-bottom:0}
+.kind{font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;background:var(--blue);border-radius:99px;padding:2px 7px}
+.nb-page{
+  position:relative;
+  flex:1;
+  min-height:0;
+  background:#F6EEDC;
+  border-radius:2px 16px 16px 4px;
+  box-shadow:inset 0 0 0 1px rgba(160,130,90,.18), 6px 14px 28px -16px rgba(42,36,32,.4);
+  display:flex;flex-direction:column;
+  overflow:hidden;
+  padding:10px 12px 22px 28px;
+}
+html[data-theme="night"] .nb-page{background:#1E1C24;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06)}
+.nb-page::before{
+  content:"";
+  position:absolute;left:0;top:0;bottom:0;width:22px;
+  background:linear-gradient(90deg,rgba(90,60,30,.08),transparent);
+  pointer-events:none;
+  z-index:0;
+}
+.nb-holes{position:absolute;left:6px;top:16%;bottom:16%;display:flex;flex-direction:column;justify-content:space-between;z-index:1;pointer-events:none}
+.nb-holes i{width:10px;height:10px;border-radius:50%;background:var(--page);box-shadow:inset 1px 1px 2px rgba(0,0,0,.25)}
+.nb-margin{position:absolute;left:40px;top:52px;bottom:10px;width:2px;background:#E59A94;opacity:.85;pointer-events:none;z-index:1}
+html[data-theme="night"] .nb-margin{background:#8A4A4A}
+.nb-head{display:flex;align-items:center;gap:8px;margin:0 0 8px 16px;position:relative;z-index:2}
+.nb-head input{
+  flex:1;background:transparent;border:0;border-bottom:1.5px solid color-mix(in oklab,#8A4A4A 35%,transparent);
+  border-radius:0;padding:4px 4px 6px;font-family:Nunito,system-ui,sans-serif;font-size:18px;font-weight:700;
+  -webkit-user-select:text;user-select:text;
+}
+.nb-meta{display:flex;gap:8px;align-items:center;margin:0 0 6px 16px;position:relative;z-index:2}
+.nb-meta select{background:transparent;padding:4px 0;font-size:12px;font-weight:700;color:var(--soft);width:auto;max-width:100%}
+#noteBody, textarea.nb-write{
+  flex:1;min-height:0;width:100%;position:relative;z-index:4;
+  display:block;
+  background-color:#F6EEDC !important;
+  background-image:repeating-linear-gradient(#F6EEDC 0 27px,#C4D4E8 27px 28px) !important;
+  background-attachment:local;
+  border:0;border-radius:0;padding:6px 8px 24px 16px;margin:0;
+  font-family:Nunito,system-ui,-apple-system,sans-serif !important;
+  font-size:17px !important;
+  font-weight:600;
+  line-height:28px;
+  color:#2A2420;
+  caret-color:#8A4A4A;
+  pointer-events:auto !important;
+  -webkit-user-select:text !important;
+  user-select:text !important;
+  touch-action:auto;
+  -webkit-touch-callout:default;
+  resize:none;
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+}
+html[data-theme="night"] #noteBody,
+html[data-theme="night"] textarea.nb-write{
+  background-color:#1E1C24 !important;
+  background-image:repeating-linear-gradient(#1E1C24 0 27px,#3A4250 27px 28px) !important;
+  color:#F4EEE6;
+  caret-color:#E8C9B8;
+}
+.nb-num{position:absolute;bottom:8px;left:0;right:0;text-align:center;font-size:11px;font-weight:800;color:var(--soft);letter-spacing:.08em;pointer-events:none;z-index:1}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+html[data-motion="on"] *{animation:none!important;transition:none!important}
+html[data-text="l"]{zoom:1.12}
+html[data-text="xl"]{zoom:1.22}
+html[data-contrast="on"]{
+  --ink:#14110F; --soft:#3F3A34; --line:rgba(20,16,14,.28);
+}
+html[data-contrast="on"][data-theme="night"]{
+  --ink:#F7F2EC; --soft:#C2B8AE; --line:rgba(255,255,255,.22); --page:#0E0D10; --card:#1A181F;
+}
+html[data-contrast="on"] .hint,html[data-contrast="on"] .subl,html[data-contrast="on"] .soft{color:var(--ink);opacity:.82}
+html[data-targets="on"] .tabs button{font-size:11px;min-height:56px;padding-top:8px}
+html[data-targets="on"] .icon-btn{width:48px;height:48px}
+html[data-targets="on"] .check{width:28px;height:28px}
+html[data-targets="on"] .add,.keep button{min-height:48px;font-size:16px}
+html[data-targets="on"] .seg button{padding:10px 14px;font-size:13px}
+html[data-plain="on"] .nb-write,
+html[data-plain="on"] .nb-head input{
+  font-family:Nunito,system-ui,sans-serif!important;
+  font-size:18px!important;
+  line-height:1.55!important;
+  font-weight:600!important;
+}
+</style>
+</head>
+<body>
+<div class="app" id="shell">
+  <div class="top">
+    <div>
+      <h1 id="title">Today</h1>
+      <div class="sub" id="subtitle"></div>
+    </div>
+    <button class="icon-btn" type="button" id="plusBtn" aria-label="Add">+</button>
+  </div>
+  <div class="pages" id="pages">
+    <div class="page-sheet" id="pageSheet">
+    <section class="page on" data-page="today" id="page-today"></section>
+    <section class="page" data-page="cal" id="page-cal"></section>
+    <section class="page" data-page="courses" id="page-courses"></section>
+    <section class="page" data-page="notes" id="page-notes"></section>
+    <section class="page" data-page="work" id="page-work"></section>
+    <section class="page" data-page="more" id="page-more"></section>
+    <div class="layer" id="layer"></div>
+    </div>
+  </div>
+  <div class="note-pad" id="notePad">
+    <div id="noteTools"></div>
+    <div class="nb-page paper-lines" id="notePaper">
+      <div class="nb-holes" aria-hidden="true"><i></i><i></i><i></i></div>
+      <div class="nb-margin"></div>
+      <div class="nb-head">
+        <input id="noteTitle" data-k="note.title" placeholder="" />
+      </div>
+      <div class="nb-meta">
+        <select id="noteCourse" data-k="note.course"></select>
+      </div>
+      <textarea id="noteBody" class="nb-write" data-k="note.body" rows="12" autocomplete="off" autocapitalize="sentences" inputmode="text" enterkeyhint="enter"></textarea>
+      <div class="nb-num" id="noteNum"></div>
+    </div>
+    <button class="add danger" type="button" id="delNote" style="margin-top:10px;flex-shrink:0"></button>
+  </div>
+  <div class="stack" id="stack"></div>
+  <div class="scrim" id="scrim"></div>
+  <div class="sheet" id="sheet"></div>
+  <div class="toast" id="toast"></div>
+  <button class="fab" type="button" id="stickerBtn" aria-label="Stickers">❀</button>
+  <div class="tray" id="tray">
+    <h3 class="display" id="trayTitle" style="font-size:16px;margin-bottom:8px">Stickers</h3>
+    <div class="stickers" id="stickerPad"></div>
+    <p class="hint" style="margin-top:8px"><span id="trayHint">Tap to drop. Drag to move. × to delete.</span> <button type="button" id="clearStickers" style="border:0;background:var(--pink);border-radius:99px;padding:4px 10px;font-weight:700">Clear tab</button></p>
+  </div>
+  <nav class="tabs" id="tabs">
+    <button type="button" data-tab="today" class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1z"/></svg><span>Today</span></button>
+    <button type="button" data-tab="cal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M8 3.5v3M16 3.5v3M3.5 10h17"/></svg><span>Year</span></button>
+    <button type="button" data-tab="courses"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 4v16M4 10h16M4 15h16"/></svg><span>Schedule</span></button>
+    <button type="button" data-tab="notes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M7 4.5h11a1.5 1.5 0 0 1 1.5 1.5v14H8.5A2.5 2.5 0 0 1 6 17.5z"/><path d="M6 4.5A2 2 0 0 0 4 6.5V18a2.5 2.5 0 0 0 2.5 2.5"/><path d="M10 9h6M10 13h6M10 17h4"/></svg><span>Notes</span></button>
+    <button type="button" data-tab="work"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="m8 12 2.5 2.5L16 9"/></svg><span>Work</span></button>
+    <button type="button" data-tab="more"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="6" cy="12" r="1.2" fill="currentColor"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/><circle cx="18" cy="12" r="1.2" fill="currentColor"/></svg><span>More</span></button>
+  </nav>
+</div>
+<script>
+(function(){
+"use strict";
+var BOUND_SEED=null;/*SEED*/
+const KEY="bound-uni-v3";
+const DAYS_EN=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+const DAYS_ET=["P","E","T","K","N","R","L"];
+const DOW=["M","T","W","T","F"];
+const DOW_ET=["E","T","K","N","R"];
+const DOW_I=[1,2,3,4,5];
+const TYPE_IDS=["homework","essay","project","quiz","exam","lab","reading","other"];
+const COLORS=[["rust","Rust"],["sage","Sage"],["slate","Slate"],["clay","Clay"],["moss","Moss"],["wine","Wine"],["sand","Sand"],["navy","Navy"]];
+const LETTER={"A+":4,"A":4,"A-":3.7,"B+":3.3,"B":3,"B-":2.7,"C+":2.3,"C":2,"C-":1.7,"D+":1.3,"D":1,"D-":0.7,"F":0};
+const LETTER_PCT={"A+":98,"A":95,"A-":91,"B+":88,"B":85,"B-":81,"C+":78,"C":75,"C-":71,"D+":68,"D":65,"D-":61,"F":45};
+const THEMES=[{id:"paper",bg:"#EFE8DC"},{id:"pastel",bg:"#F6C9D3"},{id:"sage",bg:"#C5E0D0"},{id:"rose",bg:"#F3C4CC"},{id:"sky",bg:"#B7D4EC"},{id:"cocoa",bg:"#E3C6AE"},{id:"night",bg:"#201F26"}];
+const EMOJI=["★","♥","❀","✿","✦","☀","☁","☾","✎","✓","♪","♡","☕","📖","✏️","🌙","⭐","🎀","🌸","🍀","🧸","🎓","📝","🌈","🦋","✨","📎","📌","💡","🩷","💜","💙"];
+const THEME_COLOR={paper:"#EFE8DC",pastel:"#EDE6DC",sage:"#E4EDE6",rose:"#F3E2E4",sky:"#DCE8F2",cocoa:"#E7D8C4",night:"#141312"};
+const START=8*60, END=18*60, GRID_H=420;
+const TAHVEL_URL="https://tahveltp.edu.ee/hois_back/timetableevents/timetableByPerson/NzJRkDQzUr9nO_1PFZCKWA/calendar.ics?lang=ET";
+const TAHVEL_ICS="BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//HOIS//NONSGML v2.0//UTF8\nBEGIN:VTIMEZONE\nTZID:Europe/Tallinn\nX-LIC-LOCATION:Europe/Tallinn\nBEGIN:DAYLIGHT\nTZOFFSETFROM:+0200\nTZOFFSETTO:+0300\nTZNAME:EEST\nDTSTART:19700329T030000\nRRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU\nEND:DAYLIGHT\nBEGIN:STANDARD\nTZOFFSETFROM:+0300\nTZOFFSETTO:+0200\nTZNAME:EET\nDTSTART:19701025T040000\nRRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU\nEND:STANDARD\nEND:VTIMEZONE\nBEGIN:VEVENT\nUID:61257877@hois\nDTSTAMP:20260626T154310Z\nDTSTART:20261026T083000Z\nDTEND:20261026T100000Z\nSUMMARY:Tootmiskorralduse alused (RTJ001)\nDESCRIPTION:\u00d5petajad: Toomas Mets\\nR\u00fchmad: KJ2024 TJ2026\\n\nLOCATION:Ruumid: TLN-A115\nEND:VEVENT\nBEGIN:VEVENT\nUID:61257875@hois\nDTSTAMP:20260626T154922Z\nDTSTART:20261012T053000Z\nDTEND:20261012T070000Z\nSUMMARY:Tootmiskorralduse alused (RTJ001)\nDESCRIPTION:\u00d5petajad: Toomas Mets\\nR\u00fchmad: KJ2024 TJ2026\\n\nLOCATION:Ruumid: TLN-A312\nEND:VEVENT\nBEGIN:VEVENT\nUID:61257869@hois\nDTSTAMP:20260626T155028Z\nDTSTART:20260831T073000Z\nDTEND:20260831T090000Z\nSUMMARY:Tootmiskorralduse alused (RTJ001)\nDESCRIPTION:\u00d5petajad: Toomas Mets\\nR\u00fchmad: KJ2024 TJ2026\\n\nLOCATION:Ruumid: TLN-A115\nEND:VEVENT\nBEGIN:VEVENT\nUID:61257871@hois\nDTSTAMP:20260626T155045Z\nDTSTART:20260914T073000Z\nDTEND:20260914T090000Z\nSUMMARY:Tootmiskorralduse alused (RTJ001)\nDESCRIPTION:\u00d5petajad: Toomas Mets\\nR\u00fchmad: KJ2024 TJ2026\\n\nLOCATION:Ruumid: TLN-A115\nEND:VEVENT\nBEGIN:VEVENT\nUID:61257878@hois\nDTSTAMP:20260626T155136Z\nDTSTART:20261102T083000Z\nDTEND:20261102T100000Z\nSUMMARY:Tootmiskorralduse alused (RTJ001)\nDESCRIPTION:\u00d5petajad: Toomas Mets\\nR\u00fchmad: KJ2024 TJ2026\\n\nLOCATION:Ruumid: TLN-A115\nEND:VEVENT\nBEGIN:VEVENT\nUID:61257883@hois\nDTSTAMP:20260626T155342Z\nDTSTART:20261207T063000Z\nDTEND:20261207T080000Z\nSUMMARY:Tootmiskorralduse alused (RTJ001)\nDESCRIPTION:\u00d5petajad: Toomas Mets\\nR\u00fchmad: KJ2024 TJ2026\\n\nLOCATION:Ruumid: TLN-A115\nEND:VEVENT\nBEGIN:VEVENT\nUID:61257884@hois\nDTSTAMP:20260626T155428Z\nDTSTART:20261214T063000Z\nDTEND:20261214T080000Z\nSUMMARY:Tootmiskorralduse alused (RTJ001)\nDESCRIPTION:\u00d5petajad: Toomas Mets\\nR\u00fchmad: KJ2024 TJ2026\\n\nLOCATION:Ruumid: TLN-A115\nEND:VEVENT\nBEGIN:VEVENT\nUID:61257872@hois\nDTSTAMP:20260626T160325Z\nDTSTART:20260921T113000Z\nDTEND:20260921T130000Z\nSUMMARY:Tootmiskorralduse alused (RTJ001)\nDESCRIPTION:\u00d5petajad: Toomas Mets\\nR\u00fchmad: KJ2024 TJ2026\\n\nLOCATION:Ruumid: TLN-A115\nEND:VEVENT\nBEGIN:VEVENT\nUID:61257876@hois\nDTSTAMP:20260626T160438Z\nDTSTART:20261019T113000Z\nDTEND:20261019T130000Z\nSUMMARY:Tootmiskorralduse alused (RTJ001)\nDESCRIPTION:\u00d5petajad: Toomas Mets\\nR\u00fchmad: KJ2024 TJ2026\\n\nLOCATION:Ruumid: TLN-A115\nEND:VEVENT\nBEGIN:VEVENT\nUID:61257879@hois\nDTSTAMP:20260626T160556Z\nDTSTART:20261109T123000Z\nDTEND:20261109T140000Z\nSUMMARY:Tootmiskorralduse alused (RTJ001)\nDESCRIPTION:\u00d5petajad: Toomas Mets\\nR\u00fchmad: KJ2024 TJ2026\\n\nLOCATION:Ruumid: TLN-A115\nEND:VEVENT\nBEGIN:VEVENT\nUID:61257880@hois\nDTSTAMP:20260626T160726Z\nDTSTART:20261116T123000Z\nDTEND:20261116T140000Z\nSUMMARY:Tootmiskorralduse alused (RTJ001)\nDESCRIPTION:\u00d5petajad: Toomas Mets\\nR\u00fchmad: KJ2024 TJ2026\\n\nLOCATION:Ruumid: TLN-A322\nEND:VEVENT\nBEGIN:VEVENT\nUID:61257882@hois\nDTSTAMP:20260626T160819Z\nDTSTART:20261130T123000Z\nDTEND:20261130T140000Z\nSUMMARY:Tootmiskorralduse alused (RTJ001)\nDESCRIPTION:\u00d5petajad: Toomas Mets\\nR\u00fchmad: KJ2024 TJ2026\\n\nLOCATION:Ruumid: TLN-A115\nEND:VEVENT\nBEGIN:VEVENT\nUID:61257889@hois\nDTSTAMP:20260626T154706Z\nDTSTART:20260831T093000Z\nDTEND:20260831T110000Z\nSUMMARY:Materjali\u00f5petus (RTK019)\nDESCRIPTION:\u00d5petajad: Priit Tikker\\nR\u00fchmad: TJ2026\\nOsar\u00fchmad: TJ2026-1\n TJ2026-2\\n\nLOCATION:Ruumid: TLN-A115\nEND:VEVENT\nBEGIN:VEVENT\nUID:61257891@hois\nDTSTAMP:20260626T154806Z\nDTSTART:20260914T093000Z\nDTEND:20260914T110000Z\nSUMMARY:Materjali\u00f5petus (RTK019)\nDESCRIPTION:\u00d5petajad: Priit Tikker\\nR\u00fchmad: TJ2026\\nOsar\u00fchmad: TJ2026-1\n TJ2026-2\\n\nLOCATION:Ruumid: TLN-A115\nEND:VEVENT\nBEGIN:VEVENT\nUID:61257898@hois\nDTSTAMP:20260626T155141Z\nDTSTART:20261102T103000Z\nDTEND:20261102T120000Z\nSUMMARY:Materjali\u00f5petus (RTK019)\nDESCRIPTION:\u00d5petajad: Priit Tikker\\nR\u00fchmad: TJ2026\\nOsar\u00fchmad: TJ2026-1\n TJ2026-2\\n\nLOCATION:Ruumid: TLN-A115\nEND:VEVENT\nBEGIN:VEVENT\nUID:61257903@hois\nDTSTAMP:20260626T155347Z\nDTSTART:20261207T103000Z\nDTEND:20261207T120000Z\nSUMMARY:Materjali\u00f5petus (RTK019)\nDESCRIPTION:\u00d5petajad: Priit Tikker\\nR\u00fchmad: TJ2026\\nOsar\u00fchmad: TJ2026-1\n TJ2026-2\\n\nLOCATION:Ruumid: TLN-A115\nEND:VEVENT\nBEGIN:VEVENT\nUID:61257904@hois\nDTSTAMP:20260626T155440Z\nDTSTART:20261214T103000Z\nDTEND:20261214T120000Z\nSUMMARY:Materjali\u00f5petus (RTK019)\nDESCRIPTION:\u00d5petajad: Priit Tikker\\nR\u00fchmad: TJ2026\\nOsar\u00fchmad: TJ2026-1\n TJ2026-2\\n\nLOCATION:Ruumid: TLN-A115\nEND:VEVENT\nBEGIN:VEVENT\nUID:61257892@hois\nDTSTAMP:20260626T160208Z\nDTSTART:20260921T093000Z\nDTEND:20260921T110000Z\nSUMMARY:Materjali\u00f5petus (RTK019)\nDESCRIPTION:\u00d5petajad: Priit Tikker\\nR\u00fchmad: TJ2026\\nOsar\u00fchmad: TJ2026-1\n TJ2026-2\\n\nLOCATION:Ruumid: TLN-A115\nEND:VEVENT\nBEGIN:VEVENT\nUID:61257902@hois\nDTSTAMP:20260626T160804Z\nDTSTART:20261130T103000Z\nDTEND:20261130T120000Z\nSUMMARY:Materjali\u00f5petus (RTK019)\nDESCRIPTION:\u00d5petajad: Priit Tikker\\nR\u00fchmad: TJ2026\\nOsar\u00fchmad: TJ2026-1\n TJ2026-2\\n\nLOCATION:Ruumid: TLN-A115\nEND:VEVENT\nBEGIN:VEVENT\nUID:61257896@hois\nDTSTAMP:20260701T065330Z\nDTSTART:20261020T113000Z\nDTEND:20261020T130000Z\nSUMMARY:Materjali\u00f5petus (RTK019)\nDESCRIPTION:\u00d5petajad: Priit Tikker\\nR\u00fchmad: TJ2026\\nOsar\u00fchmad: TJ2026-1\n TJ2026-2\\n\nLOCATION:Ruumid: TLN-A418\nEND:VEVENT\nBEGIN:VEVENT\nUID:61257899@hois\nDTSTAMP:20260701T070235Z\nDTSTART:20261110T123000Z\nDTEND:20261110T140000Z\nSUMMARY:Materjali\u00f5petus (RTK019)\nDESCRIPTION:\u00d5petajad: Priit Tikker\\nR\u00fchmad: TJ2026\\nOsar\u00fchmad: TJ2026-1\n TJ2026-2\\n\nLOCATION:Ruumid: TLN-A115\nEND:VEVENT\nBEGIN:VEVENT\nUID:61257897@hois\nDTSTAMP:20260701T074825Z\nDTSTART:20261026T123000Z\nDTEND:20261026T140000Z\nSUMMARY:Materjali\u00f5petus (RTK019)\nDESCRIPTION:\u00d5petajad: Priit Tikker\\nR\u00fchmad: TJ2026\\nOsar\u00fchmad: TJ2026-1\n TJ2026-2\\n\nLOCATION:Ruumid: TLN-A115\nEND:VEVENT\nBEGIN:VEVENT\nUID:61259476@hois\nDTSTAMP:20260508T095440Z\nDTSTART:20261123T123000Z\nDTEND:20261123T140000Z\nSUMMARY:Materjali\u00f5petus (RTK019)\nDESCRIPTION:\u00d5petajad: Priit Tikker\\nR\u00fchmad: TJ2026\\nOsar\u00fchmad: TJ2026-2\\n\nLOCATION:Ruumid: TLN-A115\nEND:VEVENT\nBEGIN:VEVENT\nUID:61259470@hois\nDTSTAMP:20260508T095250Z\nDTSTART:20260928T113000Z\nDTEND:20260928T130000Z\nSUMMARY:Materjali\u00f5petus (RTK019)\nDESCRIPTION:\u00d5petajad: Priit Tikker\\nR\u00fchmad: TJ2026\\nOsar\u00fchmad: TJ2026-2\\n\nLOCATION:Ruumid: TLN-A116 labor (ainult TJ)\nEND:VEVENT\nBEGIN:VEVENT\nUID:61259473@hois\nDTSTAMP:20260508T095332Z\nDTSTART:20261005T113000Z\nDTEND:20261005T130000Z\nSUMMARY:Materjali\u00f5petus (RTK019)\nDESCRIPTION:\u00d5petajad: Priit Tikker\\nR\u00fchmad: TJ2026\\nOsar\u00fchmad: TJ2026-2\\n\nLOCATION:Ruumid: TLN-A116 labor (ainult TJ)\nEND:VEVENT\nBEGIN:VEVENT\nUID:61259478@hois\nDTSTAMP:20260508T095538Z\nDTSTART:20260928T093000Z\nDTEND:20260928T110000Z\nSUMMARY:Materjali\u00f5petus (RTK019)\nDESCRIPTION:\u00d5petajad: Priit Tikker\\nR\u00fchmad: TJ2026\\nOsar\u00fchmad: TJ2026-1\n TJ2026-2\\n\nLOCATION:Ruumid: TLN-A115\nEND:VEVENT\nBEGIN:VEVENT\nUID:61259479@hois\nDTSTAMP:20260508T095556Z\nDTSTART:20261005T093000Z\nDTEND:20261005T110000Z\nSUMMARY:Materjali\u00f5petus (RTK019)\nDESCRIPTION:\u00d5petajad: Priit Tikker\\nR\u00fchmad: TJ2026\\nOsar\u00fchmad: TJ2026-1\n TJ2026-2\\n\nLOCATION:Ruumid: TLN-A115\nEND:VEVENT\nBEGIN:VEVENT\nUID:61259480@hois\nDTSTAMP:20260626T154210Z\nDTSTART:20261012T073000Z\nDTEND:20261012T090000Z\nSUMMARY:Tootmiskorralduse alused (RTJ001)\nDESCRIPTION:\u00d5petajad: Toomas Mets\\nR\u00fchmad: KJ2024 TJ2026\\n\nLOCATION:Ruumid: TLN-A312\nEND:VEVENT\nBEGIN:VEVENT\nUID:61259484@hois\nDTSTAMP:20260626T155300Z\nDTSTART:20261123T083000Z\nDTEND:20261123T100000Z\nSUMMARY:Tootmiskorralduse alused (RTJ001)\nDESCRIPTION:\u00d5petajad: Toomas Mets\\nR\u00fchmad: KJ2024 TJ2026\\n\nLOCATION:Ruumid: TLN-A115\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261305@hois\nDTSTAMP:20260508T100139Z\nDTSTART:20260901T053000Z\nDTEND:20260901T070000Z\nSUMMARY:Majandus\u00f5petus (HKE156)\nDESCRIPTION:\u00d5petajad: Annely M\u00e4ngel\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A321\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261306@hois\nDTSTAMP:20260508T100139Z\nDTSTART:20260908T053000Z\nDTEND:20260908T070000Z\nSUMMARY:Majandus\u00f5petus (HKE156)\nDESCRIPTION:\u00d5petajad: Annely M\u00e4ngel\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A321\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261307@hois\nDTSTAMP:20260508T100139Z\nDTSTART:20260915T053000Z\nDTEND:20260915T070000Z\nSUMMARY:Majandus\u00f5petus (HKE156)\nDESCRIPTION:\u00d5petajad: Annely M\u00e4ngel\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A321\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261309@hois\nDTSTAMP:20260508T100139Z\nDTSTART:20260929T053000Z\nDTEND:20260929T070000Z\nSUMMARY:Majandus\u00f5petus (HKE156)\nDESCRIPTION:\u00d5petajad: Annely M\u00e4ngel\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A321\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261310@hois\nDTSTAMP:20260508T100139Z\nDTSTART:20261006T053000Z\nDTEND:20261006T070000Z\nSUMMARY:Majandus\u00f5petus (HKE156)\nDESCRIPTION:\u00d5petajad: Annely M\u00e4ngel\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A321\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261311@hois\nDTSTAMP:20260508T100139Z\nDTSTART:20261013T053000Z\nDTEND:20261013T070000Z\nSUMMARY:Majandus\u00f5petus (HKE156)\nDESCRIPTION:\u00d5petajad: Annely M\u00e4ngel\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A321\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261312@hois\nDTSTAMP:20260508T100139Z\nDTSTART:20261020T053000Z\nDTEND:20261020T070000Z\nSUMMARY:Majandus\u00f5petus (HKE156)\nDESCRIPTION:\u00d5petajad: Annely M\u00e4ngel\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A321\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261308@hois\nDTSTAMP:20260714T071341Z\nDTSTART:20260924T053000Z\nDTEND:20260924T070000Z\nSUMMARY:Majandus\u00f5petus (HKE156)\nDESCRIPTION:\u00d5petajad: Annely M\u00e4ngel\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A322\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261313@hois\nDTSTAMP:20260508T100139Z\nDTSTART:20261027T063000Z\nDTEND:20261027T080000Z\nSUMMARY:Majandus\u00f5petus (HKE156)\nDESCRIPTION:\u00d5petajad: Annely M\u00e4ngel\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A321\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261314@hois\nDTSTAMP:20260508T100139Z\nDTSTART:20261103T063000Z\nDTEND:20261103T080000Z\nSUMMARY:Majandus\u00f5petus (HKE156)\nDESCRIPTION:\u00d5petajad: Annely M\u00e4ngel\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A321\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261315@hois\nDTSTAMP:20260508T100139Z\nDTSTART:20261110T063000Z\nDTEND:20261110T080000Z\nSUMMARY:Majandus\u00f5petus (HKE156)\nDESCRIPTION:\u00d5petajad: Annely M\u00e4ngel\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A321\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261316@hois\nDTSTAMP:20260508T100139Z\nDTSTART:20261117T063000Z\nDTEND:20261117T080000Z\nSUMMARY:Majandus\u00f5petus (HKE156)\nDESCRIPTION:\u00d5petajad: Annely M\u00e4ngel\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A321\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261317@hois\nDTSTAMP:20260508T100139Z\nDTSTART:20261124T063000Z\nDTEND:20261124T080000Z\nSUMMARY:Majandus\u00f5petus (HKE156)\nDESCRIPTION:\u00d5petajad: Annely M\u00e4ngel\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A321\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261319@hois\nDTSTAMP:20260508T100139Z\nDTSTART:20261208T063000Z\nDTEND:20261208T080000Z\nSUMMARY:Majandus\u00f5petus (HKE156)\nDESCRIPTION:\u00d5petajad: Annely M\u00e4ngel\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A321\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261320@hois\nDTSTAMP:20260508T100139Z\nDTSTART:20261215T063000Z\nDTEND:20261215T080000Z\nSUMMARY:Majandus\u00f5petus (HKE156)\nDESCRIPTION:\u00d5petajad: Annely M\u00e4ngel\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A321\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261337@hois\nDTSTAMP:20260508T100250Z\nDTSTART:20260901T093000Z\nDTEND:20260901T110000Z\nSUMMARY:Rakendusmatemaatika (RKE115)\nDESCRIPTION:\u00d5petajad: Vitali Ret\u0161noi\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A312\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261338@hois\nDTSTAMP:20260508T100250Z\nDTSTART:20260908T093000Z\nDTEND:20260908T110000Z\nSUMMARY:Rakendusmatemaatika (RKE115)\nDESCRIPTION:\u00d5petajad: Vitali Ret\u0161noi\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A312\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261347@hois\nDTSTAMP:20260701T070118Z\nDTSTART:20261109T103000Z\nDTEND:20261109T120000Z\nSUMMARY:Rakendusmatemaatika (RKE115)\nDESCRIPTION:\u00d5petajad: Vitali Ret\u0161noi\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A312\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261339@hois\nDTSTAMP:20260508T100250Z\nDTSTART:20260915T093000Z\nDTEND:20260915T110000Z\nSUMMARY:Rakendusmatemaatika (RKE115)\nDESCRIPTION:\u00d5petajad: Vitali Ret\u0161noi\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A312\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261340@hois\nDTSTAMP:20260508T100250Z\nDTSTART:20260922T093000Z\nDTEND:20260922T110000Z\nSUMMARY:Rakendusmatemaatika (RKE115)\nDESCRIPTION:\u00d5petajad: Vitali Ret\u0161noi\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A312\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261341@hois\nDTSTAMP:20260508T100250Z\nDTSTART:20260929T093000Z\nDTEND:20260929T110000Z\nSUMMARY:Rakendusmatemaatika (RKE115)\nDESCRIPTION:\u00d5petajad: Vitali Ret\u0161noi\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A312\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261342@hois\nDTSTAMP:20260508T100250Z\nDTSTART:20261006T093000Z\nDTEND:20261006T110000Z\nSUMMARY:Rakendusmatemaatika (RKE115)\nDESCRIPTION:\u00d5petajad: Vitali Ret\u0161noi\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A312\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261344@hois\nDTSTAMP:20260508T100250Z\nDTSTART:20261020T093000Z\nDTEND:20261020T110000Z\nSUMMARY:Rakendusmatemaatika (RKE115)\nDESCRIPTION:\u00d5petajad: Vitali Ret\u0161noi\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A312\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261345@hois\nDTSTAMP:20260508T100250Z\nDTSTART:20261027T103000Z\nDTEND:20261027T120000Z\nSUMMARY:Rakendusmatemaatika (RKE115)\nDESCRIPTION:\u00d5petajad: Vitali Ret\u0161noi\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A312\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261346@hois\nDTSTAMP:20260508T100250Z\nDTSTART:20261103T103000Z\nDTEND:20261103T120000Z\nSUMMARY:Rakendusmatemaatika (RKE115)\nDESCRIPTION:\u00d5petajad: Vitali Ret\u0161noi\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A312\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261348@hois\nDTSTAMP:20260508T100250Z\nDTSTART:20261117T103000Z\nDTEND:20261117T120000Z\nSUMMARY:Rakendusmatemaatika (RKE115)\nDESCRIPTION:\u00d5petajad: Vitali Ret\u0161noi\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A312\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261349@hois\nDTSTAMP:20260508T100250Z\nDTSTART:20261124T103000Z\nDTEND:20261124T120000Z\nSUMMARY:Rakendusmatemaatika (RKE115)\nDESCRIPTION:\u00d5petajad: Vitali Ret\u0161noi\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A312\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261350@hois\nDTSTAMP:20260508T100250Z\nDTSTART:20261201T103000Z\nDTEND:20261201T120000Z\nSUMMARY:Rakendusmatemaatika (RKE115)\nDESCRIPTION:\u00d5petajad: Vitali Ret\u0161noi\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A312\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261351@hois\nDTSTAMP:20260508T100250Z\nDTSTART:20261208T103000Z\nDTEND:20261208T120000Z\nSUMMARY:Rakendusmatemaatika (RKE115)\nDESCRIPTION:\u00d5petajad: Vitali Ret\u0161noi\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A312\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261352@hois\nDTSTAMP:20260508T100250Z\nDTSTART:20261215T103000Z\nDTEND:20261215T120000Z\nSUMMARY:Rakendusmatemaatika (RKE115)\nDESCRIPTION:\u00d5petajad: Vitali Ret\u0161noi\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A312\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261445@hois\nDTSTAMP:20260508T100622Z\nDTSTART:20261118T063000Z\nDTEND:20261118T080000Z\nSUMMARY:Inseneri- ja arvutigraafika alused (RKE124)\nDESCRIPTION:\u00d5petajad: Tatjana Hrinchuk\\nR\u00fchmad: TJ2026\\nOsar\u00fchmad:\n TJ2026-2\\n\nLOCATION:Ruumid: TLN-A315 arvutiklass\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261446@hois\nDTSTAMP:20260508T100622Z\nDTSTART:20261125T063000Z\nDTEND:20261125T080000Z\nSUMMARY:Inseneri- ja arvutigraafika alused (RKE124)\nDESCRIPTION:\u00d5petajad: Tatjana Hrinchuk\\nR\u00fchmad: TJ2026\\nOsar\u00fchmad:\n TJ2026-2\\n\nLOCATION:Ruumid: TLN-A315 arvutiklass\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261434@hois\nDTSTAMP:20260508T100622Z\nDTSTART:20260902T053000Z\nDTEND:20260902T070000Z\nSUMMARY:Inseneri- ja arvutigraafika alused (RKE124)\nDESCRIPTION:\u00d5petajad: Tatjana Hrinchuk\\nR\u00fchmad: TJ2026\\nOsar\u00fchmad:\n TJ2026-2\\n\nLOCATION:Ruumid: TLN-A315 arvutiklass\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261435@hois\nDTSTAMP:20260508T100622Z\nDTSTART:20260909T053000Z\nDTEND:20260909T070000Z\nSUMMARY:Inseneri- ja arvutigraafika alused (RKE124)\nDESCRIPTION:\u00d5petajad: Tatjana Hrinchuk\\nR\u00fchmad: TJ2026\\nOsar\u00fchmad:\n TJ2026-2\\n\nLOCATION:Ruumid: TLN-A315 arvutiklass\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261436@hois\nDTSTAMP:20260508T100622Z\nDTSTART:20260916T053000Z\nDTEND:20260916T070000Z\nSUMMARY:Inseneri- ja arvutigraafika alused (RKE124)\nDESCRIPTION:\u00d5petajad: Tatjana Hrinchuk\\nR\u00fchmad: TJ2026\\nOsar\u00fchmad:\n TJ2026-2\\n\nLOCATION:Ruumid: TLN-A315 arvutiklass\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261437@hois\nDTSTAMP:20260508T100622Z\nDTSTART:20260923T053000Z\nDTEND:20260923T070000Z\nSUMMARY:Inseneri- ja arvutigraafika alused (RKE124)\nDESCRIPTION:\u00d5petajad: Tatjana Hrinchuk\\nR\u00fchmad: TJ2026\\nOsar\u00fchmad:\n TJ2026-2\\n\nLOCATION:Ruumid: TLN-A315 arvutiklass\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261438@hois\nDTSTAMP:20260508T100622Z\nDTSTART:20260930T053000Z\nDTEND:20260930T070000Z\nSUMMARY:Inseneri- ja arvutigraafika alused (RKE124)\nDESCRIPTION:\u00d5petajad: Tatjana Hrinchuk\\nR\u00fchmad: TJ2026\\nOsar\u00fchmad:\n TJ2026-2\\n\nLOCATION:Ruumid: TLN-A315 arvutiklass\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261439@hois\nDTSTAMP:20260508T100622Z\nDTSTART:20261007T053000Z\nDTEND:20261007T070000Z\nSUMMARY:Inseneri- ja arvutigraafika alused (RKE124)\nDESCRIPTION:\u00d5petajad: Tatjana Hrinchuk\\nR\u00fchmad: TJ2026\\nOsar\u00fchmad:\n TJ2026-2\\n\nLOCATION:Ruumid: TLN-A315 arvutiklass\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261440@hois\nDTSTAMP:20260508T100622Z\nDTSTART:20261014T053000Z\nDTEND:20261014T070000Z\nSUMMARY:Inseneri- ja arvutigraafika alused (RKE124)\nDESCRIPTION:\u00d5petajad: Tatjana Hrinchuk\\nR\u00fchmad: TJ2026\\nOsar\u00fchmad:\n TJ2026-2\\n\nLOCATION:Ruumid: TLN-A315 arvutiklass\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261441@hois\nDTSTAMP:20260508T100622Z\nDTSTART:20261021T053000Z\nDTEND:20261021T070000Z\nSUMMARY:Inseneri- ja arvutigraafika alused (RKE124)\nDESCRIPTION:\u00d5petajad: Tatjana Hrinchuk\\nR\u00fchmad: TJ2026\\nOsar\u00fchmad:\n TJ2026-2\\n\nLOCATION:Ruumid: TLN-A315 arvutiklass\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261442@hois\nDTSTAMP:20260508T100622Z\nDTSTART:20261028T063000Z\nDTEND:20261028T080000Z\nSUMMARY:Inseneri- ja arvutigraafika alused (RKE124)\nDESCRIPTION:\u00d5petajad: Tatjana Hrinchuk\\nR\u00fchmad: TJ2026\\nOsar\u00fchmad:\n TJ2026-2\\n\nLOCATION:Ruumid: TLN-A315 arvutiklass\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261443@hois\nDTSTAMP:20260508T100622Z\nDTSTART:20261104T063000Z\nDTEND:20261104T080000Z\nSUMMARY:Inseneri- ja arvutigraafika alused (RKE124)\nDESCRIPTION:\u00d5petajad: Tatjana Hrinchuk\\nR\u00fchmad: TJ2026\\nOsar\u00fchmad:\n TJ2026-2\\n\nLOCATION:Ruumid: TLN-A315 arvutiklass\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261444@hois\nDTSTAMP:20260508T100622Z\nDTSTART:20261111T063000Z\nDTEND:20261111T080000Z\nSUMMARY:Inseneri- ja arvutigraafika alused (RKE124)\nDESCRIPTION:\u00d5petajad: Tatjana Hrinchuk\\nR\u00fchmad: TJ2026\\nOsar\u00fchmad:\n TJ2026-2\\n\nLOCATION:Ruumid: TLN-A315 arvutiklass\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261447@hois\nDTSTAMP:20260508T100622Z\nDTSTART:20261202T063000Z\nDTEND:20261202T080000Z\nSUMMARY:Inseneri- ja arvutigraafika alused (RKE124)\nDESCRIPTION:\u00d5petajad: Tatjana Hrinchuk\\nR\u00fchmad: TJ2026\\nOsar\u00fchmad:\n TJ2026-2\\n\nLOCATION:Ruumid: TLN-A315 arvutiklass\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261448@hois\nDTSTAMP:20260508T100622Z\nDTSTART:20261209T063000Z\nDTEND:20261209T080000Z\nSUMMARY:Inseneri- ja arvutigraafika alused (RKE124)\nDESCRIPTION:\u00d5petajad: Tatjana Hrinchuk\\nR\u00fchmad: TJ2026\\nOsar\u00fchmad:\n TJ2026-2\\n\nLOCATION:Ruumid: TLN-A315 arvutiklass\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261449@hois\nDTSTAMP:20260508T100622Z\nDTSTART:20261216T063000Z\nDTEND:20261216T080000Z\nSUMMARY:Inseneri- ja arvutigraafika alused (RKE124)\nDESCRIPTION:\u00d5petajad: Tatjana Hrinchuk\\nR\u00fchmad: TJ2026\\nOsar\u00fchmad:\n TJ2026-2\\n\nLOCATION:Ruumid: TLN-A315 arvutiklass\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261328@hois\nDTSTAMP:20260508T100146Z\nDTSTART:20261020T073000Z\nDTEND:20261020T090000Z\nSUMMARY:Majandus\u00f5petus (HKE156)\nDESCRIPTION:\u00d5petajad: Annely M\u00e4ngel\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A321\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261329@hois\nDTSTAMP:20260508T100146Z\nDTSTART:20261027T083000Z\nDTEND:20261027T100000Z\nSUMMARY:Majandus\u00f5petus (HKE156)\nDESCRIPTION:\u00d5petajad: Annely M\u00e4ngel\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A321\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261330@hois\nDTSTAMP:20260508T100146Z\nDTSTART:20261103T083000Z\nDTEND:20261103T100000Z\nSUMMARY:Majandus\u00f5petus (HKE156)\nDESCRIPTION:\u00d5petajad: Annely M\u00e4ngel\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A321\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261331@hois\nDTSTAMP:20260508T100146Z\nDTSTART:20261110T083000Z\nDTEND:20261110T100000Z\nSUMMARY:Majandus\u00f5petus (HKE156)\nDESCRIPTION:\u00d5petajad: Annely M\u00e4ngel\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A321\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261324@hois\nDTSTAMP:20260714T071351Z\nDTSTART:20260924T073000Z\nDTEND:20260924T090000Z\nSUMMARY:Majandus\u00f5petus (HKE156)\nDESCRIPTION:\u00d5petajad: Annely M\u00e4ngel\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A322\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261325@hois\nDTSTAMP:20260508T100146Z\nDTSTART:20260929T073000Z\nDTEND:20260929T090000Z\nSUMMARY:Majandus\u00f5petus (HKE156)\nDESCRIPTION:\u00d5petajad: Annely M\u00e4ngel\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A321\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261326@hois\nDTSTAMP:20260508T100146Z\nDTSTART:20261006T073000Z\nDTEND:20261006T090000Z\nSUMMARY:Majandus\u00f5petus (HKE156)\nDESCRIPTION:\u00d5petajad: Annely M\u00e4ngel\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A321\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261327@hois\nDTSTAMP:20260508T100146Z\nDTSTART:20261013T073000Z\nDTEND:20261013T090000Z\nSUMMARY:Majandus\u00f5petus (HKE156)\nDESCRIPTION:\u00d5petajad: Annely M\u00e4ngel\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A321\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261321@hois\nDTSTAMP:20260508T100146Z\nDTSTART:20260901T073000Z\nDTEND:20260901T090000Z\nSUMMARY:Majandus\u00f5petus (HKE156)\nDESCRIPTION:\u00d5petajad: Annely M\u00e4ngel\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A321\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261322@hois\nDTSTAMP:20260508T100146Z\nDTSTART:20260908T073000Z\nDTEND:20260908T090000Z\nSUMMARY:Majandus\u00f5petus (HKE156)\nDESCRIPTION:\u00d5petajad: Annely M\u00e4ngel\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A321\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261323@hois\nDTSTAMP:20260508T100146Z\nDTSTART:20260915T073000Z\nDTEND:20260915T090000Z\nSUMMARY:Majandus\u00f5petus (HKE156)\nDESCRIPTION:\u00d5petajad: Annely M\u00e4ngel\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A321\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261332@hois\nDTSTAMP:20260508T100146Z\nDTSTART:20261117T083000Z\nDTEND:20261117T100000Z\nSUMMARY:Majandus\u00f5petus (HKE156)\nDESCRIPTION:\u00d5petajad: Annely M\u00e4ngel\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A321\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261333@hois\nDTSTAMP:20260508T100146Z\nDTSTART:20261124T083000Z\nDTEND:20261124T100000Z\nSUMMARY:Majandus\u00f5petus (HKE156)\nDESCRIPTION:\u00d5petajad: Annely M\u00e4ngel\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A321\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261335@hois\nDTSTAMP:20260508T100146Z\nDTSTART:20261208T083000Z\nDTEND:20261208T100000Z\nSUMMARY:Majandus\u00f5petus (HKE156)\nDESCRIPTION:\u00d5petajad: Annely M\u00e4ngel\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A321\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261336@hois\nDTSTAMP:20260508T100146Z\nDTSTART:20261215T083000Z\nDTEND:20261215T100000Z\nSUMMARY:Majandus\u00f5petus (HKE156)\nDESCRIPTION:\u00d5petajad: Annely M\u00e4ngel\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A321\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261353@hois\nDTSTAMP:20260508T100300Z\nDTSTART:20260902T093000Z\nDTEND:20260902T110000Z\nSUMMARY:Rakendusmatemaatika (RKE115)\nDESCRIPTION:\u00d5petajad: Vitali Ret\u0161noi\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A312\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261354@hois\nDTSTAMP:20260508T100300Z\nDTSTART:20260909T093000Z\nDTEND:20260909T110000Z\nSUMMARY:Rakendusmatemaatika (RKE115)\nDESCRIPTION:\u00d5petajad: Vitali Ret\u0161noi\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A312\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261355@hois\nDTSTAMP:20260508T100300Z\nDTSTART:20260916T093000Z\nDTEND:20260916T110000Z\nSUMMARY:Rakendusmatemaatika (RKE115)\nDESCRIPTION:\u00d5petajad: Vitali Ret\u0161noi\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A312\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261356@hois\nDTSTAMP:20260508T100300Z\nDTSTART:20260923T093000Z\nDTEND:20260923T110000Z\nSUMMARY:Rakendusmatemaatika (RKE115)\nDESCRIPTION:\u00d5petajad: Vitali Ret\u0161noi\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A312\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261357@hois\nDTSTAMP:20260508T100300Z\nDTSTART:20260930T093000Z\nDTEND:20260930T110000Z\nSUMMARY:Rakendusmatemaatika (RKE115)\nDESCRIPTION:\u00d5petajad: Vitali Ret\u0161noi\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A312\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261358@hois\nDTSTAMP:20260508T100300Z\nDTSTART:20261007T093000Z\nDTEND:20261007T110000Z\nSUMMARY:Rakendusmatemaatika (RKE115)\nDESCRIPTION:\u00d5petajad: Vitali Ret\u0161noi\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A312\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261359@hois\nDTSTAMP:20260508T100300Z\nDTSTART:20261014T093000Z\nDTEND:20261014T110000Z\nSUMMARY:Rakendusmatemaatika (RKE115)\nDESCRIPTION:\u00d5petajad: Vitali Ret\u0161noi\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A312\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261360@hois\nDTSTAMP:20260508T100300Z\nDTSTART:20261021T093000Z\nDTEND:20261021T110000Z\nSUMMARY:Rakendusmatemaatika (RKE115)\nDESCRIPTION:\u00d5petajad: Vitali Ret\u0161noi\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A312\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261361@hois\nDTSTAMP:20260508T100300Z\nDTSTART:20261028T103000Z\nDTEND:20261028T120000Z\nSUMMARY:Rakendusmatemaatika (RKE115)\nDESCRIPTION:\u00d5petajad: Vitali Ret\u0161noi\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A312\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261362@hois\nDTSTAMP:20260508T100300Z\nDTSTART:20261104T103000Z\nDTEND:20261104T120000Z\nSUMMARY:Rakendusmatemaatika (RKE115)\nDESCRIPTION:\u00d5petajad: Vitali Ret\u0161noi\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A312\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261363@hois\nDTSTAMP:20260508T100300Z\nDTSTART:20261111T103000Z\nDTEND:20261111T120000Z\nSUMMARY:Rakendusmatemaatika (RKE115)\nDESCRIPTION:\u00d5petajad: Vitali Ret\u0161noi\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A312\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261364@hois\nDTSTAMP:20260508T100300Z\nDTSTART:20261118T103000Z\nDTEND:20261118T120000Z\nSUMMARY:Rakendusmatemaatika (RKE115)\nDESCRIPTION:\u00d5petajad: Vitali Ret\u0161noi\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A312\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261365@hois\nDTSTAMP:20260508T100300Z\nDTSTART:20261125T103000Z\nDTEND:20261125T120000Z\nSUMMARY:Rakendusmatemaatika (RKE115)\nDESCRIPTION:\u00d5petajad: Vitali Ret\u0161noi\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A312\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261366@hois\nDTSTAMP:20260508T100300Z\nDTSTART:20261202T103000Z\nDTEND:20261202T120000Z\nSUMMARY:Rakendusmatemaatika (RKE115)\nDESCRIPTION:\u00d5petajad: Vitali Ret\u0161noi\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A312\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261367@hois\nDTSTAMP:20260508T100300Z\nDTSTART:20261209T103000Z\nDTEND:20261209T120000Z\nSUMMARY:Rakendusmatemaatika (RKE115)\nDESCRIPTION:\u00d5petajad: Vitali Ret\u0161noi\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A312\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261368@hois\nDTSTAMP:20260508T100300Z\nDTSTART:20261216T103000Z\nDTEND:20261216T120000Z\nSUMMARY:Rakendusmatemaatika (RKE115)\nDESCRIPTION:\u00d5petajad: Vitali Ret\u0161noi\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A312\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261382@hois\nDTSTAMP:20260701T064524Z\nDTSTART:20261202T123000Z\nDTEND:20261202T140000Z\nSUMMARY:Isiklik areng ja karj\u00e4\u00e4riplaneerimine (HKE199)\nDESCRIPTION:\u00d5petajad: Maarja Sau\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A326\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261381@hois\nDTSTAMP:20260508T100406Z\nDTSTART:20261124T123000Z\nDTEND:20261124T140000Z\nSUMMARY:Isiklik areng ja karj\u00e4\u00e4riplaneerimine (HKE199)\nDESCRIPTION:\u00d5petajad: Maarja Sau\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A321\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261383@hois\nDTSTAMP:20260508T100406Z\nDTSTART:20261208T123000Z\nDTEND:20261208T140000Z\nSUMMARY:Isiklik areng ja karj\u00e4\u00e4riplaneerimine (HKE199)\nDESCRIPTION:\u00d5petajad: Maarja Sau\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A321\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261384@hois\nDTSTAMP:20260508T100406Z\nDTSTART:20261215T123000Z\nDTEND:20261215T140000Z\nSUMMARY:Isiklik areng ja karj\u00e4\u00e4riplaneerimine (HKE199)\nDESCRIPTION:\u00d5petajad: Maarja Sau\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A321\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261376@hois\nDTSTAMP:20260701T065251Z\nDTSTART:20261019T093000Z\nDTEND:20261019T110000Z\nSUMMARY:Isiklik areng ja karj\u00e4\u00e4riplaneerimine (HKE199)\nDESCRIPTION:\u00d5petajad: Maarja Sau\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A115\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261379@hois\nDTSTAMP:20260701T070227Z\nDTSTART:20261110T103000Z\nDTEND:20261110T120000Z\nSUMMARY:Isiklik areng ja karj\u00e4\u00e4riplaneerimine (HKE199)\nDESCRIPTION:\u00d5petajad: Maarja Sau\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A321\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261369@hois\nDTSTAMP:20260508T100406Z\nDTSTART:20260901T113000Z\nDTEND:20260901T130000Z\nSUMMARY:Isiklik areng ja karj\u00e4\u00e4riplaneerimine (HKE199)\nDESCRIPTION:\u00d5petajad: Maarja Sau\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A321\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261370@hois\nDTSTAMP:20260508T100406Z\nDTSTART:20260908T113000Z\nDTEND:20260908T130000Z\nSUMMARY:Isiklik areng ja karj\u00e4\u00e4riplaneerimine (HKE199)\nDESCRIPTION:\u00d5petajad: Maarja Sau\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A321\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261371@hois\nDTSTAMP:20260508T100406Z\nDTSTART:20260915T113000Z\nDTEND:20260915T130000Z\nSUMMARY:Isiklik areng ja karj\u00e4\u00e4riplaneerimine (HKE199)\nDESCRIPTION:\u00d5petajad: Maarja Sau\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A321\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261372@hois\nDTSTAMP:20260508T100406Z\nDTSTART:20260922T113000Z\nDTEND:20260922T130000Z\nSUMMARY:Isiklik areng ja karj\u00e4\u00e4riplaneerimine (HKE199)\nDESCRIPTION:\u00d5petajad: Maarja Sau\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A321\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261373@hois\nDTSTAMP:20260508T100406Z\nDTSTART:20260929T113000Z\nDTEND:20260929T130000Z\nSUMMARY:Isiklik areng ja karj\u00e4\u00e4riplaneerimine (HKE199)\nDESCRIPTION:\u00d5petajad: Maarja Sau\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A321\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261374@hois\nDTSTAMP:20260508T100406Z\nDTSTART:20261006T113000Z\nDTEND:20261006T130000Z\nSUMMARY:Isiklik areng ja karj\u00e4\u00e4riplaneerimine (HKE199)\nDESCRIPTION:\u00d5petajad: Maarja Sau\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A321\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261375@hois\nDTSTAMP:20260508T100406Z\nDTSTART:20261013T113000Z\nDTEND:20261013T130000Z\nSUMMARY:Isiklik areng ja karj\u00e4\u00e4riplaneerimine (HKE199)\nDESCRIPTION:\u00d5petajad: Maarja Sau\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A321\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261377@hois\nDTSTAMP:20260508T100406Z\nDTSTART:20261027T123000Z\nDTEND:20261027T140000Z\nSUMMARY:Isiklik areng ja karj\u00e4\u00e4riplaneerimine (HKE199)\nDESCRIPTION:\u00d5petajad: Maarja Sau\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A321\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261378@hois\nDTSTAMP:20260508T100406Z\nDTSTART:20261103T123000Z\nDTEND:20261103T140000Z\nSUMMARY:Isiklik areng ja karj\u00e4\u00e4riplaneerimine (HKE199)\nDESCRIPTION:\u00d5petajad: Maarja Sau\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A321\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261380@hois\nDTSTAMP:20260508T100406Z\nDTSTART:20261117T123000Z\nDTEND:20261117T140000Z\nSUMMARY:Isiklik areng ja karj\u00e4\u00e4riplaneerimine (HKE199)\nDESCRIPTION:\u00d5petajad: Maarja Sau\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A321\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261389@hois\nDTSTAMP:20260525T090907Z\nDTSTART:20260930T113000Z\nDTEND:20260930T130000Z\nSUMMARY:Koost\u00f6\u00f6 ja meeskondade juhtimine (HKE175)\nDESCRIPTION:\u00d5petajad: Mari-Leen Treimann\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A326\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261385@hois\nDTSTAMP:20260508T100437Z\nDTSTART:20260902T113000Z\nDTEND:20260902T130000Z\nSUMMARY:Koost\u00f6\u00f6 ja meeskondade juhtimine (HKE175)\nDESCRIPTION:\u00d5petajad: Mari-Leen Treimann\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A326\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261386@hois\nDTSTAMP:20260508T100437Z\nDTSTART:20260909T113000Z\nDTEND:20260909T130000Z\nSUMMARY:Koost\u00f6\u00f6 ja meeskondade juhtimine (HKE175)\nDESCRIPTION:\u00d5petajad: Mari-Leen Treimann\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A326\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261387@hois\nDTSTAMP:20260508T100437Z\nDTSTART:20260916T113000Z\nDTEND:20260916T130000Z\nSUMMARY:Koost\u00f6\u00f6 ja meeskondade juhtimine (HKE175)\nDESCRIPTION:\u00d5petajad: Mari-Leen Treimann\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A326\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261388@hois\nDTSTAMP:20260630T111403Z\nDTSTART:20260923T113000Z\nDTEND:20260923T130000Z\nSUMMARY:Koost\u00f6\u00f6 ja meeskondade juhtimine (HKE175)\nDESCRIPTION:\u00d5petajad: Mari-Leen Treimann\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A321\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261390@hois\nDTSTAMP:20260508T100437Z\nDTSTART:20261007T113000Z\nDTEND:20261007T130000Z\nSUMMARY:Koost\u00f6\u00f6 ja meeskondade juhtimine (HKE175)\nDESCRIPTION:\u00d5petajad: Mari-Leen Treimann\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A326\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261392@hois\nDTSTAMP:20260508T100437Z\nDTSTART:20261021T113000Z\nDTEND:20261021T130000Z\nSUMMARY:Koost\u00f6\u00f6 ja meeskondade juhtimine (HKE175)\nDESCRIPTION:\u00d5petajad: Mari-Leen Treimann\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A326\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261393@hois\nDTSTAMP:20260508T100437Z\nDTSTART:20261028T123000Z\nDTEND:20261028T140000Z\nSUMMARY:Koost\u00f6\u00f6 ja meeskondade juhtimine (HKE175)\nDESCRIPTION:\u00d5petajad: Mari-Leen Treimann\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A326\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261394@hois\nDTSTAMP:20260508T100437Z\nDTSTART:20261104T123000Z\nDTEND:20261104T140000Z\nSUMMARY:Koost\u00f6\u00f6 ja meeskondade juhtimine (HKE175)\nDESCRIPTION:\u00d5petajad: Mari-Leen Treimann\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A326\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261395@hois\nDTSTAMP:20260508T100437Z\nDTSTART:20261111T123000Z\nDTEND:20261111T140000Z\nSUMMARY:Koost\u00f6\u00f6 ja meeskondade juhtimine (HKE175)\nDESCRIPTION:\u00d5petajad: Mari-Leen Treimann\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A326\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261396@hois\nDTSTAMP:20260508T100437Z\nDTSTART:20261118T123000Z\nDTEND:20261118T140000Z\nSUMMARY:Koost\u00f6\u00f6 ja meeskondade juhtimine (HKE175)\nDESCRIPTION:\u00d5petajad: Mari-Leen Treimann\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A326\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261397@hois\nDTSTAMP:20260508T100437Z\nDTSTART:20261125T123000Z\nDTEND:20261125T140000Z\nSUMMARY:Koost\u00f6\u00f6 ja meeskondade juhtimine (HKE175)\nDESCRIPTION:\u00d5petajad: Mari-Leen Treimann\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A326\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261399@hois\nDTSTAMP:20260508T100437Z\nDTSTART:20261209T123000Z\nDTEND:20261209T140000Z\nSUMMARY:Koost\u00f6\u00f6 ja meeskondade juhtimine (HKE175)\nDESCRIPTION:\u00d5petajad: Mari-Leen Treimann\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A326\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261400@hois\nDTSTAMP:20260508T100437Z\nDTSTART:20261216T123000Z\nDTEND:20261216T140000Z\nSUMMARY:Koost\u00f6\u00f6 ja meeskondade juhtimine (HKE175)\nDESCRIPTION:\u00d5petajad: Mari-Leen Treimann\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A326\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261398@hois\nDTSTAMP:20260701T064456Z\nDTSTART:20261201T123000Z\nDTEND:20261201T140000Z\nSUMMARY:Koost\u00f6\u00f6 ja meeskondade juhtimine (HKE175)\nDESCRIPTION:\u00d5petajad: Mari-Leen Treimann\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A326\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261391@hois\nDTSTAMP:20260701T073921Z\nDTSTART:20261013T093000Z\nDTEND:20261013T110000Z\nSUMMARY:Koost\u00f6\u00f6 ja meeskondade juhtimine (HKE175)\nDESCRIPTION:\u00d5petajad: Mari-Leen Treimann\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A328\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261417@hois\nDTSTAMP:20260526T061043Z\nDTSTART:20260902T073000Z\nDTEND:20260902T090000Z\nSUMMARY:Andme- ja tekstit\u00f6\u00f6tlus (RKE094)\nDESCRIPTION:\u00d5petajad: Marge Kusmin\\nR\u00fchmad: TJ2026\\nOsar\u00fchmad: TJ2026-2\\n\nLOCATION:Ruumid: TLN-A311 arvutiklass\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261418@hois\nDTSTAMP:20260526T061043Z\nDTSTART:20260909T073000Z\nDTEND:20260909T090000Z\nSUMMARY:Andme- ja tekstit\u00f6\u00f6tlus (RKE094)\nDESCRIPTION:\u00d5petajad: Marge Kusmin\\nR\u00fchmad: TJ2026\\nOsar\u00fchmad: TJ2026-2\\n\nLOCATION:Ruumid: TLN-A311 arvutiklass\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261419@hois\nDTSTAMP:20260526T061043Z\nDTSTART:20260916T073000Z\nDTEND:20260916T090000Z\nSUMMARY:Andme- ja tekstit\u00f6\u00f6tlus (RKE094)\nDESCRIPTION:\u00d5petajad: Marge Kusmin\\nR\u00fchmad: TJ2026\\nOsar\u00fchmad: TJ2026-2\\n\nLOCATION:Ruumid: TLN-A311 arvutiklass\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261420@hois\nDTSTAMP:20260526T061043Z\nDTSTART:20260923T073000Z\nDTEND:20260923T090000Z\nSUMMARY:Andme- ja tekstit\u00f6\u00f6tlus (RKE094)\nDESCRIPTION:\u00d5petajad: Marge Kusmin\\nR\u00fchmad: TJ2026\\nOsar\u00fchmad: TJ2026-2\\n\nLOCATION:Ruumid: TLN-A311 arvutiklass\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261421@hois\nDTSTAMP:20260526T061043Z\nDTSTART:20260930T073000Z\nDTEND:20260930T090000Z\nSUMMARY:Andme- ja tekstit\u00f6\u00f6tlus (RKE094)\nDESCRIPTION:\u00d5petajad: Marge Kusmin\\nR\u00fchmad: TJ2026\\nOsar\u00fchmad: TJ2026-2\\n\nLOCATION:Ruumid: TLN-A311 arvutiklass\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261422@hois\nDTSTAMP:20260526T061043Z\nDTSTART:20261007T073000Z\nDTEND:20261007T090000Z\nSUMMARY:Andme- ja tekstit\u00f6\u00f6tlus (RKE094)\nDESCRIPTION:\u00d5petajad: Marge Kusmin\\nR\u00fchmad: TJ2026\\nOsar\u00fchmad: TJ2026-2\\n\nLOCATION:Ruumid: TLN-A311 arvutiklass\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261423@hois\nDTSTAMP:20260526T061138Z\nDTSTART:20261014T073000Z\nDTEND:20261014T090000Z\nSUMMARY:Andme- ja tekstit\u00f6\u00f6tlus (RKE094)\nDESCRIPTION:\u00d5petajad: Nils H\u00e4rsing\\nR\u00fchmad: TJ2026\\nOsar\u00fchmad: TJ2026-2\\n\nLOCATION:Ruumid: TLN-A311 arvutiklass\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261424@hois\nDTSTAMP:20260526T061138Z\nDTSTART:20261021T073000Z\nDTEND:20261021T090000Z\nSUMMARY:Andme- ja tekstit\u00f6\u00f6tlus (RKE094)\nDESCRIPTION:\u00d5petajad: Nils H\u00e4rsing\\nR\u00fchmad: TJ2026\\nOsar\u00fchmad: TJ2026-2\\n\nLOCATION:Ruumid: TLN-A311 arvutiklass\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261425@hois\nDTSTAMP:20260526T061138Z\nDTSTART:20261028T083000Z\nDTEND:20261028T100000Z\nSUMMARY:Andme- ja tekstit\u00f6\u00f6tlus (RKE094)\nDESCRIPTION:\u00d5petajad: Nils H\u00e4rsing\\nR\u00fchmad: TJ2026\\nOsar\u00fchmad: TJ2026-2\\n\nLOCATION:Ruumid: TLN-A311 arvutiklass\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261426@hois\nDTSTAMP:20260526T061138Z\nDTSTART:20261104T083000Z\nDTEND:20261104T100000Z\nSUMMARY:Andme- ja tekstit\u00f6\u00f6tlus (RKE094)\nDESCRIPTION:\u00d5petajad: Nils H\u00e4rsing\\nR\u00fchmad: TJ2026\\nOsar\u00fchmad: TJ2026-2\\n\nLOCATION:Ruumid: TLN-A311 arvutiklass\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261427@hois\nDTSTAMP:20260526T061138Z\nDTSTART:20261111T083000Z\nDTEND:20261111T100000Z\nSUMMARY:Andme- ja tekstit\u00f6\u00f6tlus (RKE094)\nDESCRIPTION:\u00d5petajad: Nils H\u00e4rsing\\nR\u00fchmad: TJ2026\\nOsar\u00fchmad: TJ2026-2\\n\nLOCATION:Ruumid: TLN-A311 arvutiklass\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261428@hois\nDTSTAMP:20260526T061138Z\nDTSTART:20261118T083000Z\nDTEND:20261118T100000Z\nSUMMARY:Andme- ja tekstit\u00f6\u00f6tlus (RKE094)\nDESCRIPTION:\u00d5petajad: Nils H\u00e4rsing\\nR\u00fchmad: TJ2026\\nOsar\u00fchmad: TJ2026-2\\n\nLOCATION:Ruumid: TLN-A311 arvutiklass\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261429@hois\nDTSTAMP:20260526T061138Z\nDTSTART:20261125T083000Z\nDTEND:20261125T100000Z\nSUMMARY:Andme- ja tekstit\u00f6\u00f6tlus (RKE094)\nDESCRIPTION:\u00d5petajad: Nils H\u00e4rsing\\nR\u00fchmad: TJ2026\\nOsar\u00fchmad: TJ2026-2\\n\nLOCATION:Ruumid: TLN-A311 arvutiklass\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261430@hois\nDTSTAMP:20260526T061214Z\nDTSTART:20261202T083000Z\nDTEND:20261202T100000Z\nSUMMARY:Andme- ja tekstit\u00f6\u00f6tlus (RKE094)\nDESCRIPTION:\u00d5petajad: Marge Kusmin\\nR\u00fchmad: TJ2026\\nOsar\u00fchmad: TJ2026-2\\n\nLOCATION:Ruumid: TLN-A311 arvutiklass\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261431@hois\nDTSTAMP:20260526T061214Z\nDTSTART:20261209T083000Z\nDTEND:20261209T100000Z\nSUMMARY:Andme- ja tekstit\u00f6\u00f6tlus (RKE094)\nDESCRIPTION:\u00d5petajad: Marge Kusmin\\nR\u00fchmad: TJ2026\\nOsar\u00fchmad: TJ2026-2\\n\nLOCATION:Ruumid: TLN-A311 arvutiklass\nEND:VEVENT\nBEGIN:VEVENT\nUID:61261432@hois\nDTSTAMP:20260526T061214Z\nDTSTART:20261216T083000Z\nDTEND:20261216T100000Z\nSUMMARY:Andme- ja tekstit\u00f6\u00f6tlus (RKE094)\nDESCRIPTION:\u00d5petajad: Marge Kusmin\\nR\u00fchmad: TJ2026\\nOsar\u00fchmad: TJ2026-2\\n\nLOCATION:Ruumid: TLN-A311 arvutiklass\nEND:VEVENT\nBEGIN:VEVENT\nUID:62102140@hois\nDTSTAMP:20260626T154406Z\nDTSTART:20261207T083000Z\nDTEND:20261207T100000Z\nSUMMARY:Tootmiskorralduse alused (RTJ001)\nDESCRIPTION:\u00d5petajad: Toomas Mets\\nR\u00fchmad: KJ2024 TJ2026\\n\nLOCATION:Ruumid: TLN-A115\nEND:VEVENT\nBEGIN:VEVENT\nUID:61863602@hois\nDTSTAMP:20260626T155435Z\nDTSTART:20261214T083000Z\nDTEND:20261214T100000Z\nSUMMARY:Majandus\u00f5petus (HKE156)\nDESCRIPTION:\u00d5petajad: Annely M\u00e4ngel\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A321\nEND:VEVENT\nBEGIN:VEVENT\nUID:61863611@hois\nDTSTAMP:20260626T160737Z\nDTSTART:20261116T103000Z\nDTEND:20261116T120000Z\nSUMMARY:Majandus\u00f5petus (HKE156)\nDESCRIPTION:\u00d5petajad: Annely M\u00e4ngel\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A322\nEND:VEVENT\nBEGIN:VEVENT\nUID:64990671@hois\nDTSTAMP:20260626T161112Z\nDTSTART:20260914T053000Z\nDTEND:20260914T070000Z\nSUMMARY:Tootmiskorralduse alused (RTJ001)\nDESCRIPTION:\u00d5petajad: Toomas Mets\\nR\u00fchmad: KJ2024 TJ2026\\n\nLOCATION:Ruumid: TLN-A115\nEND:VEVENT\nBEGIN:VEVENT\nUID:64990672@hois\nDTSTAMP:20260626T161139Z\nDTSTART:20260914T113000Z\nDTEND:20260914T130000Z\nSUMMARY:Materjali\u00f5petus (RTK019)\nDESCRIPTION:\u00d5petajad: Priit Tikker\\nR\u00fchmad: TJ2026\\nOsar\u00fchmad: TJ2026-1\n TJ2026-2\\n\nLOCATION:Ruumid: TLN-A115\nEND:VEVENT\nBEGIN:VEVENT\nUID:65319747@hois\nDTSTAMP:20260701T074848Z\nDTSTART:20261026T103000Z\nDTEND:20261026T120000Z\nSUMMARY:Rakendusmatemaatika (RKE115)\nDESCRIPTION:\u00d5petajad: Vitali Ret\u0161noi\\nR\u00fchmad: TJ2026\\n\nLOCATION:Ruumid: TLN-A312\nEND:VEVENT\nEND:VCALENDAR";
+const I18N={
+en:{
+tab_today:"Today",tab_year:"Year",tab_schedule:"Schedule",tab_notes:"Notes",tab_work:"Work",tab_more:"More",
+morning:"Good morning",afternoon:"Good afternoon",evening:"Good evening",
+add:"Add",stickers:"Stickers",sticker_hint:"Tap a sticker to drop it. Hold one to move or peel it off.",clear_tab:"Clear tab",
+overdue:"Overdue",due_today:"Due today",due_tomorrow:"Due tomorrow",this_week:"This week",personal:"Personal",
+days_left:"{n} days left",days_left_1:"1 day left",
+courses_eap:"{n} courses · {cr} EAP",
+asg_wait:"{n} assignment waiting",asg_wait_pl:"{n} assignments waiting",
+of_course:"{n}% of course",
+exam_today:"Exam today",exam_tomorrow:"Exam tomorrow",exam_in:"Exam in {n} days",
+break:"Break",no_class_today:"No classes today.",up_next:"Up next",now:"Now",
+no_more_today:"No more classes today.",starts:"{name} starts {date}",
+today_lessons:"Today’s lessons",tomorrow_lessons:"Tomorrow",
+no_lessons_today:"No lessons for today",no_lessons_tomorrow:"No lessons for tomorrow",nothing_week:"Nothing else due this week.",all_clear:"All clear.",
+add_task:"Add task",academic_cal:"Academic calendar",prev:"Prev",next:"Next",
+no_classes:"No classes.",due_this_day:"Due this day",tasks:"Tasks",
+add_asg_day:"Add assignment this day",no_lessons_day:"No lessons this day.",due:"Due",
+no_courses:"No courses this term.",courses:"Courses",week:"Week",day:"Day",add_course:"Add course",
+week_only:"Lessons on this page are for this week only. The next week starts empty.",
+week_of:"Week of {date}",
+copy_week:"Copy this week to the next",
+copied_week:"Copied to next week",
+this_week_lessons:"This week’s lessons",
+work_sub:"Assignments, exams, tasks",
+bucket_overdue:"Overdue",bucket_today:"Today",bucket_week:"This week",bucket_later:"Later",
+completed:"Completed",exams_quizzes:"Exams & quizzes",work:"Work",
+filter_due:"Due",filter_exams:"Exams",filter_tasks:"To-do",filter_done:"Done",all:"All",
+past_exam:"Past exam",next_exam:"Next exam · {when}",no_tasks:"No tasks yet.",
+nothing_done:"Nothing completed yet.",no_work:"No work in this view.",add_asg:"Add assignment",
+more_sub:"You · people · the book",this_year:"This year",terms:"Terms",term:"Term",pages:"Pages",
+people:"Teachers & people",contacts_n:"{n} contacts",reading:"Reading list",open_n:"{n} open",
+notes:"Notes",pages_n:"{n} pages",supplies:"Supplies",items_n:"{n} items",theme:"Theme",
+notebook:"Notebook",new_page:"New page",tear_page:"Tear out page",
+write_here:"Write here…",
+sticker_help:"Stickers: flower button. Hold a sticker to move it or peel it off. A light tap won’t move it.",
+this_book:"This book",
+book_hint:"No account. Your writing lives on this phone. Skip Grok’s Publish — download the file from the chat, open it in Safari, then Share → Add to Home Screen.",
+download:"Download Student Planner",export:"Export my writing",import:"Import backup",
+language:"Language",
+a11y:"Accessibility",a11y_sub:"Text size, contrast, easier typing",
+text_size:"Text size",text_m:"Default",text_l:"Large",text_xl:"Extra large",
+high_contrast:"High contrast",bigger_targets:"Bigger buttons",
+reduce_motion:"Reduce motion",plain_type:"Easier typing in Notes",
+on:"On",off:"Off",
+edit:"Edit",letter:"Letter",graded_avg:"Graded avg",
+pts_earned:"{pts} pts earned of {graded} graded",pts_out:"{n} pts still out",
+weight_hint:"Weights are percent of the course. Log a grade on each piece of work as it comes back.",
+professor:"Professor",email:"Email",office_hours:"Office hours",classroom:"Classroom",
+people_course:"People on this course",lessons:"Lessons",no_meetings:"No meetings yet.",
+syllabus:"Syllabus notes",coursework:"Coursework · {n}% of syllabus",nothing_open:"Nothing open.",
+reading_sec:"Reading",kkh_letter:"Letter grade for KKH",kkh_hint:"Set this after the term if you want it in the KKH.",
+student_info:"Student info",name:"Name",year:"Year",major:"Major",school:"School",
+student_id:"Student ID",phone:"Phone",advisor:"Advisor",emergency:"Emergency contact",
+housing:"Housing / dorm",address:"Address",birthday:"Birthday",
+people_sub:"Professors, TAs, advisor",no_contacts:"No contacts yet.",add_person:"Add person",
+reading_sub:"Textbooks & books",empty_shelf:"Empty shelf.",add_book:"Add book",
+untitled:"Untitled",title:"Title",new_note:"New note",delete:"Delete",add_item:"Add item",
+no_terms:"No terms yet.",add_term:"Add term",remove_term:"Remove term",active:"Active",use:"Use",
+academic_year:"School year",autumn:"Autumn",spring:"Spring",
+add_autumn:"Add autumn",add_spring:"Add spring",add_custom_term:"Add custom semester",
+add_sem_first:"Add a school year and semester first.",
+year_setup:"Pick your school year, then add autumn and spring. One tap sets both.",
+semesters:"Semesters",setup_year:"Set up {year}",
+saved_ok:"Saved",
+tahvel:"Tahvel",tahvel_sub:"Your personal timetable",
+tahvel_url:"ICS link",tahvel_sync:"Update from Tahvel",
+tahvel_ok:"Timetable updated · {n} lessons",
+tahvel_fail:"Internet refresh didn’t work. Your saved timetable is still here.",
+tahvel_last:"Updated {when}",tahvel_never:"Not synced yet",
+tahvel_hint:"Lessons come from Tahvel and are saved in this file. You can still add your own.",
+tahvel_import:"Import .ics file",
+tahvel_how:"On iPhone, Safari can download the Tahvel calendar. Then tap Import .ics here. No website needed.",
+starts_lbl:"Starts",ends_lbl:"Ends",start:"Start",end:"End",room:"Room",kind:"Kind",
+add_meet:"Add another meeting",remove_meet:"Remove meeting",
+asg:"Assignment",new_asg:"New assignment",close:"Close",course:"Course",type:"Type",
+time:"Time",weight:"Weight % of course",grade:"Grade",notes_loc:"Notes / location",save:"Save",
+edit_course:"Edit course",new_course:"New course",code:"Code",color:"Color",
+save_course:"Save course",delete_course:"Delete course",task:"Task",new_task:"New task",
+person:"Person",new_person:"New person",role:"Role",subject:"Course / subject",office:"Office",
+office_notes:"Office hours / notes",book:"Book",author:"Author",class:"Class",none:"— none —",
+type_homework:"Homework",type_essay:"Essay",type_project:"Project",type_quiz:"Quiz",
+type_exam:"Exam",type_lab:"Lab",type_reading:"Reading",type_other:"Other",
+color_rust:"Rust",color_sage:"Sage",color_slate:"Slate",color_clay:"Clay",
+color_moss:"Moss",color_wine:"Wine",color_sand:"Sand",color_navy:"Navy",
+kind_break:"break",kind_holiday:"holiday",kind_deadline:"deadline",kind_personal:"personal",
+d_overdue:"{n}d overdue",yesterday:"Yesterday",today:"Today",tomorrow:"Tomorrow",in_days:"In {n} days",
+save_fail:"Couldn’t save",have_file:"You already have the file",saved_file:"Saved file",
+use_chat:"Use the file in the chat",exported:"Exported",restored:"Restored",not_backup:"Not a Student Planner backup"
+},
+et:{
+tab_today:"Täna",tab_year:"Aasta",tab_schedule:"Tunniplaan",tab_notes:"Märkmed",tab_work:"Tööd",tab_more:"Veel",
+morning:"Tere hommikust",afternoon:"Tere päevast",evening:"Tere õhtust",
+add:"Lisa",stickers:"Kleepsud",sticker_hint:"Toksa, et lisada. Hoia kleepsu, et liigutada või koorida.",clear_tab:"Tühjenda leht",
+overdue:"Üle tähtaja",due_today:"Täna tähtaeg",due_tomorrow:"Homme tähtaeg",this_week:"See nädal",personal:"Isiklik",
+days_left:"{n} päeva jäänud",days_left_1:"1 päev jäänud",
+courses_eap:"{n} ainet · {cr} EAP",
+asg_wait:"{n} ülesanne ootel",asg_wait_pl:"{n} ülesannet ootel",
+of_course:"{n}% ainest",
+exam_today:"Eksam täna",exam_tomorrow:"Eksam homme",exam_in:"Eksam {n} päeva pärast",
+break:"Vaheaeg",no_class_today:"Täna tunde pole.",up_next:"Järgmisena",now:"Praegu",
+no_more_today:"Täna rohkem tunde pole.",starts:"{name} algab {date}",
+today_lessons:"Tänased tunnid",tomorrow_lessons:"Homme",
+no_lessons_today:"Täna tunde pole",no_lessons_tomorrow:"Homme tunde pole",nothing_week:"Sel nädalal rohkem tähtaegu pole.",all_clear:"Kõik tehtud.",
+add_task:"Lisa ülesanne",academic_cal:"Akadeemiline kalender",prev:"Eelmine",next:"Järgmine",
+no_classes:"Tunde pole.",due_this_day:"Tähtaeg sel päeval",tasks:"Ülesanded",
+add_asg_day:"Lisa töö sellele päevale",no_lessons_day:"Sel päeval tunde pole.",due:"Tähtaeg",
+no_courses:"Sel semestril aineid pole.",courses:"Ained",week:"Nädal",day:"Päev",add_course:"Lisa aine",
+week_only:"Selle lehe tunnid kehtivad ainult sellel nädalal. Järgmine nädal algab tühjalt.",
+week_of:"Nädal {date}",
+copy_week:"Kopeeri see nädal järgmisele",
+copied_week:"Kopeeritud järgmisele nädalale",
+this_week_lessons:"Selle nädala tunnid",
+work_sub:"Tööd, eksamid, ülesanded",
+bucket_overdue:"Üle tähtaja",bucket_today:"Täna",bucket_week:"See nädal",bucket_later:"Hiljem",
+completed:"Tehtud",exams_quizzes:"Eksamid ja testid",work:"Tööd",
+filter_due:"Tähtaeg",filter_exams:"Eksamid",filter_tasks:"Teha",filter_done:"Tehtud",all:"Kõik",
+past_exam:"Möödunud eksam",next_exam:"Järgmine eksam · {when}",no_tasks:"Ülesandeid pole veel.",
+nothing_done:"Midagi pole veel tehtud.",no_work:"Siin töid pole.",add_asg:"Lisa töö",
+more_sub:"Sina · inimesed · raamat",this_year:"See aasta",terms:"Semestrid",term:"Semester",pages:"Leheküljed",
+people:"Õppejõud ja inimesed",contacts_n:"{n} kontakti",reading:"Lugemisnimekiri",open_n:"{n} pooleli",
+notes:"Märkmed",pages_n:"{n} lehte",supplies:"Vahendid",items_n:"{n} asja",theme:"Teema",
+notebook:"Märkmik",new_page:"Uus leht",tear_page:"Rebi leht välja",
+write_here:"Kirjuta siia…",
+sticker_help:"Kleepsud: lille nupp. Hoia kleepsu, et liigutada või koorida. Kerge toksatus ei liiguta.",
+this_book:"See raamat",
+book_hint:"Kontot pole. Kõik salvestub sellele telefonile. Ära vajuta Grokis Publish — laadi fail vestlusest alla, ava Safaris, siis Jaga → Lisa avalehele.",
+download:"Laadi Student Planner alla",export:"Ekspordi andmed",import:"Impordi varukoopia",
+language:"Keel",
+a11y:"Ligipääsetavus",a11y_sub:"Teksti suurus, kontrast, lihtsam kirjutamine",
+text_size:"Teksti suurus",text_m:"Tavaline",text_l:"Suur",text_xl:"Väga suur",
+high_contrast:"Suur kontrast",bigger_targets:"Suuremad nupud",
+reduce_motion:"Vähem liikumist",plain_type:"Lihtsam kirjutamine märkmikus",
+on:"Sees",off:"Väljas",
+edit:"Muuda",letter:"Hinne",graded_avg:"Keskmine",
+pts_earned:"{pts} punkti {graded} hinnatust",pts_out:"{n} punkti veel ees",
+weight_hint:"Kaalud on aine protsendid. Lisa hinne, kui töö tuleb tagasi.",
+professor:"Õppejõud",email:"E-post",office_hours:"Vastuvõtuaeg",classroom:"Auditoorium",
+people_course:"Selle aine inimesed",lessons:"Tunnid",no_meetings:"Kohtumisi pole veel.",
+syllabus:"Ainekava märkmed",coursework:"Kursusetööd · {n}% ainekavast",nothing_open:"Midagi avatud pole.",
+reading_sec:"Lugemine",kkh_letter:"Hinne KKH jaoks",kkh_hint:"Määra see pärast semestrit, kui soovid seda KKH-sse.",
+student_info:"Üliõpilase andmed",name:"Nimi",year:"Kursus",major:"Eriala",school:"Kool",
+student_id:"Üliõpilaskood",phone:"Telefon",advisor:"Nõustaja",emergency:"Hädaabi kontakt",
+housing:"Elukoht / ühiselamu",address:"Aadress",birthday:"Sünnipäev",
+people_sub:"Õppejõud, assistendid, nõustaja",no_contacts:"Kontakte pole veel.",add_person:"Lisa inimene",
+reading_sub:"Õpikud ja raamatud",empty_shelf:"Riiul on tühi.",add_book:"Lisa raamat",
+untitled:"Pealkirjata",title:"Pealkiri",new_note:"Uus märge",delete:"Kustuta",add_item:"Lisa rida",
+no_terms:"Semestreid pole veel.",add_term:"Lisa semester",remove_term:"Eemalda semester",active:"Aktiivne",use:"Kasuta",
+academic_year:"Õppeaasta",autumn:"Sügis",spring:"Kevad",
+add_autumn:"Lisa sügis",add_spring:"Lisa kevad",add_custom_term:"Lisa muu semester",
+add_sem_first:"Lisa enne õppeaasta ja semester.",
+year_setup:"Vali õppeaasta, siis lisa sügis ja kevad. Üks toksatus teeb mõlemad.",
+semesters:"Semestrid",setup_year:"Seadista {year}",
+saved_ok:"Salvestatud",
+tahvel:"Tahvel",tahvel_sub:"Sinu isiklik tunniplaan",
+tahvel_url:"ICS link",tahvel_sync:"Uuenda Tahvlist",
+tahvel_ok:"Tunniplaan uuendatud · {n} tundi",
+tahvel_fail:"Internetist uuendamine ei õnnestunud. Salvestatud tunniplaan on alles.",
+tahvel_last:"Uuendatud {when}",tahvel_never:"Pole veel sünkroonitud",
+tahvel_hint:"Tunnid tulevad Tahvlist ja on selles failis olemas. Omi tunde saad ikka juurde panna.",
+tahvel_import:"Impordi .ics fail",
+tahvel_how:"iPhone’is ava Tahveli link Safaris, laadi kalender alla, siis Impordi .ics siin. Veebilehte pole vaja.",
+starts_lbl:"Algus",ends_lbl:"Lõpp",start:"Algus",end:"Lõpp",room:"Ruum",kind:"Liik",
+add_meet:"Lisa kohtumine",remove_meet:"Eemalda kohtumine",
+asg:"Töö",new_asg:"Uus töö",close:"Sulge",course:"Aine",type:"Tüüp",
+time:"Aeg",weight:"Kaal % aine mahust",grade:"Hinne",notes_loc:"Märkmed / asukoht",save:"Salvesta",
+edit_course:"Muuda ainet",new_course:"Uus aine",code:"Kood",color:"Värv",
+save_course:"Salvesta aine",delete_course:"Kustuta aine",task:"Ülesanne",new_task:"Uus ülesanne",
+person:"Inimene",new_person:"Uus inimene",role:"Roll",subject:"Aine / teema",office:"Kabinet",
+office_notes:"Vastuvõtuaeg / märkmed",book:"Raamat",author:"Autor",class:"Tund",none:"— puudub —",
+type_homework:"Kodutöö",type_essay:"Essee",type_project:"Projekt",type_quiz:"Test",
+type_exam:"Eksam",type_lab:"Praktikum",type_reading:"Lugemine",type_other:"Muu",
+color_rust:"Rooste",color_sage:"Salvei",color_slate:"Kilt",color_clay:"Savi",
+color_moss:"Sammal",color_wine:"Vein",color_sand:"Liiv",color_navy:"Tumesinine",
+kind_break:"vaheaeg",kind_holiday:"püha",kind_deadline:"tähtaeg",kind_personal:"isiklik",
+d_overdue:"{n}p üle tähtaja",yesterday:"Eile",today:"Täna",tomorrow:"Homme",in_days:"{n} päeva pärast",
+save_fail:"Salvestamine ebaõnnestus",have_file:"Fail on juba olemas",saved_file:"Fail salvestatud",
+use_chat:"Kasuta faili vestlusest",exported:"Eksporditud",restored:"Taastatud",not_backup:"See ei ole Student Planneri varukoopia"
+}
+};
+function t(k,vars){
+  const pack=(state&&I18N[state.lang])||I18N.en;
+  let s=pack[k]; if(s==null) s=I18N.en[k]; if(s==null) return k;
+  if(vars) Object.keys(vars).forEach(a=>{s=s.replaceAll("{"+a+"}",vars[a])});
+  return s;
+}
+function loc(){return (state&&state.lang)==="et"?"et-EE":"en-GB"}
+function dayName(i){return ((state&&state.lang)==="et"?DAYS_ET:DAYS_EN)[i]}
+function dowLabel(i){return ((state&&state.lang)==="et"?DOW_ET:DOW)[i]}
+function calDow(){return (state&&state.lang)==="et"?["E","T","K","N","R","L","P"]:["S","M","T","W","T","F","S"]}
+function calStart(first){const d=first.getDay();return (state&&state.lang)==="et"?(d+6)%7:d}
+
+const $=(s,el=document)=>el.querySelector(s);
+const $$=(s,el=document)=>[...el.querySelectorAll(s)];
+const uid=()=>Math.random().toString(36).slice(2,9);
+function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({ "&":"\u0026amp;","<":"\u0026lt;",">":"\u0026gt;",'"':"\u0026quot;","'":"&#39;" }[c]));}
+function iso(d){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
+function parseD(s){const [y,m,d]=(s||"").slice(0,10).split("-").map(Number);return new Date(y,(m||1)-1,d||1)}
+function fmtTime(t){if(!t)return "";const [h,m]=t.split(":").map(Number);if(state.lang==="et")return String(h).padStart(2,"0")+":"+String(m||0).padStart(2,"0");const ap=h>=12?"PM":"AM";const hr=h%12||12;return m?hr+":"+String(m).padStart(2,"0")+" "+ap:hr+" "+ap}
+function mins(t){const [h,m]=(t||"0:0").split(":").map(Number);return h*60+(m||0)}
+function greet(n){const h=n.getHours();return h<12?t("morning"):h<17?t("afternoon"):t("evening")}
+function typeLabel(id){return t("type_"+id)}
+function course(id){return state.courses.find(c=>c.id===id)}
+function addDays(d,n){const x=new Date(d.getFullYear(),d.getMonth(),d.getDate()+n);return x}
+function weekStart(d){const x=new Date(d.getFullYear(),d.getMonth(),d.getDate());const dow=x.getDay();x.setDate(x.getDate()-(dow===0?6:dow-1));return x}
+function weekKey(d){return iso(weekStart(d instanceof Date?d:parseD(d)))}
+function termNow(d){return state.terms.find(t=>{const a=parseD(t.start),b=parseD(t.end);return d>=a&&d<=new Date(b.getTime()+86400000-1)})||state.terms.find(t=>t.id===state.activeTermId)}
+function inTerm(c,d){
+  const tm=state.terms.find(x=>x.id===c.termId);
+  if(!tm||!tm.start||!tm.end) return true;
+  const a=weekStart(parseD(tm.start));
+  const b=parseD(tm.end);
+  const day=startDay(d);
+  return day>=a && day<=new Date(b.getTime()+86399999);
+}
+function meetsOn(c,d){if(!inTerm(c,d))return [];const w=weekKey(d);const dow=d.getDay();return (c.meetings||[]).filter(m=>m.week===w&&(m.days||[]).includes(dow))}
+function isBreak(d){const isoD=iso(d);return state.events.find(e=>{
+  if(e.kind!=="break"&&e.kind!=="holiday")return false;
+  const a=e.date,b=e.endDate||e.date;return isoD>=a&&isoD<=b;
+})}
+function dayDiff(a,b){return Math.round((parseD(a)-startDay(b))/86400000)}
+function startDay(d){return new Date(d.getFullYear(),d.getMonth(),d.getDate())}
+function dueKind(due,now){const n=dayDiff(due,now);if(n<0)return "over";if(n<=2)return "soon";return ""}
+function dueText(due,now){const n=dayDiff(due,now);if(n<-1)return t("d_overdue",{n:Math.abs(n)});if(n===-1)return t("yesterday");if(n===0)return t("today");if(n===1)return t("tomorrow");if(n<7)return t("in_days",{n});return parseD(due).toLocaleDateString(loc(),{month:"short",day:"numeric"})}
+function gpaOf(list){let p=0,c=0;list.forEach(x=>{const g=gradePts(x.letterGrade);if(g==null||!x.credits)return;p+=g*x.credits;c+=x.credits});return {v:c?p/c:0,c}}
+function gradePts(raw){const v=(raw||"").trim().toUpperCase();if(!v)return null;if(v in LETTER)return LETTER[v];const n=Number(v.replace("%",""));if(!isFinite(n)||n<0||n>100)return null;if(n>=93)return 4;if(n>=90)return 3.7;if(n>=87)return 3.3;if(n>=83)return 3;if(n>=80)return 2.7;if(n>=77)return 2.3;if(n>=73)return 2;if(n>=70)return 1.7;if(n>=67)return 1.3;if(n>=63)return 1;if(n>=60)return 0.7;return 0}
+function gradePct(raw){const v=(raw||"").trim().toUpperCase();if(!v)return null;if(v in LETTER_PCT)return LETTER_PCT[v];const n=Number(v.replace("%",""));return isFinite(n)?n:null}
+function scoreOf(id){
+  const items=state.assignments.filter(a=>a.courseId===id);
+  let wAll=0,wGraded=0,pts=0;
+  items.forEach(a=>{
+    const w=Number(a.weight)||0; wAll+=w;
+    const g=gradePct(a.grade);
+    if(g!=null&&w){pts+=g*w/100;wGraded+=w}
+  });
+  return {items,wAll,wGraded,pts,current:wGraded?(pts/wGraded)*100:null,remaining:wAll-wGraded};
+}
+function courseSelect(sel){
+  return `<option value="">${t("none")}</option>`+state.courses.map(c=>`<option value="${c.id}" ${c.id===sel?"selected":""}>${esc(c.name||c.code)}${c.name&&c.code?" · "+esc(c.code):""}</option>`).join("");
+}
+function academicYearOf(d){const y=d.getFullYear(),m=d.getMonth();return m>=7?y+"/"+(y+1):(y-1)+"/"+y}
+function yearParts(s){const a=String(s||academicYearOf(new Date())).split("/");const y=Number(a[0])||new Date().getFullYear();return {start:y,end:Number(a[1])||y+1}}
+function shiftYear(s,n){const p=yearParts(s);return (p.start+n)+"/"+(p.end+n)}
+function autumnSpan(s){const p=yearParts(s);return {start:p.start+"-09-01",end:p.end+"-01-31"}}
+function springSpan(s){const p=yearParts(s);return {start:p.end+"-02-01",end:p.end+"-06-30"}}
+function termLabel(tm){return tm&&tm.name?tm.name:(tm&&tm.kind==="spring"?t("spring"):tm&&tm.kind==="autumn"?t("autumn"):t("term"))}
+function yOf(tm){return (mins(tm)-START)/(END-START)*GRID_H}
+
+function blank(){
+  return {
+    theme:"paper",
+    lang:"en",
+    profile:{
+      name:"",school:"",major:"",year:"",
+      email:"",studentId:"",phone:"",
+      advisor:"",emergency:"",
+      address:"",bday:"",housing:""
+    },
+    terms:[],
+    activeTermId:"",
+    courses:[],
+    assignments:[],
+    tasks:[],
+    notes:[],
+    books:[],
+    people:[],
+    events:[],
+    supplies:[],
+    stickers:{},
+    cal:iso(new Date()).slice(0,7),
+    selected:iso(new Date()),
+    workFilter:"due",
+    workCourse:"all",
+    schedView:"week",
+    activeNoteId:"",
+    academicYear:"",
+    weekAnchor:"",
+    tahvelUrl:"",
+    tahvelSyncedAt:0,
+    tahvelIcs:"",
+    a11y:{text:"m",contrast:false,motion:false,targets:false,plain:false}
+  };
+}
+
+let state;
+try{
+  const raw=localStorage.getItem(KEY)||localStorage.getItem(KEY+"-bak");
+  const ls=raw?JSON.parse(raw):null;
+  const seed=(BOUND_SEED&&typeof BOUND_SEED==="object")?BOUND_SEED:null;
+  const pick=(!ls)?seed:(!seed)?ls:((seed.savedAt||0)>(ls.savedAt||0)?seed:ls);
+  state=pick?Object.assign(blank(),pick):blank();
+}catch(e){state=blank()}
+if(!state.profile) state.profile=blank().profile;
+if(!Array.isArray(state.notes)) state.notes=[];
+state.notes.forEach(n=>{ if(!n.paper) n.paper="lines"; });
+if(!Array.isArray(state.courses)) state.courses=[];
+state.courses.forEach(c=>{
+  if(!Array.isArray(c.meetings)) c.meetings=[];
+  c.meetings.forEach(m=>{ if(!m.week) m.week=iso(weekStart(new Date())); if(!Array.isArray(m.days)) m.days=[]; });
+});
+if(!Array.isArray(state.terms)) state.terms=[];
+if(!state.lang) state.lang="en";
+if(!state.profile) state.profile={name:"",school:"",major:"",year:"",email:"",studentId:"",phone:"",advisor:"",emergency:"",address:"",bday:"",housing:""};
+if(!state.academicYear) state.academicYear=academicYearOf(new Date());
+if(!state.cal||!/^\d{4}-\d{2}$/.test(state.cal)) state.cal=iso(new Date()).slice(0,7);
+state.terms.forEach(tm=>{
+  if(!tm.year) tm.year=state.academicYear;
+  if(!tm.kind) tm.kind="other";
+});
+state.courses.forEach(c=>{ if(!c.termId) c.termId=state.activeTermId||""; });
+if(!state.activeTermId && state.terms.length) pickActiveTerm();
+if(!state.tahvelUrl) state.tahvelUrl=TAHVEL_URL;
+if(!state.a11y) state.a11y={text:"m",contrast:false,motion:false,targets:false,plain:false};
+try{
+  if(!state.a11y.motion && matchMedia("(prefers-reduced-motion: reduce)").matches) state.a11y.motion=true;
+  if(!state.a11y.contrast && matchMedia("(prefers-contrast: more)").matches) state.a11y.contrast=true;
+}catch(err){}
+
+let tab="today";
+let stack=null;
+let workFilter=state.workFilter||"due";
+let workCourse=state.workCourse||"all";
+let schedView=state.schedView||"week";
+let weekAnchor=state.weekAnchor?weekStart(parseD(state.weekAnchor)):defaultWeek();
+let dayPick=iso(new Date());
+let meetDraft=[];
+let sheetCtx=null;
+let saveT;
+let armedId=null;
+let drag=null;
+let holdT=0;
+if(!state.courses.some(c=>(c.meetings||[]).some(m=>m.source==="tahvel"))){
+  const baked=bakedIcs();
+  if(baked) applyTahvel(baked);
+}
+
+function defaultWeek(){
+  const now=new Date();
+  let ws=weekStart(now);
+  const term=state.terms.find(t=>t.id===state.activeTermId);
+  if(term && term.start){
+    const ts=parseD(term.start);
+    if(addDays(ws,4)<ts) ws=weekStart(ts);
+  }
+  return ws;
+}
+
+function saveNow(){
+  clearTimeout(saveT);
+  try{
+    state.weekAnchor=iso(weekAnchor);
+    state.workFilter=workFilter;
+    state.workCourse=workCourse;
+    state.schedView=schedView;
+    state.savedAt=Date.now();
+    const raw=JSON.stringify(state);
+    localStorage.setItem(KEY,raw);
+    localStorage.setItem(KEY+"-bak",raw);
+    try{
+      const req=indexedDB.open("bound-planner",1);
+      req.onupgradeneeded=()=>{req.result.createObjectStore("kv")};
+      req.onsuccess=()=>{
+        const tx=req.result.transaction("kv","readwrite");
+        tx.objectStore("kv").put(raw,"state");
+      };
+    }catch(err){}
+  }catch(e){toast(t("save_fail"))}
+}
+function save(){clearTimeout(saveT);saveT=setTimeout(saveNow,40)}
+document.addEventListener("visibilitychange",()=>{
+  if(document.hidden){commitOpenSheet();saveNow()}
+  else pullTahvel(false);
+});
+window.addEventListener("pagehide",()=>{commitOpenSheet();saveNow()});
+window.addEventListener("beforeunload",()=>{commitOpenSheet();saveNow()});
+
+function unfoldIcs(s){return String(s||"").replace(/\r\n/g,"\n").replace(/\n[ \t]/g,"")}
+function icsField(block,key){
+  const m=block.match(new RegExp("^"+key+"(?:;[^:\\n]*)?:(.*)$","m"));
+  return m?m[1].replace(/\\n/g,"\n").replace(/\\,/g,",").replace(/\\\\/g,"\\").trim():"";
+}
+function parseICS(text){
+  const out=[];
+  unfoldIcs(text).split("BEGIN:VEVENT").slice(1).forEach(chunk=>{
+    const block=chunk.split("END:VEVENT")[0]||"";
+    const start=icsField(block,"DTSTART"), end=icsField(block,"DTEND");
+    if(!start) return;
+    out.push({uid:icsField(block,"UID"),start,end,summary:icsField(block,"SUMMARY"),description:icsField(block,"DESCRIPTION"),location:icsField(block,"LOCATION")});
+  });
+  return out;
+}
+function icsInstant(s){
+  const m=String(s||"").match(/^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})(Z)?/);
+  if(!m) return null;
+  return m[7]==="Z"?new Date(Date.UTC(+m[1],+m[2]-1,+m[3],+m[4],+m[5],+m[6])):new Date(+m[1],+m[2]-1,+m[3],+m[4],+m[5],+m[6]);
+}
+function tallinnClock(d){
+  const parts=new Intl.DateTimeFormat("en-GB",{timeZone:"Europe/Tallinn",year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit",hourCycle:"h23"}).formatToParts(d);
+  const g=n=>(parts.find(p=>p.type===n)||{}).value;
+  const local=new Date(+g("year"),+g("month")-1,+g("day"),+g("hour"),+g("minute"));
+  return {local,iso:iso(local),week:weekKey(local),dow:local.getDay(),hm:String(+g("hour")).padStart(2,"0")+":"+String(+g("minute")).padStart(2,"0")};
+}
+function splitCourseTitle(summary){
+  const m=String(summary||"").match(/^(.*?)\s*\(([A-ZÅÄÖÜÕ0-9]{2,})\)\s*$/i);
+  if(m) return {name:m[1].trim(),code:m[2].toUpperCase()};
+  const s=String(summary||"").trim();
+  return {name:s,code:(s.split(" ")[0]||"TUND").slice(0,10).toUpperCase()};
+}
+function teacherOf(desc){const m=String(desc||"").match(/Õpetajad:\s*([^\n]+)/i);return m?m[1].split(/[,;]/).map(x=>x.trim()).filter(Boolean)[0]||"":""}
+function roomOf(loc){return String(loc||"").replace(/^Ruumid:\s*/i,"").trim()}
+function bakedIcs(){
+  if(state.tahvelIcs && state.tahvelIcs.indexOf("BEGIN:VCALENDAR")!==-1) return state.tahvelIcs;
+  if(typeof TAHVEL_ICS==="string" && TAHVEL_ICS.indexOf("BEGIN:VCALENDAR")!==-1) return TAHVEL_ICS;
+  return "";
+}
+function applyTahvel(icsText){
+  const events=parseICS(icsText);
+  if(!events.length) return 0;
+  if(!state.terms.length) ensureSchoolYear(true);
+  const byCode={};
+  events.forEach(ev=>{
+    const start=icsInstant(ev.start), end=icsInstant(ev.end||ev.start);
+    if(!start) return;
+    const a=tallinnClock(start), b=end?tallinnClock(end):a;
+    const {name,code}=splitCourseTitle(ev.summary);
+    if(!byCode[code]) byCode[code]={name,code,professor:teacherOf(ev.description),room:roomOf(ev.location),meets:[]};
+    const row=byCode[code];
+    if(teacherOf(ev.description)) row.professor=teacherOf(ev.description);
+    const rm=roomOf(ev.location); if(rm) row.room=rm;
+    row.meets.push({week:a.week,days:[a.dow],start:a.hm,end:b.hm,kind:"",room:rm,source:"tahvel",uid:ev.uid});
+  });
+  const codes=Object.keys(byCode).sort();
+  codes.forEach((code,i)=>{
+    const src=byCode[code];
+    let c=state.courses.find(x=>(x.code||"").toUpperCase()===code);
+    if(!c){
+      c={id:uid(),code,name:src.name,credits:0,termId:state.activeTermId||"",color:COLORS[i%COLORS.length][0],professor:src.professor,email:"",room:src.room,office:"",notes:"",letterGrade:"",meetings:[],fromTahvel:true};
+      state.courses.push(c);
+    } else {
+      if(src.name) c.name=src.name;
+      if(src.professor) c.professor=src.professor;
+      if(src.room) c.room=src.room;
+      if(!c.termId) c.termId=state.activeTermId||"";
+      c.meetings=(c.meetings||[]).filter(m=>m.source!=="tahvel");
+    }
+    c.meetings=(c.meetings||[]).concat(src.meets);
+  });
+  Object.values(byCode).forEach(src=>{
+    if(!src.professor) return;
+    if(!state.people.some(p=>(p.name||"").toLowerCase()===src.professor.toLowerCase())){
+      state.people.push({id:uid(),name:src.professor,role:t("professor"),subject:src.code,email:"",phone:"",office:"",notes:""});
+    }
+  });
+  state.tahvelIcs=icsText;
+  return events.length;
+}
+let tahvelBusy=false;
+async function pullTahvel(force){
+  const url=(state.tahvelUrl||TAHVEL_URL).trim();
+  if(!url||tahvelBusy) return;
+  if(!force && state.tahvelSyncedAt && Date.now()-state.tahvelSyncedAt<3*60*60*1000) return;
+  tahvelBusy=true;
+  try{
+    let text="";
+    const tries=["/tahvel.ics","/api/tahvel?u="+encodeURIComponent(url),url];
+    for(let i=0;i<tries.length;i++){
+      try{
+        const r=await fetch(tries[i],{cache:"no-store"});
+        if(!r.ok) continue;
+        const body=await r.text();
+        if(body.indexOf("BEGIN:VCALENDAR")!==-1){text=body;break}
+      }catch(e){}
+    }
+    if(!text) text=bakedIcs();
+    if(!text){ if(force) toast(t("tahvel_fail")); return; }
+    const n=applyTahvel(text);
+    if(n){
+      state.tahvelSyncedAt=Date.now();
+      saveNow(); paint();
+      if(force) toast(t("tahvel_ok",{n}));
+    } else if(force) toast(t("tahvel_fail"));
+  } finally { tahvelBusy=false; }
+}
+function tahvelWhen(){
+  if(!state.tahvelSyncedAt) return t("tahvel_never");
+  return t("tahvel_last",{when:new Date(state.tahvelSyncedAt).toLocaleString(loc(),{month:"short",day:"numeric",hour:"2-digit",minute:"2-digit"})});
+}
+function toast(m){const t=$("#toast");t.textContent=m;t.style.display="block";clearTimeout(toast._t);toast._t=setTimeout(()=>t.style.display="none",2000)}
+function applyTheme(){
+  document.documentElement.setAttribute("data-theme",state.theme);
+  const c=THEME_COLOR[state.theme]||"#EFE8DC";
+  const meta=$('meta[name="theme-color"]'); if(meta) meta.setAttribute("content",c);
+  applyA11y();
+}
+function applyA11y(){
+  const a=state.a11y||{text:"m"};
+  const root=document.documentElement;
+  root.setAttribute("data-text",a.text||"m");
+  root.setAttribute("data-contrast",a.contrast?"on":"off");
+  root.setAttribute("data-motion",a.motion?"on":"off");
+  root.setAttribute("data-targets",a.targets?"on":"off");
+  root.setAttribute("data-plain",a.plain?"on":"off");
+}
+function applyLang(){
+  document.documentElement.lang=state.lang==="et"?"et":"en";
+  const map={today:"tab_today",cal:"tab_year",courses:"tab_schedule",notes:"tab_notes",work:"tab_work",more:"tab_more"};
+  $$("#tabs [data-tab]").forEach(b=>{const span=b.querySelector("span"); if(span) span.textContent=t(map[b.dataset.tab])});
+  const plus=$("#plusBtn"); if(plus) plus.setAttribute("aria-label",t("add"));
+  const fab=$("#stickerBtn"); if(fab) fab.setAttribute("aria-label",t("stickers"));
+  const th=$("#trayTitle"); if(th) th.textContent=t("stickers");
+  const hint=$("#trayHint"); if(hint) hint.textContent=t("sticker_hint");
+  const cl=$("#clearStickers"); if(cl) cl.textContent=t("clear_tab");
+}
+function classesOn(d){
+  if(isBreak(d)) return [];
+  const out=[];
+  state.courses.forEach(c=>{
+    meetsOn(c,d).forEach(m=>out.push({c,m,room:m.room||c.room,start:m.start,end:m.end,kind:m.kind||t("class")}));
+  });
+  return out.sort((a,b)=>mins(a.start)-mins(b.start));
+}
+
+function asgRow(a,now){
+  const c=course(a.courseId);
+  const k=dueKind(a.due,now);
+  const when=dueText(a.due,now)+(a.time?" · "+fmtTime(a.time):"");
+  return `<div class="item ${a.done?"done":""} ${c?"c-"+c.color:""}">
+    <input class="check" type="checkbox" data-toggle-asg="${a.id}" ${a.done?"checked":""}/>
+    <button type="button" data-edit-asg="${a.id}" style="flex:1;text-align:left;background:0;border:0">
+      <div class="ttl">${esc(a.title)}${a.weight?`<span class="weight"> · ${a.weight}%</span>`:""}</div>
+      <div class="subl"><span class="pill">${esc(typeLabel(a.type))}</span>${c?esc(lessonName(c)):""}${c&&c.code?" · "+esc(c.code):""}${a.notes?" · "+esc(a.notes):""}</div>
+    </button>
+    <span class="due ${k}">${when}</span>
+  </div>`;
+}
+function taskRow(t){
+  return `<div class="item ${t.done?"done":""}">
+    <input class="check" type="checkbox" data-toggle-task="${t.id}" ${t.done?"checked":""}/>
+    <button type="button" data-edit-task="${t.id}" style="flex:1;text-align:left;background:0;border:0">
+      <div class="ttl">${esc(t.title)}</div>${t.due?`<div class="subl">${esc(t.due)}</div>`:""}
+    </button>
+    <button type="button" class="due" data-del-task="${t.id}" style="border:0;background:0">×</button>
+  </div>`;
+}
+
+function lessonName(c){return (c&&(c.name||c.code))||""}
+function lessonCode(c){return (c&&c.code)||""}
+function lessonRow(x,mini){
+  const name=lessonName(x.c);
+  const code=lessonCode(x.c);
+  const meta=[x.room,x.c.professor].filter(Boolean).join(" · ");
+  return `<button class="klass ${mini?"mini ":""}c-${x.c.color}" data-open-course="${x.c.id}" type="button">
+    <span class="dot"></span>
+    <span class="when"><b>${fmtTime(x.start)}</b>${mini?"":`<i>${fmtTime(x.end)}</i>`}</span>
+    <span class="klass-body">
+      <div class="name">${esc(name)}</div>
+      <div class="code-tag">${esc(code)}${x.kind?" · "+esc(x.kind):""}</div>
+      ${meta?`<div class="room">${esc(meta)}</div>`:""}
+    </span>
+  </button>`;
+}
+function renderToday(){
+  const now=new Date();
+  const term=termNow(now);
+  const first=(state.profile.name||"").trim().split(" ")[0];
+  $("#title").textContent=greet(now);
+  $("#subtitle").textContent=(first?first+" · ":"")+now.toLocaleDateString(loc(),{weekday:"long",month:"long",day:"numeric"});
+  const tCourses=state.courses.filter(c=>c.termId===(term&&term.id));
+  const g=gpaOf(tCourses);
+  const hasSpan=term&&term.start&&term.end;
+  const start=hasSpan?parseD(term.start):now, end=hasSpan?parseD(term.end):now;
+  const prog=hasSpan?Math.min(1,Math.max(0,(now-start)/(end-start||1))):0;
+  const left=hasSpan?Math.max(0,Math.round((end-now)/86400000)):null;
+  const br=isBreak(now);
+  const list=classesOn(now);
+  const tom=addDays(now,1);
+  const tomList=isBreak(tom)?[]:classesOn(tom);
+  const nowM=now.getHours()*60+now.getMinutes();
+  const next=list.find(x=>mins(x.end)>nowM);
+  const todayIso=iso(now);
+  const asg=state.assignments.filter(a=>!a.done).sort((a,b)=>a.due.localeCompare(b.due));
+  const overdue=asg.filter(a=>a.due<todayIso);
+  const dueToday=asg.filter(a=>a.due===todayIso);
+  const dueTom=asg.filter(a=>a.due===iso(addDays(now,1)));
+  const weekIso=iso(addDays(now,7));
+  const weekAsg=asg.filter(a=>a.due>todayIso&&a.due<=weekIso);
+  const tasks=state.tasks.filter(t=>!t.done);
+  const exams=asg.filter(a=>a.type==="exam").filter(a=>dayDiff(a.due,now)>=0&&dayDiff(a.due,now)<=21);
+
+  let html="";
+  if(term){
+    html+=`<div class="card"><div class="meta"><span>${esc(term.name)}</span><span>${left!=null?(left===1?t("days_left_1"):t("days_left",{n:left})):""}</span></div>
+      <div class="bar"><i style="width:${Math.round(prog*100)}%"></i></div>
+      <div class="meta"><span>${t("courses_eap",{n:tCourses.length,cr:tCourses.reduce((n,c)=>n+c.credits,0)})}</span>
+      <span class="gpa">${g.c?("KKH "+g.v.toFixed(2)):"—"}</span></div></div>`;
+  }
+  if(overdue.length){
+    html+=`<div class="banner over"><div class="k">${t("overdue")}</div><div class="t display">${overdue.length===1?t("asg_wait",{n:overdue.length}):t("asg_wait_pl",{n:overdue.length})}</div>
+      <div class="subl" style="margin-top:4px">${esc(overdue[0].title)}</div></div>`;
+  }
+  if(dueToday.length){
+    html+=`<div class="banner soon"><div class="k">${t("due_today")}</div>`+dueToday.map(a=>{
+      const c=course(a.courseId);
+      return `<div class="t display" style="font-size:16px">${esc(a.title)}</div><div class="subl">${c?esc(lessonName(c)):""}${a.time?" · "+fmtTime(a.time):""}${a.weight?" · "+t("of_course",{n:a.weight}):""}</div>`;
+    }).join("")+`</div>`;
+  }
+  if(exams.length){
+    const ex=exams[0]; const c=course(ex.courseId); const n=dayDiff(ex.due,now);
+    html+=`<div class="banner exam c-${c?c.color:"rust"}"><div class="k">${n===0?t("exam_today"):n===1?t("exam_tomorrow"):t("exam_in",{n})}</div>
+      <div class="t display">${c?esc(lessonName(c))+" · ":""}${esc(ex.title)}</div>
+      <div class="subl" style="margin-top:4px">${c&&c.code?esc(c.code)+" · ":""}${dueText(ex.due,now)}${ex.time?" · "+fmtTime(ex.time):""}${ex.notes?" · "+esc(ex.notes):""}${ex.weight?" · "+ex.weight+"%":""}</div></div>`;
+  }
+  if(br){
+    html+=`<div class="next"><div class="k">${t("break")}</div><div class="t display">${esc(br.title)}</div></div>`;
+  } else if(next){
+    html+=`<button class="next c-${next.c.color}" type="button" data-open-course="${next.c.id}" style="width:100%;text-align:left;border:0">
+      <div class="k">${mins(next.start)>nowM?t("up_next"):t("now")}</div>
+      <div class="t display">${esc(lessonName(next.c))}</div>
+      <div class="subl" style="margin-top:4px">${esc(lessonCode(next.c))}${next.kind?" · "+esc(next.kind):""}</div>
+      <div class="subl">${fmtTime(next.start)} – ${fmtTime(next.end)} · ${esc(next.room)}</div>
+      <div class="subl">${esc(next.c.professor)}</div>
+    </button>`;
+  }
+  html+=`<div class="sec">${t("today_lessons")}</div><div class="card">`+(list.length?list.map(x=>lessonRow(x,false)).join(""):`<p class="empty">${t("no_lessons_today")}</p>`)+`</div>`;
+  html+=`<div class="sec quiet">${t("tomorrow_lessons")}</div><div class="card quiet">`+(tomList.length?tomList.map(x=>lessonRow(x,true)).join(""):`<p class="empty">${t("no_lessons_tomorrow")}</p>`)+`</div>`;
+  if(dueTom.length){
+    html+=`<div class="sec">${t("due_tomorrow")}</div><div class="card">`+dueTom.map(a=>asgRow(a,now)).join("")+`</div>`;
+  }
+  if(overdue.length){
+    html+=`<div class="sec">${t("overdue")}</div><div class="card">`+overdue.map(a=>asgRow(a,now)).join("")+`</div>`;
+  }
+  html+=`<div class="sec">${t("this_week")}</div><div class="card">`+(weekAsg.length?weekAsg.map(a=>asgRow(a,now)).join(""):`<p class="empty">${t("nothing_week")}</p>`)+`</div>`;
+  html+=`<div class="sec">${t("personal")}</div><div class="card">`+(tasks.length?tasks.map(taskRow).join(""):`<p class="empty">${t("all_clear")}</p>`)+
+    `<button class="add" type="button" data-sheet="task">${t("add_task")}</button></div>`;
+  $("#page-today").innerHTML=html;
+}
+
+function renderCal(){
+  const now=new Date();
+  if(!state.academicYear) state.academicYear=academicYearOf(now);
+  const yr=state.academicYear;
+  $("#title").textContent=t("tab_year");
+  $("#subtitle").textContent=yr;
+  if(!state.cal||!/^\d{4}-\d{2}$/.test(state.cal)) state.cal=iso(now).slice(0,7);
+  const [yy,mm]=state.cal.split("-").map(Number);
+  const first=new Date(yy,mm-1,1);
+  const startDow=calStart(first);
+  const days=new Date(yy,mm,0).getDate();
+  const today=iso(now);
+  let cells="";
+  for(let i=0;i<42;i++){
+    const day=i-startDow+1;
+    if(day<1||day>days){cells+=`<div class="d out"></div>`;continue;}
+    const id=iso(new Date(yy,mm-1,day));
+    const cls=["d"];
+    if(id===today) cls.push("today");
+    if(id===state.selected) cls.push("sel");
+    const d=new Date(yy,mm-1,day);
+    const marks=classesOn(d).slice(0,3).map(x=>`<i class="c-${x.c.color}"></i>`).join("");
+    const hasAsg=state.assignments.some(a=>a.due===id&&!a.done);
+    const hasEv=state.events.some(e=>{const b=e.endDate||e.date;return id>=e.date&&id<=b});
+    cells+=`<button type="button" class="${cls.join(" ")}" data-day="${id}">${day}<span class="marks">${marks}${hasAsg?"<i style='background:var(--accent)'></i>":""}${hasEv&&!marks?"<i style='background:var(--soft)'></i>":""}</span></button>`;
+  }
+  const d=parseD(state.selected);
+  const dayClasses=classesOn(d);
+  const dayAsg=state.assignments.filter(a=>a.due===state.selected);
+  const dayEv=state.events.filter(e=>{const b=e.endDate||e.date;return state.selected>=e.date&&state.selected<=b});
+  const dayTasks=state.tasks.filter(tk=>tk.due===state.selected);
+  const yearTerms=state.terms.filter(tm=>!tm.year||tm.year===yr);
+  $("#page-cal").innerHTML=`
+    <div class="cal-head" style="margin-bottom:10px">
+      <button type="button" id="prevYear">‹</button>
+      <div class="display" style="font-size:18px">${esc(yr)}</div>
+      <button type="button" id="nextYear">›</button>
+    </div>
+    ${yearTerms.length?`<div class="seg">${yearTerms.map(tm=>`<button type="button" data-term="${tm.id}" class="${tm.id===state.activeTermId?"on":""}">${esc(termLabel(tm))}</button>`).join("")}</div>`:""}
+    ${yearSetupCard()}
+    <div class="card">
+      <div class="cal-head">
+        <button type="button" id="prevM">${t("prev")}</button>
+        <div class="display" style="font-size:18px">${first.toLocaleString(loc(),{month:"long",year:"numeric"})}</div>
+        <button type="button" id="nextM">${t("next")}</button>
+      </div>
+      <div class="cal">${calDow().map(x=>`<div class="dow">${x}</div>`).join("")}${cells}</div>
+    </div>
+    <div class="sec">${d.toLocaleDateString(loc(),{weekday:"long",month:"long",day:"numeric"})}</div>
+    <div class="card">
+      ${dayEv.map(e=>`<div class="banner" style="margin:0 0 8px"><div class="k">${esc(t("kind_"+e.kind))}</div><div class="t display" style="font-size:16px">${esc(e.title)}</div></div>`).join("")}
+      ${dayClasses.length?dayClasses.map(x=>lessonRow(x,false)).join(""):`<p class="empty">${t("no_lessons_today")}</p>`}
+      ${dayAsg.length?`<div class="sec" style="margin-top:8px">${t("due_this_day")}</div>`+dayAsg.map(a=>asgRow(a,now)).join(""):""}
+      ${dayTasks.length?`<div class="sec" style="margin-top:8px">${t("tasks")}</div>`+dayTasks.map(taskRow).join(""):""}
+      <button class="add" type="button" data-sheet="asg" data-due="${state.selected}">${t("add_asg_day")}</button>
+    </div>`;
+}
+
+function renderWeekGrid(list,anchor){
+  const days=[0,1,2,3,4].map(i=>addDays(anchor,i));
+  const hours=[8,9,10,11,12,13,14,15,16,17,18];
+  const todayIso=iso(new Date());
+  const head=`<div class="week-head"><div></div>${days.map(d=>`<div class="${iso(d)===todayIso?"on":""}"><div class="l">${dayName(d.getDay())}</div><div class="n">${d.getDate()}</div></div>`).join("")}</div>`;
+  const gutter=`<div class="week-gutter">${hours.map(h=>`<div class="hour-lab" style="top:${((h*60)-START)/(END-START)*GRID_H}px">${state.lang==="et"?h:(h===12?"12":h>12?h-12:h)}</div>`).join("")}</div>`;
+  const cols=days.map(d=>{
+    const id=iso(d);
+    const br=isBreak(d);
+    const blocks=br?[]:list.flatMap(c=>meetsOn(c,d).map(m=>{
+      const top=Math.max(0,yOf(m.start));
+      const bot=Math.min(GRID_H,yOf(m.end));
+      return {c,m,top,h:Math.max(28,bot-top),room:m.room||c.room};
+    }));
+    return `<div class="week-col ${id===todayIso?"today":""}">${
+      hours.map(h=>`<div class="hour-line" style="top:${((h*60)-START)/(END-START)*GRID_H}px"></div>`).join("")
+    }${br?`<div class="hint" style="padding:8px 4px;font-size:10px">${esc(br.title)}</div>`:blocks.map(b=>
+      `<button type="button" class="blk c-${b.c.color}" data-open-course="${b.c.id}" style="top:${b.top}px;height:${b.h}px">
+        <span class="blk-name">${esc(lessonName(b.c))}</span>${b.h>40?`<small>${esc(lessonCode(b.c))}</small>`:""}${b.h>58?`<small>${fmtTime(b.m.start)}${b.m.kind?" · "+esc(b.m.kind):""}</small>`:""}
+      </button>`).join("")
+    }</div>`;
+  }).join("");
+  return `<div class="week-wrap">${head}<div class="week">${gutter}${cols}</div></div>`;
+}
+
+function renderCourses(){
+  const term=state.terms.find(tm=>tm.id===state.activeTermId)||state.terms[0];
+  $("#title").textContent=t("tab_schedule");
+  $("#subtitle").textContent=term?termLabel(term):(state.academicYear||"");
+  const list=state.courses.filter(c=>!state.activeTermId||!c.termId||c.termId===state.activeTermId);
+  const g=gpaOf(list);
+  const cr=list.reduce((n,c)=>n+c.credits,0);
+  const now=new Date();
+  const days=[0,1,2,3,4].map(i=>addDays(weekAnchor,i));
+  if(!days.some(d=>iso(d)===dayPick)) dayPick=iso(days.find(d=>d.getDay()===(now.getDay()||1))||days[0]);
+  const selected=parseD(dayPick);
+  const dayBlocks=classesOn(selected);
+  const dayAsg=state.assignments.filter(a=>a.due===dayPick);
+
+  let body="";
+  if(schedView==="week"){
+    body=`<div class="card" style="overflow:auto;padding:12px 8px">${renderWeekGrid(list,weekAnchor)}</div>`;
+  } else if(schedView==="day"){
+    body=`<div class="day-pills">${days.map(d=>`<button type="button" data-daypick="${iso(d)}" class="${iso(d)===dayPick?"on":""}"><div class="l">${dayName(d.getDay())}</div><div class="n">${d.getDate()}</div></button>`).join("")}</div>
+      <div class="card">
+        ${isBreak(selected)?`<p class="empty">${esc(isBreak(selected).title)}</p>`:dayBlocks.length?dayBlocks.map(x=>lessonRow(x,false)).join(""):`<p class="empty">${t("no_lessons_day")}</p>`}
+        ${dayAsg.length?`<div class="sec">${t("due")}</div>`+dayAsg.map(a=>asgRow(a,now)).join(""):""}
+      </div>`;
+  } else {
+    body=list.map(c=>{
+      const w=iso(weekStart(weekAnchor));
+      const meet=c.meetings.filter(m=>m.week===w).map(m=>(m.kind?m.kind+" · ":"")+(m.days||[]).map(d=>dayName(d)).join("/")+" "+fmtTime(m.start)+"–"+fmtTime(m.end)+(m.room?" · "+m.room:"")).join(" · ");
+      const sc=scoreOf(c.id);
+      const pts=`${c.credits} EAP`+(sc.current!=null?` · ${Math.round(sc.current)}%`:"")+(c.letterGrade?" · "+c.letterGrade:"");
+      return `<button class="course c-${c.color}" type="button" data-open-course="${c.id}">
+        <span class="stripe"></span>
+        <span style="flex:1;text-align:left"><div class="cname">${esc(lessonName(c))}</div>
+        <div class="code">${esc(lessonCode(c))}${pts?" · "+esc(pts):""}</div>
+        <div class="prof">${esc(c.professor)} · ${esc(c.room)}</div>
+        <div class="prof">${esc(meet)}</div></span>
+        <span class="chev">›</span>
+      </button>`;
+    }).join("")+(list.length?"":`<p class="empty">${t("no_courses")}</p>`);
+  }
+
+  $("#page-courses").innerHTML=`
+    ${state.terms.length?`<div class="seg">${state.terms.map(tm=>`<button type="button" data-term="${tm.id}" class="${tm.id===state.activeTermId?"on":""}">${esc(termLabel(tm))}</button>`).join("")}</div>`:""}
+    ${yearSetupCard()}
+    <div class="stats" style="margin-bottom:12px">
+      <div class="stat"><b>${list.length}</b><span>${t("courses")}</span></div>
+      <div class="stat"><b>${cr}</b><span>EAP</span></div>
+      <div class="stat"><b>${g.c?g.v.toFixed(2):"—"}</b><span>KKH</span></div>
+    </div>
+    <div class="seg">
+      ${[["week",t("week")],["day",t("day")],["list",t("courses")]].map(([id,l])=>`<button type="button" data-sched="${id}" class="${schedView===id?"on":""}">${l}</button>`).join("")}
+    </div>
+    ${schedView!=="list"?`<div class="cal-head" style="margin-bottom:8px">
+      <button type="button" id="prevW">${t("prev")}</button>
+      <div class="display" style="font-size:15px">${weekAnchor.toLocaleDateString(loc(),{month:"short",day:"numeric"})} – ${addDays(weekAnchor,4).toLocaleDateString(loc(),{month:"short",day:"numeric"})}</div>
+      <button type="button" id="nextW">${t("next")}</button>
+    </div>
+    <p class="hint" style="margin:-2px 2px 10px">${state.tahvelSyncedAt?t("tahvel_hint"):t("week_only")}</p>
+    ${state.tahvelUrl?`<button class="add" type="button" id="syncTahvel" style="margin-top:0;margin-bottom:8px">${t("tahvel_sync")}</button>
+      <p class="hint" style="margin:-2px 2px 10px">${esc(tahvelWhen())}</p>`:""}
+    ${schedView==="week"&&!state.tahvelSyncedAt?`<button class="add" type="button" id="copyWeek" style="margin-top:0;margin-bottom:10px">${t("copy_week")}</button>`:""}`:""}
+    ${body}
+    <button class="add" type="button" data-sheet="course">${t("add_course")}</button>`;
+}
+
+function renderWork(){
+  const now=new Date();
+  $("#title").textContent=t("tab_work");
+  $("#subtitle").textContent=t("work_sub");
+  const todayIso=iso(now);
+  const weekIso=iso(addDays(now,7));
+  const termCourses=state.courses.filter(c=>c.termId===state.activeTermId);
+  let list=state.assignments.slice();
+  if(workCourse!=="all") list=list.filter(a=>a.courseId===workCourse);
+  const f=workFilter;
+  if(f==="done") list=list.filter(a=>a.done);
+  else if(f==="exams") list=list.filter(a=>(a.type==="exam"||a.type==="quiz")&&!a.done);
+  else if(f==="tasks") list=[];
+  else list=list.filter(a=>!a.done);
+  list.sort((a,b)=>a.due.localeCompare(b.due));
+
+  const groups=[];
+  if(f==="due"){
+    const buckets=[[t("bucket_overdue"),[]],[t("bucket_today"),[]],[t("bucket_week"),[]],[t("bucket_later"),[]]];
+    list.forEach(a=>{
+      if(a.due<todayIso) buckets[0][1].push(a);
+      else if(a.due===todayIso) buckets[1][1].push(a);
+      else if(a.due<=weekIso) buckets[2][1].push(a);
+      else buckets[3][1].push(a);
+    });
+    buckets.forEach(([k,items])=>{if(items.length) groups.push([k,items])});
+  } else if(f!=="tasks"){
+    groups.push([f==="done"?t("completed"):f==="exams"?t("exams_quizzes"):t("work"), list]);
+  }
+
+  const exams=state.assignments.filter(a=>a.type==="exam"&&!a.done).sort((a,b)=>a.due.localeCompare(b.due)).filter(a=>workCourse==="all"||a.courseId===workCourse);
+  const openTasks=state.tasks.filter(t=>!t.done);
+
+  let html=`<div class="seg">
+      ${[["due",t("filter_due")],["exams",t("filter_exams")],["tasks",t("filter_tasks")],["done",t("filter_done")]].map(([id,l])=>`<button type="button" data-filter="${id}" class="${f===id?"on":""}">${l}</button>`).join("")}
+    </div>`;
+  if(f!=="tasks"){
+    html+=`<div class="seg">${[{id:"all",code:t("all")},...termCourses].map(c=>`<button type="button" class="chip ${workCourse===c.id?"on":""}" data-wcourse="${c.id}">${c.color?`<span class="dot c-${c.color}" style="margin:0;width:8px;height:8px"></span>`:""}${esc(c.code)}</button>`).join("")}</div>`;
+  }
+  if(f==="due"&&exams.length){
+    const ex=exams[0]; const c=course(ex.courseId); const n=dayDiff(ex.due,now);
+    html+=`<div class="banner exam"><div class="k">${n<0?t("past_exam"):n===0?t("exam_today"):t("next_exam",{when:dueText(ex.due,now)})}</div>
+      <div class="t display">${c?esc(lessonName(c))+" · ":""}${esc(ex.title)}</div>
+      <div class="subl">${ex.time?fmtTime(ex.time)+" · ":""}${ex.notes?esc(ex.notes)+" · ":""}${ex.weight?t("of_course",{n:ex.weight}):""}</div></div>`;
+  }
+  if(f==="tasks"){
+    html+=`<div class="card">${openTasks.length?openTasks.map(taskRow).join(""):`<p class="empty">${t("no_tasks")}</p>`}
+      <button class="add" type="button" data-sheet="task">${t("add_task")}</button></div>`;
+  } else {
+    if(!groups.length) html+=`<div class="card"><p class="empty">${f==="done"?t("nothing_done"):t("no_work")}</p><button class="add" type="button" data-sheet="asg">${t("add_asg")}</button></div>`;
+    else groups.forEach(([k,items])=>{
+      html+=`<div class="sec">${k}</div><div class="card">${items.map(a=>asgRow(a,now)).join("")}</div>`;
+    });
+    html+=`<button class="add" type="button" data-sheet="asg">${t("add_asg")}</button>`;
+  }
+  $("#page-work").innerHTML=html;
+}
+
+function renderMore(){
+  $("#title").textContent=t("tab_more");
+  $("#subtitle").textContent=t("more_sub");
+  const p=state.profile;
+  const term=state.terms.find(x=>x.id===state.activeTermId);
+  const tCourses=state.courses.filter(c=>c.termId===state.activeTermId);
+  const g=gpaOf(tCourses);
+  const openBooks=state.books.filter(b=>!b.done).length;
+  $("#page-more").innerHTML=`
+    <button class="hub" type="button" data-stack="profile">
+      <span class="avatar">${esc((p.name||"").slice(0,1).toUpperCase())}</span>
+      <span style="flex:1;text-align:left"><div class="ttl">${esc(p.name||"")}</div>
+      <div class="subl">${[p.year,p.major,p.school].filter(Boolean).map(esc).join(" · ")||""}</div></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="stats" style="margin:4px 0 12px">
+      <div class="stat"><b>${tCourses.length}</b><span>${t("courses")}</span></div>
+      <div class="stat"><b>${tCourses.reduce((n,c)=>n+c.credits,0)}</b><span>EAP</span></div>
+      <div class="stat"><b>${g.c?g.v.toFixed(2):"—"}</b><span>KKH</span></div>
+    </div>
+    <div class="sec">${t("language")}</div>
+    <div class="seg">
+      <button type="button" data-lang="en" class="${state.lang==="en"?"on":""}">English</button>
+      <button type="button" data-lang="et" class="${state.lang==="et"?"on":""}">Eesti</button>
+    </div>
+    <div class="sec">${t("a11y")}</div>
+    <div class="card">
+      <p class="hint" style="margin-bottom:10px">${t("a11y_sub")}</p>
+      <div class="field"><label>${t("text_size")}</label>
+        <div class="seg" style="margin:0">
+          ${[["m",t("text_m")],["l",t("text_l")],["xl",t("text_xl")]].map(([id,l])=>`<button type="button" data-a11y-text="${id}" class="${(state.a11y&&state.a11y.text)===id?"on":""}">${l}</button>`).join("")}
+        </div>
+      </div>
+      ${[["contrast","high_contrast"],["targets","bigger_targets"],["motion","reduce_motion"],["plain","plain_type"]].map(([k,lab])=>`
+        <button type="button" class="item" data-a11y-toggle="${k}" style="width:100%">
+          <span style="flex:1;text-align:left" class="ttl">${t(lab)}</span>
+          <span class="pill">${(state.a11y&&state.a11y[k])?t("on"):t("off")}</span>
+        </button>`).join("")}
+    </div>
+    <div class="sec">${t("this_year")}</div>
+    <button class="hub" type="button" data-stack="terms"><span style="flex:1;text-align:left"><div class="ttl">${t("terms")}</div><div class="subl">${esc([state.academicYear,term?termLabel(term):""].filter(Boolean).join(" · "))}</div></span><span class="chev">›</span></button>
+    <div class="sec">${t("tahvel")}</div>
+    <div class="card">
+      <div class="ttl">${t("tahvel_sub")}</div>
+      <p class="hint" style="margin:6px 0 8px">${esc(tahvelWhen())}</p>
+      <p class="hint" style="margin:0 0 8px">${t("tahvel_how")}</p>
+      <div class="field"><label>${t("tahvel_url")}</label><input data-k="tahvel.url" value="${esc(state.tahvelUrl||"")}"/></div>
+      <button class="add" type="button" id="syncTahvel" style="margin-top:4px">${t("tahvel_sync")}</button>
+      <button class="add" type="button" id="importIcsBtn" style="margin-top:8px;background:var(--page)">${t("tahvel_import")}</button>
+    </div>
+    <div class="sec">${t("pages")}</div>
+    <button class="hub" type="button" data-stack="people"><span style="flex:1;text-align:left"><div class="ttl">${t("people")}</div><div class="subl">${t("contacts_n",{n:state.people.length})}</div></span><span class="chev">›</span></button>
+    <button class="hub" type="button" data-stack="reading"><span style="flex:1;text-align:left"><div class="ttl">${t("reading")}</div><div class="subl">${t("open_n",{n:openBooks})}</div></span><span class="chev">›</span></button>
+    <button class="hub" type="button" data-stack="supplies"><span style="flex:1;text-align:left"><div class="ttl">${t("supplies")}</div><div class="subl">${t("items_n",{n:state.supplies.length})}</div></span><span class="chev">›</span></button>
+    <div class="sec">${t("theme")}</div>
+    <div class="card"><div class="themes">${THEMES.map(th=>`<button class="swatch${state.theme===th.id?" on":""}" data-theme="${th.id}" style="background:${th.bg}" title="${th.id}"></button>`).join("")}</div>
+      <p class="hint" style="margin-top:8px">${t("sticker_help")}</p></div>
+    <input type="file" id="importIcs" accept=".ics,text/calendar,text/plain" hidden />
+  `;
+}
+
+function stackHead(title,sub,right){
+  return `<div class="top"><div><button type="button" id="backBtn" class="icon-btn" style="margin-bottom:8px">‹</button>
+    <h1>${esc(title)}</h1>${sub?`<div class="sub">${esc(sub)}</div>`:""}</div>${right||""}</div>`;
+}
+
+function openStack(type,id){
+  stack={type,id};
+  paintStack();
+}
+function closeStack(){stack=null;$("#stack").className="stack";paint()}
+function paintStack(){
+  if(!stack){$("#stack").className="stack";return}
+  $("#stack").className="stack on";
+  if(stack.type==="course") renderCourseStack(stack.id);
+  else if(stack.type==="profile") renderProfileStack();
+  else if(stack.type==="people") renderPeopleStack();
+  else if(stack.type==="reading") renderReadingStack();
+  else if(stack.type==="supplies") renderSuppliesStack();
+  else if(stack.type==="terms") renderTermsStack();
+}
+
+function renderCourseStack(id){
+  const c=course(id); if(!c){closeStack();return}
+  const now=new Date();
+  const asg=state.assignments.filter(a=>a.courseId===id).sort((a,b)=>a.due.localeCompare(b.due));
+  const open=asg.filter(a=>!a.done);
+  const done=asg.filter(a=>a.done);
+  const sc=scoreOf(id);
+  const books=state.books.filter(b=>b.courseId===id);
+  const notes=state.notes.filter(n=>n.courseId===id);
+  const people=state.people.filter(p=> (p.subject||"").toUpperCase().includes((c.code||"").split(" ")[0]) || (p.subject||"").includes(c.code));
+  const gradedW=sc.wAll?Math.round(sc.wGraded/sc.wAll*100):0;
+  const remainW=sc.wAll?Math.round(sc.remaining/sc.wAll*100):0;
+  const byWeek={};
+  (c.meetings||[]).forEach(m=>{
+    const w=m.week||"";
+    (byWeek[w]=byWeek[w]||[]).push(m);
+  });
+  const meet=Object.keys(byWeek).sort().map(w=>{
+    const label=w?t("week_of",{date:parseD(w).toLocaleDateString(loc(),{month:"short",day:"numeric"})}):"";
+    return `<div class="sec" style="margin:8px 0 4px">${esc(label)}</div>`+byWeek[w].map(m=>`<div class="lesson c-${c.color}">
+      <span class="dot" style="margin-top:8px"></span>
+      <span style="flex:1"><div class="ttl">${esc(m.kind||t("class"))} · ${(m.days||[]).map(d=>dayName(d)).join(" / ")}</div>
+      <div class="subl">${fmtTime(m.start)} – ${fmtTime(m.end)} · ${esc(m.room||c.room)}</div></span>
+    </div>`).join("");
+  }).join("");
+  $("#stack").innerHTML=`
+    ${stackHead(c.name||c.code,c.code,`<button class="icon-btn" type="button" data-edit-course="${c.id}" style="font-size:14px">${t("edit")}</button>`)}
+    <div class="body">
+      <div class="card c-${c.color}">
+        <div class="stats">
+          <div class="stat"><b>${c.credits}</b><span>EAP</span></div>
+          <div class="stat"><b>${esc(c.letterGrade||"—")}</b><span>${t("letter")}</span></div>
+          <div class="stat"><b>${sc.current!=null?Math.round(sc.current)+"%":"—"}</b><span>${t("graded_avg")}</span></div>
+        </div>
+        <div class="pts-bar" title="Points">${sc.wAll?`<i style="width:${gradedW}%"></i><em style="width:${remainW}%"></em>`:""}</div>
+        <div class="meta"><span>${t("pts_earned",{pts:sc.pts.toFixed(1),graded:sc.wGraded||0})}</span><span>${t("pts_out",{n:sc.remaining})}</span></div>
+        <p class="hint" style="margin-top:8px">${t("weight_hint")}</p>
+      </div>
+      <div class="sec">${t("professor")}</div>
+      <div class="card">
+        <div class="ttl">${esc(c.professor)}</div>
+        ${c.email?`<div class="info"><span>${t("email")}</span><a href="mailto:${esc(c.email)}">${esc(c.email)}</a></div>`:""}
+        ${c.office?`<div class="info"><span>${t("office_hours")}</span><div>${esc(c.office)}</div></div>`:""}
+        ${c.room?`<div class="info"><span>${t("classroom")}</span><div>${esc(c.room)}</div></div>`:""}
+      </div>
+      ${people.length?`<div class="sec">${t("people_course")}</div><div class="card">${people.map(pe=>`
+        <button class="item" type="button" data-edit-person="${pe.id}">
+          <span class="dot" style="background:var(--accent)"></span>
+          <span style="flex:1;text-align:left"><div class="ttl">${esc(pe.name)}</div>
+          <div class="subl">${esc(pe.role)}${pe.office?" · "+esc(pe.office):""}${pe.phone?" · "+esc(pe.phone):""}</div></span>
+        </button>`).join("")}</div>`:""}
+      <div class="sec">${t("lessons")}</div>
+      <div class="card">${meet||`<p class="empty">${t("no_meetings")}</p>`}</div>
+      ${c.notes?`<div class="card"><div class="sec" style="margin:0 0 6px">${t("syllabus")}</div><p>${esc(c.notes)}</p></div>`:""}
+      <div class="sec">${t("coursework",{n:sc.wAll})}</div>
+      <div class="card">${open.length?open.map(a=>asgRow(a,now)).join(""):`<p class="empty">${t("nothing_open")}</p>`}
+        <button class="add" type="button" data-sheet="asg" data-course="${c.id}">${t("add_asg")}</button></div>
+      ${done.length?`<div class="sec">${t("completed")}</div><div class="card">${done.map(a=>asgRow(a,now)).join("")}</div>`:""}
+      ${books.length?`<div class="sec">${t("reading_sec")}</div><div class="card">${books.map(b=>`
+        <div class="item ${b.done?"done":""}"><input class="check" type="checkbox" data-toggle-book="${b.id}" ${b.done?"checked":""}/>
+        <span><div class="ttl">${esc(b.title)}</div><div class="subl">${esc(b.author)}</div></span></div>`).join("")}</div>`:""}
+      ${notes.length?`<div class="sec">${t("notes")}</div><div class="card">${notes.map(n=>`<div class="ttl" style="padding:8px 0">${esc(n.title)}</div><p class="hint">${esc(n.body)}</p>`).join("")}</div>`:""}
+      <div class="field" style="margin-top:12px"><label>${t("kkh_letter")}</label>
+        <input data-grade-course="${c.id}" value="${esc(c.letterGrade)}"/></div>
+      <p class="hint">${t("kkh_hint")}</p>
+    </div>`;
+}
+
+function renderProfileStack(){
+  const p=state.profile||{};
+  const field=(k,l,ph,auto)=>`<div class="field"><label for="p-${k}">${l}</label><input id="p-${k}" data-k="profile.${k}" value="${esc(p[k]||"")}" placeholder="${esc(ph||"")}" autocomplete="${auto||"on"}" inputmode="text" enterkeyhint="next"/></div>`;
+  $("#stack").innerHTML=`
+    ${stackHead(t("student_info"),p.school||"")}
+    <div class="body">
+      <div class="card">
+        ${field("name",t("name"),"", "name")}
+        <div class="row2">${field("year",t("year"))}${field("major",t("major"))}</div>
+        ${field("school",t("school"),"", "organization")}
+        ${field("studentId",t("student_id"))}
+        <div class="row2">${field("email",t("email"),"","email")}${field("phone",t("phone"),"","tel")}</div>
+        ${field("advisor",t("advisor"))}
+        ${field("emergency",t("emergency"))}
+        ${field("housing",t("housing"))}
+        ${field("address",t("address"),"","street-address")}
+        <div class="field"><label for="p-bday">${t("birthday")}</label><input id="p-bday" data-k="profile.bday" type="date" value="${esc(p.bday||"")}"/></div>
+      </div>
+    </div>`;
+}
+
+function renderPeopleStack(){
+  $("#stack").innerHTML=`
+    ${stackHead(t("people"),t("people_sub"),`<button class="icon-btn" type="button" data-sheet="person">+</button>`)}
+    <div class="body">
+      ${state.people.map(pe=>`
+        <button class="hub" type="button" data-edit-person="${pe.id}">
+          <span class="avatar" style="font-size:16px">${esc((pe.name||"?").split(" ").map(w=>w[0]).join("").slice(0,2))}</span>
+          <span style="flex:1;text-align:left"><div class="ttl">${esc(pe.name)}</div>
+          <div class="subl">${[pe.role,pe.subject].filter(Boolean).map(esc).join(" · ")}</div>
+          <div class="subl">${[pe.email,pe.phone,pe.office].filter(Boolean).map(esc).join(" · ")}</div>
+          ${pe.notes?`<div class="subl">${esc(pe.notes)}</div>`:""}</span>
+          <span class="chev">›</span>
+        </button>`).join("")||`<p class="empty">${t("no_contacts")}</p>`}
+      <button class="add" type="button" data-sheet="person">${t("add_person")}</button>
+    </div>`;
+}
+
+function renderReadingStack(){
+  $("#stack").innerHTML=`
+    ${stackHead(t("reading"),t("reading_sub"),`<button class="icon-btn" type="button" data-sheet="book">+</button>`)}
+    <div class="body"><div class="card">${state.books.map(b=>{
+      const c=b.courseId&&course(b.courseId);
+      return `<div class="item ${b.done?"done":""}">
+        <input class="check" type="checkbox" data-toggle-book="${b.id}" ${b.done?"checked":""}/>
+        <button type="button" data-edit-book="${b.id}" style="flex:1;text-align:left;background:0;border:0">
+          <div class="ttl">${esc(b.title)}</div>
+          <div class="subl">${esc(b.author)}${c?" · "+esc(c.code):""}</div>
+        </button></div>`;
+    }).join("")||`<p class="empty">${t("empty_shelf")}</p>`}
+    <button class="add" type="button" data-sheet="book">${t("add_book")}</button></div></div>`;
+}
+
+function renderNotebook(){
+  if(!state.notes.length){
+    const n={id:uid(),title:"",body:"",paper:"lines"};
+    state.notes.push(n);
+    state.activeNoteId=n.id;
+  }
+  const note=state.notes.find(n=>n.id===state.activeNoteId)||state.notes[0];
+  if(note) state.activeNoteId=note.id;
+  const idx=state.notes.findIndex(n=>n.id===note.id);
+  $("#title").textContent=t("notebook");
+  $("#subtitle").textContent=t("pages_n",{n:state.notes.length});
+  const tools=$("#noteTools");
+  if(tools) tools.innerHTML=`<div class="seg">${state.notes.map(n=>`<button type="button" data-note="${n.id}" class="${n.id===note.id?"on":""}">${esc(n.title||t("untitled"))}</button>`).join("")}</div>`;
+  const title=$("#noteTitle");
+  const body=$("#noteBody");
+  const courseSel=$("#noteCourse");
+  const active=document.activeElement;
+  if(title && active!==title){ title.value=note.title||""; title.placeholder=t("title"); }
+  if(body){
+    body.placeholder=t("write_here");
+    if(active!==body && body.dataset.nid!==note.id){
+      body.value=note.body||"";
+      body.dataset.nid=note.id;
+    }
+  }
+  if(courseSel && active!==courseSel) courseSel.innerHTML=courseSelect(note.courseId||"");
+  const num=$("#noteNum"); if(num) num.textContent=String(idx+1);
+  const del=$("#delNote"); if(del) del.textContent=t("tear_page");
+}
+
+function renderSuppliesStack(){
+  $("#stack").innerHTML=`
+    ${stackHead(t("supplies"),"")}
+    <div class="body"><div class="card">${state.supplies.map((s,i)=>`<div class="item"><span class="dot" style="background:var(--accent)"></span><input data-k="supplies.${i}" value="${esc(s)}"/><button type="button" data-del-sup="${i}" style="border:0;background:0;color:var(--soft)">×</button></div>`).join("")}
+      <button class="add" type="button" id="addSup">${t("add_item")}</button></div></div>`;
+}
+
+function renderTermsStack(){
+  const yr=state.academicYear||academicYearOf(new Date());
+  const list=state.terms.slice().sort((a,b)=>(a.start||"").localeCompare(b.start||""));
+  $("#stack").innerHTML=`
+    ${stackHead(t("terms"),yr)}
+    <div class="body">
+      <div class="card">
+        <div class="field"><label>${t("academic_year")}</label>
+          <div class="cal-head" style="margin:0">
+            <button type="button" id="prevYear">‹</button>
+            <input id="f-year" value="${esc(yr)}" style="text-align:center;font-size:18px;font-family:Fredoka,sans-serif;background:transparent"/>
+            <button type="button" id="nextYear">›</button>
+          </div>
+        </div>
+        <p class="hint">${t("year_setup")}</p>
+        <button class="add" type="button" id="setupYear" style="margin-top:10px">${t("setup_year",{year:yr})}</button>
+        <div class="row2" style="margin-top:8px">
+          <button class="add" type="button" id="addAutumn" style="margin:0">${t("add_autumn")}</button>
+          <button class="add" type="button" id="addSpring" style="margin:0">${t("add_spring")}</button>
+        </div>
+      </div>
+      <div class="sec">${t("semesters")}</div>
+      ${list.map(tm=>`
+      <div class="card">
+        <div class="meta"><span class="ttl">${esc(termLabel(tm))}</span>${tm.id===state.activeTermId?`<span class="pill">${t("active")}</span>`:`<button type="button" class="chip" data-term="${tm.id}">${t("use")}</button>`}</div>
+        <div class="subl" style="margin:4px 0 8px">${esc(tm.year||yr)}</div>
+        <div class="row2">
+          <div class="field"><label>${t("starts_lbl")}</label><input type="date" data-term-start="${tm.id}" value="${esc(tm.start||"")}"/></div>
+          <div class="field"><label>${t("ends_lbl")}</label><input type="date" data-term-end="${tm.id}" value="${esc(tm.end||"")}"/></div>
+        </div>
+        <div class="field"><label>${t("name")}</label><input data-term-name="${tm.id}" value="${esc(tm.name||"")}"/></div>
+        <button type="button" data-del-term="${tm.id}" style="border:0;background:0;color:var(--soft);font-size:12px;font-weight:800;margin-top:6px">${t("remove_term")}</button>
+      </div>`).join("")||`<p class="empty">${t("no_terms")}</p>`}
+      <button class="add" type="button" id="addTerm">${t("add_custom_term")}</button>
+    </div>`;
+}
+
+function addSemester(kind){
+  const tm=makeSemester(kind);
+  state.activeTermId=tm.id;
+  if(tm.start){
+    const ws=weekStart(parseD(tm.start));
+    const we=addDays(ws,4);
+    if(weekAnchor<ws||weekAnchor>we) weekAnchor=ws;
+    state.cal=tm.start.slice(0,7);
+  }
+  saveNow(); paint();
+}
+function makeSemester(kind,yr){
+  yr=yr||state.academicYear||academicYearOf(new Date());
+  state.academicYear=yr;
+  const exist=state.terms.find(tm=>tm.year===yr&&tm.kind===kind);
+  if(exist) return exist;
+  const span=kind==="spring"?springSpan(yr):kind==="autumn"?autumnSpan(yr):{start:"",end:""};
+  const name=kind==="spring"?t("spring")+" "+yearParts(yr).end:kind==="autumn"?t("autumn")+" "+yearParts(yr).start:"";
+  const tm={id:uid(),name,start:span.start||"",end:span.end||"",year:yr,kind:kind||"other"};
+  state.terms.push(tm);
+  return tm;
+}
+function pickActiveTerm(){
+  const now=new Date();
+  const cur=state.terms.find(tm=>tm.start&&tm.end&&now>=parseD(tm.start)&&now<=new Date(parseD(tm.end).getTime()+86399999));
+  if(cur){state.activeTermId=cur.id;return}
+  const upcoming=state.terms.filter(tm=>tm.end&&parseD(tm.end)>=now).sort((a,b)=>(a.start||"").localeCompare(b.start||""))[0];
+  if(upcoming) state.activeTermId=upcoming.id;
+  else if(state.terms[0]) state.activeTermId=state.terms[0].id;
+}
+function ensureSchoolYear(quiet){
+  const yr=state.academicYear||academicYearOf(new Date());
+  state.academicYear=yr;
+  makeSemester("autumn",yr);
+  makeSemester("spring",yr);
+  pickActiveTerm();
+  saveNow();
+  if(!quiet) paint();
+}
+function yearHasBoth(yr){
+  yr=yr||state.academicYear;
+  return state.terms.some(tm=>tm.year===yr&&tm.kind==="autumn")&&state.terms.some(tm=>tm.year===yr&&tm.kind==="spring");
+}
+function yearSetupCard(){
+  const yr=state.academicYear||academicYearOf(new Date());
+  if(yearHasBoth(yr)) return "";
+  return `<div class="card">
+    <p class="hint">${t("year_setup")}</p>
+    <button class="add" type="button" id="setupYear" style="margin-top:10px">${t("setup_year",{year:yr})}</button>
+    <div class="row2" style="margin-top:8px">
+      <button class="add" type="button" id="addAutumn" style="margin:0">${t("add_autumn")}</button>
+      <button class="add" type="button" id="addSpring" style="margin:0">${t("add_spring")}</button>
+    </div>
+  </div>`;
+}
+
+function commitOpenSheet(){
+  if(!sheetCtx||sheetCtx.skipCommit) return;
+  try{
+    if(sheetCtx.kind==="course") commitCourseSheet();
+    else if(sheetCtx.kind==="asg") commitAsgSheet();
+    else if(sheetCtx.kind==="task") commitTaskSheet();
+    else if(sheetCtx.kind==="person") commitPersonSheet();
+    else if(sheetCtx.kind==="book") commitBookSheet();
+  }catch(err){}
+}
+function commitCourseSheet(){
+  if(!$("#f-code")) return;
+  const w=iso(weekStart(weekAnchor));
+  const c=sheetCtx.id?course(sheetCtx.id):null;
+  const keep=((c&&c.meetings)||[]).filter(m=>m.week&&m.week!==w);
+  const viewDay=(()=>{const d=parseD(dayPick).getDay();return DOW_I.includes(d)?d:1})();
+  const fresh=meetDraft.filter(m=>(m.days&&m.days.length)||m.start||m.end||m.kind||m.room).map(m=>({
+    week:w,
+    days:(m.days&&m.days.length)?m.days:[viewDay],
+    start:m.start||"",end:m.end||"",kind:m.kind||"",room:m.room||"",
+    source:m.source||"",uid:m.uid||""
+  }));
+  const row={
+    code:$("#f-code").value,name:$("#f-name").value,credits:Number($("#f-cr").value)||0,
+    termId:$("#f-term")?$("#f-term").value:(state.activeTermId||""),
+    color:$("#f-color")?$("#f-color").value:"rust",
+    professor:$("#f-prof")?$("#f-prof").value:"",
+    email:$("#f-em")?$("#f-em").value:"",
+    room:$("#f-room")?$("#f-room").value:"",
+    office:$("#f-off")?$("#f-off").value:"",
+    notes:$("#f-notes")?$("#f-notes").value:"",
+    letterGrade:$("#f-letter")?$("#f-letter").value:"",
+    meetings:keep.concat(fresh)
+  };
+  if(!row.code && !row.name && !fresh.length) return;
+  if(!row.termId) row.termId=state.activeTermId||"";
+  if(c) Object.assign(c,row);
+  else {
+    const neu=Object.assign({id:uid()},row);
+    state.courses.push(neu);
+    sheetCtx.id=neu.id;
+  }
+  saveNow();
+}
+function commitAsgSheet(){
+  if(!$("#f-title")) return;
+  const row={title:$("#f-title").value,courseId:$("#f-course")?$("#f-course").value||null:null,type:$("#f-type")?$("#f-type").value:"homework",due:$("#f-due")?$("#f-due").value:"",time:$("#f-time")?$("#f-time").value:"",weight:Number($("#f-weight")&&$("#f-weight").value)||0,grade:$("#f-grade")?$("#f-grade").value:"",notes:$("#f-notes")?$("#f-notes").value:"",done:false};
+  if(!row.title) return;
+  const a=sheetCtx.id?state.assignments.find(x=>x.id===sheetCtx.id):null;
+  if(a){row.done=a.done;Object.assign(a,row)}
+  else {const neu=Object.assign({id:uid()},row);state.assignments.push(neu);sheetCtx.id=neu.id}
+  saveNow();
+}
+function commitTaskSheet(){
+  if(!$("#f-title")) return;
+  const row={title:$("#f-title").value,due:$("#f-due")?$("#f-due").value:"",done:false};
+  if(!row.title) return;
+  const tk=sheetCtx.id?state.tasks.find(x=>x.id===sheetCtx.id):null;
+  if(tk){row.done=tk.done;Object.assign(tk,row)}
+  else {const neu=Object.assign({id:uid()},row);state.tasks.push(neu);sheetCtx.id=neu.id}
+  saveNow();
+}
+function commitPersonSheet(){
+  if(!$("#f-name")) return;
+  const row={name:$("#f-name").value,role:$("#f-role")?$("#f-role").value:"",subject:$("#f-sub")?$("#f-sub").value:"",email:$("#f-em")?$("#f-em").value:"",phone:$("#f-ph")?$("#f-ph").value:"",office:$("#f-off")?$("#f-off").value:"",notes:$("#f-notes")?$("#f-notes").value:""};
+  if(!row.name) return;
+  const pe=sheetCtx.id?state.people.find(x=>x.id===sheetCtx.id):null;
+  if(pe) Object.assign(pe,row);
+  else {const neu=Object.assign({id:uid()},row);state.people.push(neu);sheetCtx.id=neu.id}
+  saveNow();
+}
+function commitBookSheet(){
+  if(!$("#f-title")) return;
+  const row={title:$("#f-title").value,author:$("#f-author")?$("#f-author").value:"",courseId:$("#f-course")?$("#f-course").value||null:null,done:false};
+  if(!row.title) return;
+  const b=sheetCtx.id?state.books.find(x=>x.id===sheetCtx.id):null;
+  if(b){row.done=b.done;Object.assign(b,row)}
+  else {const neu=Object.assign({id:uid()},row);state.books.push(neu);sheetCtx.id=neu.id}
+  saveNow();
+}
+
+function renderMeets(){
+  const box=$("#f-meets"); if(!box) return;
+  box.innerHTML=meetDraft.map((m,i)=>`
+    <div class="meet-row">
+      <div class="days">${DOW_I.map((d,idx)=>`<button type="button" data-md="${i}:${d}" class="${(m.days||[]).includes(d)?"on":""}">${dowLabel(idx)}</button>`).join("")}</div>
+      <div class="row2" style="margin-top:8px">
+        <div class="field"><label>${t("start")}</label><input data-ms="${i}" value="${esc(m.start||"")}"/></div>
+        <div class="field"><label>${t("end")}</label><input data-me="${i}" value="${esc(m.end||"")}"/></div>
+      </div>
+      <div class="row2">
+        <div class="field"><label>${t("room")}</label><input data-mr="${i}" value="${esc(m.room||"")}"/></div>
+        <div class="field"><label>${t("kind")}</label><input data-mk="${i}" value="${esc(m.kind||"")}"/></div>
+      </div>
+      ${meetDraft.length>1?`<button type="button" data-mx="${i}" style="border:0;background:0;color:var(--soft);font-size:12px;font-weight:800">${t("remove_meet")}</button>`:""}
+    </div>`).join("")+`<button class="add" type="button" id="addMeet" style="margin-top:0">${t("add_meet")}</button>`;
+}
+
+function openSheet(kind,opts={}){
+  commitOpenSheet();
+  sheetCtx={kind,id:opts.id||null,skipCommit:false};
+  $("#scrim").className="scrim on";
+  $("#sheet").className="sheet on";
+  if(kind==="asg"){
+    const a=opts.id?state.assignments.find(x=>x.id===opts.id):null;
+    const sel=a?a.courseId:(opts.courseId||"");
+    $("#sheet").innerHTML=`<div class="sheet-h"><h3>${a?t("asg"):t("new_asg")}</h3><button type="button" data-close-sheet>${t("close")}</button></div>
+      <div class="field"><label>${t("title")}</label><input id="f-title" value="${esc(a?a.title:"")}"/></div>
+      <div class="field"><label>${t("course")}</label><select id="f-course">${courseSelect(sel)}</select></div>
+      <div class="row2"><div class="field"><label>${t("type")}</label><select id="f-type">${TYPE_IDS.map(id=>`<option value="${id}" ${a&&a.type===id?"selected":""}>${t("type_"+id)}</option>`).join("")}</select></div>
+      <div class="field"><label>${t("due")}</label><input id="f-due" type="date" value="${a?a.due:(opts.due||iso(new Date()))}"/></div></div>
+      <div class="row2"><div class="field"><label>${t("time")}</label><input id="f-time" value="${esc(a&&a.time||"")}"/></div>
+      <div class="field"><label>${t("weight")}</label><input id="f-weight" value="${a?a.weight:""}"/></div></div>
+      <div class="field"><label>${t("grade")}</label><input id="f-grade" value="${esc(a?a.grade:"")}"/></div>
+      <div class="field"><label>${t("notes_loc")}</label><textarea id="f-notes" rows="3">${esc(a?a.notes:"")}</textarea></div>
+      <button class="add" type="button" id="saveAsg">${a?t("save"):t("add")}</button>
+      ${a?`<button class="add danger" type="button" id="delAsg">${t("delete")}</button>`:""}`;
+    $("#saveAsg").onclick=()=>{closeSheet();paint()};
+    if(a) $("#delAsg").onclick=()=>{sheetCtx.skipCommit=true;state.assignments=state.assignments.filter(x=>x.id!==a.id);closeSheet();paint();saveNow()};
+  } else if(kind==="course"){
+    if(!state.terms.length) ensureSchoolYear(true);
+    const c=opts.id?course(opts.id):null;
+    const termOptions=state.terms.map(tm=>`<option value="${tm.id}" ${tm.id===(opts.termId||(c&&c.termId)||state.activeTermId)?"selected":""}>${esc(termLabel(tm))}</option>`).join("");
+    sheetCtx.id=c?c.id:null;
+    const editWeek=iso(weekStart(weekAnchor));
+    const weekMeets=(c&&c.meetings||[]).filter(m=>m.week===editWeek);
+    const dow=parseD(dayPick).getDay();
+    const defaultDays=DOW_I.includes(dow)?[dow]:[1];
+    meetDraft=(weekMeets.length?weekMeets:[{days:defaultDays,start:"",end:"",kind:"",room:"",week:editWeek}]).map(m=>({days:[...(m.days||[])],start:m.start||"",end:m.end||"",kind:m.kind||"",room:m.room||"",week:editWeek,source:m.source||"",uid:m.uid||""}));
+    $("#sheet").innerHTML=`<div class="sheet-h"><h3>${c?t("edit_course"):t("new_course")}</h3><button type="button" data-close-sheet>${t("close")}</button></div>
+      <div class="row2"><div class="field"><label>${t("code")}</label><input id="f-code" value="${esc(c?c.code:"")}"/></div>
+      <div class="field"><label>EAP</label><input id="f-cr" value="${c?c.credits:""}"/></div></div>
+      <div class="field"><label>${t("name")}</label><input id="f-name" value="${esc(c?c.name:"")}"/></div>
+      <div class="field"><label>${t("term")}</label><select id="f-term">${termOptions}</select></div>
+      <div class="field"><label>${t("color")}</label><select id="f-color">${COLORS.map(([id])=>`<option value="${id}" ${c&&c.color===id?"selected":""}>${t("color_"+id)}</option>`).join("")}</select></div>
+      <div class="field"><label>${t("professor")}</label><input id="f-prof" value="${esc(c?c.professor:"")}"/></div>
+      <div class="row2"><div class="field"><label>${t("email")}</label><input id="f-em" value="${esc(c?c.email:"")}"/></div>
+      <div class="field"><label>${t("classroom")}</label><input id="f-room" value="${esc(c?c.room:"")}"/></div></div>
+      <div class="field"><label>${t("office_hours")}</label><input id="f-off" value="${esc(c?c.office:"")}"/></div>
+      <div class="sec">${t("lessons")}</div>
+      <p class="hint" style="margin-bottom:8px">${t("week_only")} · ${t("week_of",{date:parseD(editWeek).toLocaleDateString(loc(),{month:"short",day:"numeric"})})}</p>
+      <div id="f-meets"></div>
+      <div class="field"><label>${t("syllabus")}</label><textarea id="f-notes" rows="3">${esc(c?c.notes:"")}</textarea></div>
+      <div class="field"><label>${t("letter")}</label><input id="f-letter" value="${esc(c?c.letterGrade:"")}"/></div>
+      <button class="add" type="button" id="saveCourse">${t("save_course")}</button>
+      ${c?`<button class="add danger" type="button" id="delCourse">${t("delete_course")}</button>`:""}`;
+    renderMeets();
+    $("#saveCourse").onclick=()=>{closeSheet();paint()};
+    if(c) $("#delCourse").onclick=()=>{sheetCtx.skipCommit=true;state.courses=state.courses.filter(x=>x.id!==c.id);closeSheet();closeStack();saveNow()};
+  } else if(kind==="task"){
+    const tk=opts.id?state.tasks.find(x=>x.id===opts.id):null;
+    $("#sheet").innerHTML=`<div class="sheet-h"><h3>${tk?t("task"):t("new_task")}</h3><button type="button" data-close-sheet>${t("close")}</button></div>
+      <div class="field"><label>${t("task")}</label><input id="f-title" value="${esc(tk?tk.title:"")}"/></div>
+      <div class="field"><label>${t("due")}</label><input id="f-due" type="date" value="${tk&&tk.due||""}"/></div>
+      <button class="add" type="button" id="saveTask">${tk?t("save"):t("add")}</button>
+      ${tk?`<button class="add danger" type="button" id="delTask">${t("delete")}</button>`:""}`;
+    $("#saveTask").onclick=()=>{closeSheet();paint()};
+    if(tk) $("#delTask").onclick=()=>{sheetCtx.skipCommit=true;state.tasks=state.tasks.filter(x=>x.id!==tk.id);closeSheet();paint();saveNow()};
+  } else if(kind==="person"){
+    const pe=opts.id?state.people.find(x=>x.id===opts.id):null;
+    $("#sheet").innerHTML=`<div class="sheet-h"><h3>${pe?t("person"):t("new_person")}</h3><button type="button" data-close-sheet>${t("close")}</button></div>
+      <div class="field"><label>${t("name")}</label><input id="f-name" value="${esc(pe?pe.name:"")}"/></div>
+      <div class="row2"><div class="field"><label>${t("role")}</label><input id="f-role" value="${esc(pe?pe.role:"")}"/></div>
+      <div class="field"><label>${t("subject")}</label><input id="f-sub" value="${esc(pe?pe.subject:"")}"/></div></div>
+      <div class="field"><label>${t("email")}</label><input id="f-em" value="${esc(pe?pe.email:"")}"/></div>
+      <div class="row2"><div class="field"><label>${t("phone")}</label><input id="f-ph" value="${esc(pe?pe.phone:"")}"/></div>
+      <div class="field"><label>${t("office")}</label><input id="f-off" value="${esc(pe?pe.office:"")}"/></div></div>
+      <div class="field"><label>${t("office_notes")}</label><textarea id="f-notes" rows="3">${esc(pe?pe.notes:"")}</textarea></div>
+      <button class="add" type="button" id="savePe">${t("save")}</button>
+      ${pe?`<button class="add danger" type="button" id="delPe">${t("delete")}</button>`:""}`;
+    $("#savePe").onclick=()=>{closeSheet();paint()};
+    if(pe) $("#delPe").onclick=()=>{sheetCtx.skipCommit=true;state.people=state.people.filter(x=>x.id!==pe.id);closeSheet();paint();saveNow()};
+  } else if(kind==="book"){
+    const b=opts.id?state.books.find(x=>x.id===opts.id):null;
+    $("#sheet").innerHTML=`<div class="sheet-h"><h3>${b?t("book"):t("add_book")}</h3><button type="button" data-close-sheet>${t("close")}</button></div>
+      <div class="field"><label>${t("title")}</label><input id="f-title" value="${esc(b?b.title:"")}"/></div>
+      <div class="field"><label>${t("author")}</label><input id="f-author" value="${esc(b?b.author:"")}"/></div>
+      <div class="field"><label>${t("course")}</label><select id="f-course">${courseSelect(b?b.courseId:"")}</select></div>
+      <button class="add" type="button" id="saveBook">${b?t("save"):t("add")}</button>
+      ${b?`<button class="add danger" type="button" id="delBook">${t("delete")}</button>`:""}`;
+    $("#saveBook").onclick=()=>{closeSheet();paint()};
+    if(b) $("#delBook").onclick=()=>{sheetCtx.skipCommit=true;state.books=state.books.filter(x=>x.id!==b.id);closeSheet();paint();saveNow()};
+  }
+}
+function closeSheet(){
+  commitOpenSheet();
+  sheetCtx=null;
+  $("#scrim").className="scrim";
+  $("#sheet").className="sheet";
+}
+
+function isTyping(){
+  const a=document.activeElement;
+  if(!a||a===document.body||a===document.documentElement) return false;
+  const tag=(a.tagName||"").toLowerCase();
+  return tag==="input"||tag==="textarea"||tag==="select"||!!a.isContentEditable;
+}
+function paint(){
+  applyTheme();
+  applyLang();
+  if(isTyping()) return;
+  if(tab==="today") renderToday();
+  if(tab==="cal") renderCal();
+  if(tab==="courses") renderCourses();
+  if(tab==="notes") renderNotebook();
+  if(tab==="work") renderWork();
+  if(tab==="more") renderMore();
+  if(stack) paintStack();
+  else {const s=$("#stack"); if(s) s.className="stack"}
+  renderStickers();
+}
+
+function renderStickers(){
+  const layer=$("#layer");
+  const fab=$("#stickerBtn");
+  const sheet=$("#pageSheet");
+  const pad=$("#notePad");
+  const pages=$("#pages");
+  const writing=tab==="notes";
+  if(sheet) sheet.classList.toggle("writing",writing);
+  if(pages) pages.classList.toggle("writing",writing);
+  if(pad) pad.classList.toggle("on",writing);
+  if(fab) fab.style.display=writing?"none":"";
+  if(writing || stack || ($("#sheet")&&$("#sheet").classList.contains("on"))){
+    $("#tray").classList.remove("open");
+    if(layer){layer.style.display="none";layer.innerHTML=""}
+    if(fab && (writing || stack)) fab.style.display="none";
+    return;
+  }
+  if(layer){
+    layer.style.display="";
+    const list=state.stickers[tab]||[];
+    layer.innerHTML=list.map(s=>`<div class="sticker${s.id===armedId?" armed":""}" data-id="${s.id}" style="left:${s.x}%;top:${s.y}%"><span>${s.emoji}</span><button type="button" class="x" data-del-st="${s.id}">×</button></div>`).join("");
+  }
+}
+
+$("#tabs").addEventListener("click",e=>{
+  const b=e.target.closest("[data-tab]"); if(!b) return;
+  tab=b.dataset.tab;
+  armedId=null;
+  $$("#tabs button").forEach(x=>x.classList.toggle("on",x===b));
+  $$(".page").forEach(p=>p.classList.toggle("on",p.dataset.page===tab));
+  $("#tray").classList.remove("open");
+  closeStack(); closeSheet();
+  $("#pages").scrollTop=0;
+  paint();
+});
+$("#plusBtn").onclick=()=>{
+  if(tab==="notes"){
+    const last=state.notes[state.notes.length-1];
+    const n={id:uid(),title:"",body:"",paper:(last&&last.paper)||"lines",courseId:""};
+    state.notes.push(n);state.activeNoteId=n.id;save();paint();
+    return;
+  }
+  if(tab==="courses") openSheet("course");
+  else if(tab==="more") openSheet("person");
+  else if(tab==="work"&&workFilter==="tasks") openSheet("task");
+  else openSheet("asg");
+};
+$("#scrim").onclick=closeSheet;
+document.addEventListener("click",e=>{
+  if(e.target.closest("[data-close-sheet]")) closeSheet();
+  const oc=e.target.closest("[data-open-course]"); if(oc) openStack("course",oc.dataset.openCourse);
+  const sk=e.target.closest("[data-stack]"); if(sk) openStack(sk.dataset.stack);
+  if(e.target.id==="backBtn") closeStack();
+  const ta=e.target.closest("[data-toggle-asg]");
+  if(ta){const a=state.assignments.find(x=>x.id===ta.dataset.toggleAsg); if(a){a.done=ta.checked;save();paint()}}
+  const tt=e.target.closest("[data-toggle-task]");
+  if(tt){const t=state.tasks.find(x=>x.id===tt.dataset.toggleTask); if(t){t.done=tt.checked;save();paint()}}
+  const tb=e.target.closest("[data-toggle-book]");
+  if(tb){const b=state.books.find(x=>x.id===tb.dataset.toggleBook); if(b){b.done=tb.checked;save();paint()}}
+  const ea=e.target.closest("[data-edit-asg]"); if(ea) openSheet("asg",{id:ea.dataset.editAsg});
+  const ec=e.target.closest("[data-edit-course]"); if(ec) openSheet("course",{id:ec.dataset.editCourse});
+  const ep=e.target.closest("[data-edit-person]"); if(ep) openSheet("person",{id:ep.dataset.editPerson});
+  const eb=e.target.closest("[data-edit-book]"); if(eb) openSheet("book",{id:eb.dataset.editBook});
+  const et=e.target.closest("[data-edit-task]"); if(et) openSheet("task",{id:et.dataset.editTask});
+  const dt=e.target.closest("[data-del-task]"); if(dt){state.tasks=state.tasks.filter(x=>x.id!==dt.dataset.delTask);save();paint()}
+  const sh=e.target.closest("[data-sheet]"); if(sh) openSheet(sh.dataset.sheet,{courseId:sh.dataset.course,due:sh.dataset.due});
+  const tm=e.target.closest("[data-term]"); if(tm){state.activeTermId=tm.dataset.term;weekAnchor=defaultWeek();save();paint()}
+  const fl=e.target.closest("[data-filter]"); if(fl){workFilter=fl.dataset.filter;state.workFilter=workFilter;save();paint()}
+  const wc=e.target.closest("[data-wcourse]"); if(wc){workCourse=wc.dataset.wcourse;state.workCourse=workCourse;save();paint()}
+  const sv=e.target.closest("[data-sched]"); if(sv){schedView=sv.dataset.sched;state.schedView=schedView;save();paint()}
+  const dp=e.target.closest("[data-daypick]"); if(dp){dayPick=dp.dataset.daypick;save();paint()}
+  const th=e.target.closest("[data-theme]"); if(th){state.theme=th.dataset.theme;save();paint()}
+  const lg=e.target.closest("[data-lang]"); if(lg){state.lang=lg.dataset.lang;save();paint()}
+  const ax=e.target.closest("[data-a11y-text]");
+  if(ax){if(!state.a11y) state.a11y={text:"m",contrast:false,motion:false,targets:false,plain:false};state.a11y.text=ax.dataset.a11yText;save();paint()}
+  const at=e.target.closest("[data-a11y-toggle]");
+  if(at){if(!state.a11y) state.a11y={text:"m",contrast:false,motion:false,targets:false,plain:false};const k=at.dataset.a11yToggle;state.a11y[k]=!state.a11y[k];save();paint()}
+  const nb=e.target.closest("[data-note]"); if(nb){state.activeNoteId=nb.dataset.note;save();paint()}
+  const ds=e.target.closest("[data-del-sup]"); if(ds){state.supplies.splice(Number(ds.dataset.delSup),1);save();paint()}
+  if(e.target.id==="addNote"){
+    const last=state.notes[state.notes.length-1];
+    const n={id:uid(),title:"",body:"",paper:(last&&last.paper)||"lines",courseId:""};
+    state.notes.push(n);state.activeNoteId=n.id;save();paint();
+  }
+  if(e.target.id==="delNote"){
+    state.notes=state.notes.filter(n=>n.id!==state.activeNoteId);
+    state.activeNoteId=state.notes[0]?state.notes[0].id:"";
+    save();paint();
+  }
+  if(e.target.id==="addSup"){state.supplies.push("");save();paint()}
+  if(e.target.closest("#syncTahvel")){pullTahvel(true);return}
+  if(e.target.closest("#importIcsBtn")){const f=$("#importIcs"); if(f) f.click();return}
+  if(e.target.closest("#setupYear")){ensureSchoolYear();return}
+  if(e.target.closest("#addAutumn")){addSemester("autumn");return}
+  if(e.target.closest("#addSpring")){addSemester("spring");return}
+  if(e.target.closest("#addTerm")){addSemester("other");return}
+  if(e.target.closest("#prevYear")){
+    state.academicYear=shiftYear(state.academicYear||academicYearOf(new Date()),-1);
+    state.cal=yearParts(state.academicYear).start+"-09";
+    saveNow();paint();return;
+  }
+  if(e.target.closest("#nextYear")){
+    state.academicYear=shiftYear(state.academicYear||academicYearOf(new Date()),1);
+    state.cal=yearParts(state.academicYear).start+"-09";
+    saveNow();paint();return;
+  }
+  const dterm=e.target.closest("[data-del-term]");
+  if(dterm){
+    state.terms=state.terms.filter(tm=>tm.id!==dterm.dataset.delTerm);
+    if(state.activeTermId===dterm.dataset.delTerm) state.activeTermId=state.terms[0]?state.terms[0].id:"";
+    saveNow();paint();
+  }
+  if(e.target.id==="prevM"){const [y,m]=state.cal.split("-").map(Number);const d=new Date(y,m-2,1);state.cal=iso(d).slice(0,7);saveNow();paint()}
+  if(e.target.id==="nextM"){const [y,m]=state.cal.split("-").map(Number);const d=new Date(y,m,1);state.cal=iso(d).slice(0,7);saveNow();paint()}
+  if(e.target.id==="prevW"){weekAnchor=addDays(weekAnchor,-7);state.weekAnchor=iso(weekAnchor);saveNow();paint()}
+  if(e.target.id==="nextW"){weekAnchor=addDays(weekAnchor,7);state.weekAnchor=iso(weekAnchor);saveNow();paint()}
+  if(e.target.id==="copyWeek"){
+    const from=iso(weekStart(weekAnchor));
+    const to=iso(weekStart(addDays(weekAnchor,7)));
+    state.courses.forEach(c=>{
+      if((c.meetings||[]).some(m=>m.week===to)) return;
+      (c.meetings||[]).filter(m=>m.week===from).forEach(m=>c.meetings.push({week:to,days:[...(m.days||[])],start:m.start,end:m.end,kind:m.kind,room:m.room}));
+    });
+    weekAnchor=addDays(weekAnchor,7);
+    state.weekAnchor=iso(weekAnchor);
+    saveNow();paint();toast(t("copied_week"));
+  }
+  const day=e.target.closest("[data-day]"); if(day){state.selected=day.dataset.day;save();paint()}
+  const md=e.target.closest("[data-md]");
+  if(md){const [i,d]=md.dataset.md.split(":").map(Number);const m=meetDraft[i]; if(m){const has=m.days.includes(d);m.days=has?m.days.filter(x=>x!==d):m.days.concat(d).sort();renderMeets();if(sheetCtx&&sheetCtx.kind==="course") commitCourseSheet()}}
+  const mx=e.target.closest("[data-mx]");
+  if(mx){meetDraft.splice(Number(mx.dataset.mx),1);renderMeets();if(sheetCtx&&sheetCtx.kind==="course") commitCourseSheet()}
+  if(e.target.id==="addMeet"){meetDraft.push({days:[],start:"",end:"",kind:"",room:"",week:iso(weekStart(weekAnchor))});renderMeets()}
+});
+document.addEventListener("change",e=>{
+  const g=e.target.closest("[data-grade-course]");
+  if(g){const c=course(g.dataset.gradeCourse); if(c){c.letterGrade=g.value;save();paint()}}
+  const ts=e.target.closest("[data-term-start]"); if(ts){const tm=state.terms.find(x=>x.id===ts.dataset.termStart); if(tm){tm.start=ts.value;saveNow()}}
+  const te=e.target.closest("[data-term-end]"); if(te){const tm=state.terms.find(x=>x.id===te.dataset.termEnd); if(tm){tm.end=te.value;saveNow()}}
+});
+document.addEventListener("focusin",e=>{
+  if(!e.target.classList||!e.target.classList.contains("nb-write")) return;
+  setTimeout(()=>{try{e.target.scrollIntoView({block:"center",behavior:"smooth"})}catch(err){}},350);
+});
+document.addEventListener("input",e=>{
+  const el=e.target; const k=el.dataset&&el.dataset.k; if(!k){
+    const ms=el.dataset&&el.dataset.ms; if(ms!=null){meetDraft[Number(ms)].start=el.value;if(sheetCtx&&sheetCtx.kind==="course") commitCourseSheet();return}
+    const me=el.dataset&&el.dataset.me; if(me!=null){meetDraft[Number(me)].end=el.value;if(sheetCtx&&sheetCtx.kind==="course") commitCourseSheet();return}
+    const mr=el.dataset&&el.dataset.mr; if(mr!=null){meetDraft[Number(mr)].room=el.value;if(sheetCtx&&sheetCtx.kind==="course") commitCourseSheet();return}
+    const mk=el.dataset&&el.dataset.mk; if(mk!=null){meetDraft[Number(mk)].kind=el.value;if(sheetCtx&&sheetCtx.kind==="course") commitCourseSheet();return}
+    const tn=el.dataset&&el.dataset.termName; if(tn){const tm=state.terms.find(x=>x.id===tn); if(tm){tm.name=el.value;saveNow()}}
+    if(el.id==="f-year"){state.academicYear=el.value.trim();save()}
+    if(sheetCtx&&sheetCtx.kind && el.id&&el.id.startsWith("f-")) commitOpenSheet();
+    return;
+  }
+  if(k==="note.title"){const n=state.notes.find(x=>x.id===state.activeNoteId); if(n) n.title=el.value;}
+  else if(k==="note.body"){const n=state.notes.find(x=>x.id===state.activeNoteId); if(n) n.body=el.value;}
+  else if(k==="note.course"){const n=state.notes.find(x=>x.id===state.activeNoteId); if(n) n.courseId=el.value||"";}
+  else if(k==="tahvel.url"){state.tahvelUrl=el.value.trim();}
+  else if(k.startsWith("supplies.")) state.supplies[Number(k.split(".")[1])]=el.value;
+  else if(k.startsWith("profile.")){
+    if(!state.profile) state.profile={};
+    state.profile[k.split(".")[1]]=el.value;
+  }
+  save();
+});
+
+$("#stickerPad").innerHTML=EMOJI.map(em=>`<button type="button" data-emoji="${em}">${em}</button>`).join("");
+$("#stickerBtn").onclick=()=>$("#tray").classList.toggle("open");
+function stickerBox(){return $("#pageSheet")||$("#pages")}
+function clientToSticker(cx,cy){
+  const r=stickerBox().getBoundingClientRect();
+  const w=r.width||1, h=r.height||1;
+  return {x:Math.max(4,Math.min(96,(cx-r.left)/w*100)), y:Math.max(3,Math.min(97,(cy-r.top)/h*100))};
+}
+function dropSpot(){
+  const box=stickerBox(), pages=$("#pages");
+  const total=box.offsetHeight||pages.clientHeight||1;
+  const vis=pages.clientHeight||total;
+  const top=pages.scrollTop||0;
+  return {x:18+Math.random()*64, y:Math.max(6,Math.min(90,((top+vis*(0.22+Math.random()*0.4))/total)*100))};
+}
+$("#stickerPad").onclick=e=>{
+  const b=e.target.closest("[data-emoji]"); if(!b) return;
+  if(!state.stickers[tab]) state.stickers[tab]=[];
+  armedId=null;
+  const p=dropSpot();
+  state.stickers[tab].push({id:uid(),emoji:b.dataset.emoji,x:p.x,y:p.y});
+  renderStickers(); save();
+};
+$("#layer").addEventListener("click",e=>{
+  const del=e.target.closest("[data-del-st]"); if(!del) return;
+  e.stopPropagation();
+  state.stickers[tab]=(state.stickers[tab]||[]).filter(s=>s.id!==del.dataset.delSt);
+  armedId=null;
+  renderStickers(); save();
+});
+$("#clearStickers").onclick=()=>{state.stickers[tab]=[];armedId=null;renderStickers();save()};
+function armSticker(el){
+  armedId=el.dataset.id;
+  $$(".sticker").forEach(s=>s.classList.toggle("armed",s===el));
+}
+function disarmStickers(){
+  if(!armedId) return;
+  armedId=null;
+  $$(".sticker").forEach(s=>s.classList.remove("armed"));
+}
+document.addEventListener("pointerdown",e=>{
+  if(e.target.closest("input,textarea,select,label,.nb-page,.note-pad,.stack,.sheet,.sticker,.tray,#stickerBtn")) return;
+  clearTimeout(holdT);
+  disarmStickers();
+},true);
+$("#layer").addEventListener("pointerdown",e=>{
+  const del=e.target.closest("[data-del-st]");
+  if(del) return;
+  const st=e.target.closest(".sticker"); if(!st) return;
+  e.preventDefault();
+  clearTimeout(holdT);
+  const id=st.dataset.id;
+  const already=armedId===id;
+  drag={el:st,id,sx:e.clientX,sy:e.clientY,moved:false,pending:!already};
+  try{st.setPointerCapture(e.pointerId)}catch(err){}
+  if(already) return;
+  holdT=setTimeout(()=>{
+    if(!drag||drag.id!==id||!drag.pending) return;
+    drag.pending=false;
+    armSticker(st);
+  },480);
+},{passive:false});
+$("#layer").addEventListener("pointermove",e=>{
+  if(!drag) return;
+  const dist=Math.hypot(e.clientX-drag.sx,e.clientY-drag.sy);
+  if(drag.pending){
+    if(dist>14){clearTimeout(holdT);drag=null}
+    return;
+  }
+  if(dist<4&&!drag.moved) return;
+  drag.moved=true;
+  const p=clientToSticker(e.clientX,e.clientY);
+  drag.el.style.left=p.x+"%"; drag.el.style.top=p.y+"%";
+  const s=(state.stickers[tab]||[]).find(x=>x.id===drag.id); if(s){s.x=p.x;s.y=p.y}
+});
+$("#layer").addEventListener("pointerup",()=>{
+  clearTimeout(holdT);
+  if(drag){ if(!drag.pending&&drag.moved) save(); drag=null; }
+});
+$("#layer").addEventListener("pointercancel",()=>{clearTimeout(holdT);drag=null});
+
+document.addEventListener("change",e=>{
+  if(e.target.id==="importIcs"){
+    const file=e.target.files&&e.target.files[0]; if(!file) return;
+    const r=new FileReader();
+    r.onload=()=>{
+      const text=String(r.result||"");
+      if(text.indexOf("BEGIN:VCALENDAR")===-1){toast(t("tahvel_fail"));return}
+      const n=applyTahvel(text);
+      state.tahvelSyncedAt=Date.now();
+      saveNow(); paint();
+      toast(t("tahvel_ok",{n}));
+    };
+    r.readAsText(file); e.target.value="";
+    return;
+  }
+});
+
+paint();
+pullTahvel(false);
+try{
+  const req=indexedDB.open("bound-planner",1);
+  req.onupgradeneeded=()=>{req.result.createObjectStore("kv")};
+  req.onsuccess=()=>{
+    const tx=req.result.transaction("kv","readonly");
+    const g=tx.objectStore("kv").get("state");
+    g.onsuccess=()=>{
+      if(!g.result) return;
+      try{
+        const extra=JSON.parse(g.result);
+        if((extra.savedAt||0)>(state.savedAt||0)){
+          state=Object.assign(blank(),extra);
+          if(!state.tahvelUrl) state.tahvelUrl=TAHVEL_URL;
+          weekAnchor=state.weekAnchor?weekStart(parseD(state.weekAnchor)):defaultWeek();
+          paint();
+          pullTahvel(false);
+        }
+      }catch(err){}
+    };
+  };
+}catch(e){}
+})();
+</script>
+</body>
+</html>
